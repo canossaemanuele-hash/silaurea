@@ -37,7 +37,7 @@
 
         .form-group { margin-bottom: 20px; }
         .form-group label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 14px; }
-        .form-group input[type="text"], .form-group textarea, .form-group select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; box-sizing: border-box; }
+        .form-group input[type="text"], .form-group textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; box-sizing: border-box; }
         .form-group input:disabled { background-color: #f5f5f5; color: #aaa; cursor: not-allowed; }
         
         .row-autore { display: flex; align-items: center; gap: 15px; }
@@ -47,7 +47,6 @@
         button.btn-submit { background-color: var(--primary); color: white; border: none; padding: 14px 24px; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 600; width: 100%; margin-bottom: 10px; transition: 0.3s; }
         button.btn-submit:hover { background: var(--primary-hover); transform: translateY(-2px); }
 
-        /* Stili Cruciverba */
         #crossword-container { margin-top: 20px; overflow-x: auto; text-align: center; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 8px; }
         .cw-grid { border-collapse: collapse; margin: 0 auto; background: white; border: 2px solid #000; }
         .cw-cell { width: 35px; height: 35px; background: white; border: 1px solid #000; text-align: center; vertical-align: middle; position: relative; font-weight: bold; text-transform: uppercase; font-family: monospace; font-size: 18px; }
@@ -61,19 +60,26 @@
         .vote-btn { background: white; border: 1px solid #ddd; padding: 6px 12px; border-radius: 15px; cursor: pointer; font-weight: 600; color: var(--text-main); margin-top: 10px; display: inline-block; }
         .vote-btn:hover { background: #eaf2f8; border-color: var(--primary); color: var(--primary); }
 
-        /* STILI ANTEPRIMA CARTELLONE */
-        .cartellone-wrapper { width: 100%; background: white; border: 2px solid #ccc; padding: 20px; margin: 0 auto; box-shadow: 0 10px 30px rgba(0,0,0,0.1); aspect-ratio: 70 / 100; display: flex; flex-direction: column; overflow: hidden; font-family: 'Times New Roman', serif; box-sizing: border-box; }
-        .cart-header { text-align: center; font-size: 2.2em; color: #c0392b; text-transform: uppercase; font-weight: bold; border-bottom: 3px solid #c0392b; padding-bottom: 10px; margin-bottom: 20px; line-height: 1.1; }
-        .cart-body { display: flex; flex: 1; gap: 15px; }
-        .cart-col-left { flex: 1.2; display: flex; flex-direction: column; gap: 15px; }
-        .cart-col-right { flex: 0.8; display: flex; flex-direction: column; border-left: 1px solid #eee; padding-left: 15px; }
-        .cart-caricatura { border: 3px dashed #bdc3c7; flex: 0.6; display: flex; align-items: center; justify-content: center; font-size: 18px; color: #7f8c8d; background: #f9f9f9; border-radius: 10px; text-align: center; padding: 20px; }
-        .cart-cruci-mini { flex: 0.4; overflow: hidden; display: flex; align-items: center; justify-content: center; }
-        .cart-cruci-mini .cw-cell { width: 18px !important; height: 18px !important; font-size: 10px !important; }
-        .cart-cruci-mini .cw-empty { width: 18px !important; height: 18px !important; }
-        .cart-cruci-mini .cw-number { font-size: 7px !important; }
-        .cart-testi { font-size: 14px; text-align: justify; overflow-y: hidden; }
-        .cart-testi p { margin-bottom: 10px; font-style: italic; }
+        /* NUOVI STILI: LAVAGNA INTERATTIVA (DRAG & DROP) */
+        .cartellone-wrapper { position: relative; width: 100%; background: white; border: 2px solid #333; margin: 0 auto; box-shadow: 0 10px 30px rgba(0,0,0,0.15); aspect-ratio: 70 / 100; overflow: hidden; font-family: 'Times New Roman', serif; background-image: radial-gradient(#eee 1px, transparent 1px); background-size: 20px 20px; }
+        
+        .drag-box { position: absolute; background: white; border: 1px dashed #ccc; box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: flex; flex-direction: column; resize: both; overflow: auto; min-width: 100px; min-height: 50px; }
+        .drag-box:hover { border-color: var(--primary); z-index: 100; }
+        
+        .drag-handle { background: #f1f2f6; cursor: move; padding: 5px; font-size: 12px; font-family: sans-serif; color: #747d8c; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; user-select: none; }
+        .drag-handle button { background: none; border: none; color: #ff4757; cursor: pointer; font-weight: bold; font-size: 14px; padding: 0 5px; }
+        .drag-handle button:hover { transform: scale(1.2); }
+        
+        .drag-content { padding: 10px; flex: 1; overflow-y: auto; outline: none; }
+        .drag-content[contenteditable="true"]:focus { background: #fffde7; }
+        
+        /* Adattamento contenuti interni al drag-box */
+        .drag-content .cw-grid { width: max-content; margin: 0 auto; transform-origin: top left; }
+        .drag-content .cw-cell { width: 22px; height: 22px; font-size: 14px; }
+        .drag-content .cw-empty { width: 22px; height: 22px; }
+        .cart-titolo-txt { font-size: 2.5em; text-align: center; color: #c0392b; font-weight: bold; text-transform: uppercase; line-height: 1.1; margin: 0; }
+        .cart-papiro-txt { font-size: 14px; text-align: justify; }
+        .cart-caricatura-ph { width: 100%; height: 100%; min-height: 150px; border: 3px dashed #bdc3c7; display: flex; align-items: center; justify-content: center; color: #7f8c8d; background: #f9f9f9; text-align: center; box-sizing: border-box; }
     </style>
 </head>
 <body>
@@ -88,29 +94,18 @@
         <button class="tab-link" onclick="apriSezione('caricatura', this)">🎨 Caricatura</button>
         <button class="tab-link" onclick="apriSezione('papiro', this)">📜 Papiro</button>
         <button class="tab-link" onclick="apriSezione('regalo', this)">🎁 Regalo</button>
-        <button class="tab-link" style="background-color: #f1c40f; color: #333;" onclick="apriAnteprima(this)">🖼️ Anteprima</button>
+        <button class="tab-link" style="background-color: #f1c40f; color: #333;" onclick="apriAnteprima(this)">🖼️ Anteprima Interattiva</button>
         <button class="tab-link btn-esci" onclick="esci()">🚪 Esci</button>
     </nav>
 
     <main>
         <div id="login-section" class="section active">
             <h2>Gestione Evento</h2>
-            <p>Sei l'organizzatore? Crea l'area sicura e il link di invito.</p>
-            <div class="form-group">
-                <label>Titolo del Festeggiato:</label>
-                <select id="input-titolo">
-                    <option value="Dottoressa">Dottoressa 🎓 (Donna)</option>
-                    <option value="Dottore">Dottore 🎓 (Uomo)</option>
-                    <option value="Ingegnere">Ingegnere 📐</option>
-                    <option value="Architetto">Architetto 🏛️</option>
-                    <option value="Maestro">Maestro/a 📚</option>
-                </select>
-            </div>
+            <p>Sei l'organizzatore? Inserisci il nome per creare l'area sicura e generare il link di invito.</p>
             <div class="form-group">
                 <input type="text" id="input-laureato" placeholder="Nome (es: Lisa Rossi)">
             </div>
             <button class="btn-submit" onclick="creaNuovaArea()">Crea Area Sicura & Genera Link</button>
-            
             <div class="avviso-invitati">
                 <b>Sei un invitato?</b><br>
                 Non puoi entrare da qui. Clicca direttamente sul link di invito che ti è stato inviato!
@@ -174,26 +169,10 @@
         </div>
 
         <div id="anteprima" class="section">
-            <h2>🖼️ Anteprima Cartellone 70x100</h2>
-            <p>Ecco come verrà impaginato il materiale. (Genera prima la griglia del cruciverba per vederla qui!)</p>
-            <div class="cartellone-wrapper">
-                <div class="cart-header" id="cart-titolo">CONGRATULAZIONI DOTTORESSA LISA ROSSI</div>
-                <div class="cart-body">
-                    <div class="cart-col-left">
-                        <div class="cart-caricatura">
-                            📸<br>Spazio riservato alla Caricatura
-                        </div>
-                        <div class="cart-cruci-mini" id="cart-cruci-preview">
-                            <i style="color:#aaa;">(Nessuna griglia generata. Vai in Cruciverba e clicca "Crea Griglia")</i>
-                        </div>
-                    </div>
-                    <div class="cart-col-right">
-                        <h3 style="margin-top:0; color:#c0392b; border-bottom:1px solid #ccc;">IL PAPIRO</h3>
-                        <div class="cart-testi" id="cart-papiro-testi">
-                            </div>
-                    </div>
+            <h2>🖼️ Anteprima Interattiva 70x100</h2>
+            <p>Sposta i riquadri trascinando la barra grigia. Allargali usando l'angolo in basso a destra. Clicca sui testi per modificarli. Se qualcosa non ti serve, eliminalo con la X!</p>
+            <div class="cartellone-wrapper" id="cartellone-lavagna">
                 </div>
-            </div>
         </div>
     </main>
 
@@ -205,7 +184,6 @@
         try { clientSupabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY); } catch(e) {}
 
         let idEventoSegreto = ""; 
-        let titoloFesteggiato = "";
         let nomeVisuale = "";
         let dati = { cruciverba: [], caricatura: [], papiro: [], regalo: [] };
 
@@ -213,10 +191,8 @@
             try {
                 const params = new URLSearchParams(window.location.search);
                 const idInvitato = params.get('id'); 
-                const titoloUrl = params.get('titolo');
                 if (idInvitato) {
                     idEventoSegreto = idInvitato;
-                    titoloFesteggiato = titoloUrl || "Dottore/ssa";
                     avviaApp(); 
                 }
             } catch(e) {}
@@ -232,11 +208,10 @@
             const nomePulito = document.getElementById('input-laureato').value.trim().toLowerCase().replace(/\s+/g, '');
             if(!nomePulito) return alert("Per favore, inserisci il nome del laureato!");
             
-            titoloFesteggiato = document.getElementById('input-titolo').value;
             const codiceSegreto = Math.random().toString(36).substring(2, 7); 
             idEventoSegreto = `${nomePulito}-${codiceSegreto}`;
             
-            try { window.history.pushState({}, '', `?id=${idEventoSegreto}&titolo=${titoloFesteggiato}`); } catch(err) {}
+            try { window.history.pushState({}, '', `?id=${idEventoSegreto}`); } catch(err) {}
             avviaApp();
         };
 
@@ -264,10 +239,10 @@
             let nomeRaw = idEventoSegreto.split('-')[0];
             nomeVisuale = nomeRaw.charAt(0).toUpperCase() + nomeRaw.slice(1);
             
-            document.getElementById('display-laureato').innerText = `🎓 Area dedicata a: ${titoloFesteggiato} ${nomeVisuale}`;
+            document.getElementById('display-laureato').innerText = `🎓 Area dedicata a: ${nomeVisuale}`;
             
             let base_url = window.location.href.split('?')[0];
-            document.getElementById('share-link').value = `${base_url}?id=${idEventoSegreto}&titolo=${titoloFesteggiato}`;
+            document.getElementById('share-link').value = `${base_url}?id=${idEventoSegreto}`;
             caricaDati();
         };
 
@@ -278,33 +253,122 @@
             el.classList.add('active');
         };
 
-        // FUNZIONE CHE COMPONE L'ANTEPRIMA QUANDO SI CLICCA IL TASTO
+        // --- MOTORE LAVAGNA INTERATTIVA ---
         window.apriAnteprima = function(el) {
             apriSezione('anteprima', el);
             
-            // Imposta Titolo
-            document.getElementById('cart-titolo').innerText = `CONGRATULAZIONI ${titoloFesteggiato.toUpperCase()} ${nomeVisuale.toUpperCase()}`;
+            let lavagna = document.getElementById('cartellone-lavagna');
+            lavagna.innerHTML = ''; // Svuota la lavagna
             
-            // Popola Papiro (prende gli aneddoti dall'array 'dati')
-            let testiHtml = "";
-            if(dati.papiro.length === 0) {
-                testiHtml = "<p><i>Nessun aneddoto inserito ancora. Dite agli amici di scrivere!</i></p>";
-            } else {
-                dati.papiro.forEach(p => {
-                    testiHtml += `<p>"${p.aneddoto}" <br><small><b>- ${p.autore}</b></small></p>`;
-                });
-            }
-            document.getElementById('cart-papiro-testi').innerHTML = testiHtml;
+            // 1. Box Titolo
+            lavagna.innerHTML += `
+                <div class="drag-box" style="top: 2%; left: 5%; width: 90%; height: auto;">
+                    <div class="drag-handle">✋ Sposta Titolo <button onclick="this.parentElement.parentElement.remove()">❌</button></div>
+                    <div class="drag-content cart-titolo-txt" contenteditable="true">LAUREA DI ${nomeVisuale.toUpperCase()}</div>
+                </div>`;
+            
+            // 2. Box Caricatura (Spazio Vuoto)
+            lavagna.innerHTML += `
+                <div class="drag-box" style="top: 15%; left: 5%; width: 40%; height: 35%;">
+                    <div class="drag-handle">✋ Sposta Caricatura <button onclick="this.parentElement.parentElement.remove()">❌</button></div>
+                    <div class="drag-content"><div class="cart-caricatura-ph">📸<br>Spazio Caricatura</div></div>
+                </div>`;
 
-            // Clona la griglia del cruciverba se esiste
-            let gridOriginale = document.querySelector('#crossword-container .cw-grid');
-            let boxMini = document.getElementById('cart-cruci-preview');
-            if(gridOriginale) {
-                boxMini.innerHTML = '';
-                let clonato = gridOriginale.cloneNode(true);
-                boxMini.appendChild(clonato);
+            // 3. Box Papiro
+            let testiPapiro = dati.papiro.map(p => `<p>"${p.aneddoto}" <br><small><b>- ${p.autore}</b></small></p>`).join('');
+            if(!testiPapiro) testiPapiro = "<p>Nessun aneddoto ancora inserito.</p>";
+            lavagna.innerHTML += `
+                <div class="drag-box" style="top: 15%; left: 50%; width: 45%; height: 80%;">
+                    <div class="drag-handle">✋ Sposta Papiro <button onclick="this.parentElement.parentElement.remove()">❌</button></div>
+                    <div class="drag-content cart-papiro-txt" contenteditable="true"><h3 style="margin-top:0">IL PAPIRO</h3>${testiPapiro}</div>
+                </div>`;
+
+            // 4. Box Cruciverba Griglia
+            let gridHtml = document.querySelector('#crossword-container .cw-grid') ? document.querySelector('#crossword-container .cw-grid').outerHTML : "<i>Genera prima il cruciverba nella sezione apposita!</i>";
+            lavagna.innerHTML += `
+                <div class="drag-box" style="top: 55%; left: 5%; width: 40%; height: auto;">
+                    <div class="drag-handle">✋ Sposta Griglia <button onclick="this.parentElement.parentElement.remove()">❌</button></div>
+                    <div class="drag-content">${gridHtml}</div>
+                </div>`;
+
+            // 5. Box Definizioni Cruciverba
+            let defsHtml = document.getElementById('crossword-clues') ? document.getElementById('crossword-clues').innerHTML : "";
+            if(defsHtml) {
+                lavagna.innerHTML += `
+                    <div class="drag-box" style="top: 80%; left: 5%; width: 90%; height: 18%;">
+                        <div class="drag-handle">✋ Sposta Definizioni <button onclick="this.parentElement.parentElement.remove()">❌</button></div>
+                        <div class="drag-content" style="display:flex; gap:20px; font-size:12px;" contenteditable="true">${defsHtml}</div>
+                    </div>`;
             }
+
+            attivaDragAndDrop();
         };
+
+        // Funzione JS per far muovere i box
+        function attivaDragAndDrop() {
+            document.querySelectorAll('.drag-box').forEach(box => {
+                const handle = box.querySelector('.drag-handle');
+                if(!handle) return;
+                
+                let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+                
+                handle.onmousedown = function(e) {
+                    if(e.target.tagName === 'BUTTON') return; // Ignora se clicchi la X
+                    e.preventDefault();
+                    pos3 = e.clientX;
+                    pos4 = e.clientY;
+                    document.onmouseup = closeDragElement;
+                    document.onmousemove = elementDrag;
+                };
+
+                // Supporto per i telefoni (Touch)
+                handle.ontouchstart = function(e) {
+                    if(e.target.tagName === 'BUTTON') return;
+                    let touch = e.touches[0];
+                    pos3 = touch.clientX;
+                    pos4 = touch.clientY;
+                    document.ontouchend = closeDragElement;
+                    document.ontouchmove = elementDragTouch;
+                };
+
+                function elementDrag(e) {
+                    e.preventDefault();
+                    calcolaSpostamento(e.clientX, e.clientY);
+                }
+                
+                function elementDragTouch(e) {
+                    let touch = e.touches[0];
+                    calcolaSpostamento(touch.clientX, touch.clientY);
+                }
+
+                function calcolaSpostamento(clientX, clientY) {
+                    pos1 = pos3 - clientX;
+                    pos2 = pos4 - clientY;
+                    pos3 = clientX;
+                    pos4 = clientY;
+                    
+                    // Calcolo confini (per non farli sparire fuori dal cartellone)
+                    let parent = box.parentElement;
+                    let newTop = box.offsetTop - pos2;
+                    let newLeft = box.offsetLeft - pos1;
+                    
+                    if(newTop < 0) newTop = 0;
+                    if(newLeft < 0) newLeft = 0;
+                    if(newLeft + box.offsetWidth > parent.offsetWidth) newLeft = parent.offsetWidth - box.offsetWidth;
+                    if(newTop + box.offsetHeight > parent.offsetHeight) newTop = parent.offsetHeight - box.offsetHeight;
+
+                    box.style.top = newTop + "px";
+                    box.style.left = newLeft + "px";
+                }
+
+                function closeDragElement() {
+                    document.onmouseup = null;
+                    document.onmousemove = null;
+                    document.ontouchend = null;
+                    document.ontouchmove = null;
+                }
+            });
+        }
 
         window.caricaDati = async function() {
             if (!clientSupabase) return; 
