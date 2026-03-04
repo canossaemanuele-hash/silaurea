@@ -21,19 +21,19 @@
         header { background: linear-gradient(135deg, var(--primary), #3498db); color: white; width: 100%; text-align: center; padding: 2rem 0; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; }
         h1 { margin: 0; font-weight: 600; letter-spacing: 1px; }
 
-        nav { display: none; justify-content: center; gap: 10px; margin-top: -25px; background: var(--card-bg); padding: 10px 20px; border-radius: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); flex-wrap: wrap; z-index: 10; }
-        nav button { background: transparent; border: none; padding: 10px 20px; border-radius: 20px; font-size: 15px; font-weight: 600; color: var(--text-muted); cursor: pointer; transition: all 0.3s ease; }
+        nav { display: none; justify-content: center; gap: 8px; margin-top: -25px; background: var(--card-bg); padding: 10px 15px; border-radius: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); flex-wrap: wrap; z-index: 10; }
+        nav button { background: transparent; border: none; padding: 8px 15px; border-radius: 20px; font-size: 14px; font-weight: 600; color: var(--text-muted); cursor: pointer; transition: all 0.3s ease; }
         nav button:hover, nav button.active { background: var(--primary); color: white; }
         nav button.btn-esci { color: #e74c3c; }
-        nav button.btn-esci:hover { background: #e74c3c; color: white; }
 
-        main { width: 95%; max-width: 800px; margin: 40px auto; }
+        main { width: 95%; max-width: 900px; margin: 30px auto; }
         .section { display: none; background: var(--card-bg); padding: 20px; border-radius: 16px; box-shadow: 0 8px 30px rgba(0,0,0,0.05); animation: fadeIn 0.4s ease; }
         .section.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
         .badge-laureato { background: #e1f5fe; color: var(--primary); padding: 8px 20px; border-radius: 20px; font-weight: bold; margin-bottom: 20px; display: inline-block; border: 1px solid var(--primary); }
-        
+        .avviso-invitati { background: #fff3cd; color: #856404; padding: 15px; border-radius: 8px; border-left: 4px solid #ffeeba; margin-top: 20px; font-size: 14px; }
+
         .form-group { margin-bottom: 20px; }
         .form-group input[type="text"], .form-group textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; box-sizing: border-box; }
         .form-group input:disabled { background-color: #f5f5f5; color: #aaa; cursor: not-allowed; }
@@ -50,59 +50,56 @@
         .cw-cell { width: 35px; height: 35px; background: white; border: 1px solid #000; text-align: center; vertical-align: middle; position: relative; font-weight: bold; text-transform: uppercase; font-family: monospace; font-size: 18px; }
         .cw-empty { background: transparent; border: none; width: 35px; height: 35px; }
         .cw-number { position: absolute; top: 1px; left: 2px; font-size: 10px; color: #000; line-height: 1; font-weight: normal; font-family: sans-serif; }
-        .cw-clues-container { display: flex; flex-wrap: wrap; gap: 20px; margin-top: 20px; text-align: left; font-size: 14px; }
-        .cw-clues-col { flex: 1; min-width: 200px; padding: 15px; background: #f9f9f9; border-radius: 8px; border-left: 4px solid var(--primary); }
-
+        
         .idea-card { background: #f9f9f9; border-left: 4px solid var(--primary); padding: 15px; border-radius: 8px; margin-bottom: 15px; position: relative; word-wrap: break-word; }
         .btn-del { position: absolute; right: 10px; top: 10px; background: none; border: none; cursor: pointer; color: #e74c3c; font-weight: bold; font-size: 16px; }
 
-        /* LAVAGNA INTERATTIVA 3.0: MOTORE GRAFICO */
+        /* LAVAGNA INTERATTIVA E STRUMENTI */
         .toolbar-anteprima { display: flex; gap: 8px; margin-bottom: 10px; justify-content: center; flex-wrap: wrap; align-items: center; }
         .btn-tool { padding: 8px 12px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; font-size: 13px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .style-select { padding: 6px 10px; border-radius: 8px; border: 1px solid #ddd; font-size: 13px; font-family: inherit; }
         .color-picker { padding: 0; width: 35px; height: 35px; border: 1px solid #ddd; border-radius: 8px; cursor: pointer; }
         
-        .info-cartellone { font-size: 12px; text-align: center; color: #e67e22; font-weight: bold; margin-bottom: 15px; background: #fdf2e9; padding: 10px; border-radius: 8px; }
+        .info-cartellone { font-size: 13px; text-align: center; color: #e67e22; margin-bottom: 10px; }
 
-        /* Contenitore dello scroll (La finestra protetta) */
-        .workspace { width: 100%; height: 70vh; overflow: auto; background: #e0e0e0; border-radius: 8px; border: 2px solid #ccc; box-shadow: inset 0 0 10px rgba(0,0,0,0.1); touch-action: pan-x pan-y; }
-        
-        /* Il wrapper invisibile che gestisce le dimensioni per far funzionare le barre di scorrimento */
-        #zoom-wrapper { position: relative; width: 800px; height: 1142px; margin: 0 auto; }
+        /* CONTROLLI ZOOM MANUALI */
+        .zoom-controls { display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 15px; }
+        .btn-zoom { background: #ecf0f1; border: 1px solid #bdc3c7; border-radius: 5px; width: 40px; height: 35px; font-size: 20px; font-weight: bold; color: #2c3e50; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .lbl-zoom { font-weight: bold; color: var(--primary); min-width: 50px; text-align: center; font-size: 14px; }
 
-        /* Il cartellone VERO E PROPRIO (Dimensioni fisse 70x100 calcolate a 800x1142 px) */
+        /* WORKSPACE CON ZOOM ISOLATO */
+        .workspace { width: 100%; height: 65vh; overflow: auto; background: #dcdde1; border-radius: 8px; border: 2px solid #bdc3c7; box-shadow: inset 0 0 10px rgba(0,0,0,0.1); touch-action: pan-x pan-y; }
+        #zoom-wrapper { position: relative; width: 800px; height: 1142px; margin: 0 auto; transform-origin: top left; }
         #cartellone-lavagna { position: absolute; top: 0; left: 0; width: 800px; height: 1142px; background: white; border: 1px solid #999; box-shadow: 0 10px 30px rgba(0,0,0,0.15); font-family: 'Times New Roman', serif; background-image: radial-gradient(#eee 1px, transparent 1px); background-size: 20px 20px; transform-origin: top left; }
         
-        .drag-box { position: absolute; background: transparent; border: 2px dashed #3498db; display: flex; flex-direction: column; min-width: 50px; box-sizing: border-box; transition: box-shadow 0.2s; }
-        .drag-box:hover { z-index: 100; background: rgba(255,255,255,0.7); box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        /* BOX TRASCINABILI */
+        .drag-box { position: absolute; background: transparent; border: 2px dashed #3498db; display: flex; flex-direction: column; min-width: 50px; min-height: 40px; box-sizing: border-box; transition: top 0.4s ease, left 0.4s ease, width 0.4s ease; }
+        .drag-box:hover { z-index: 100; background: rgba(255,255,255,0.7); }
         
-        .drag-handle { background: #3498db; padding: 2px 5px; font-size: 14px; color: white; display: flex; justify-content: space-between; align-items: center; cursor: move; touch-action: none; height: 24px; }
-        .drag-handle button { background: none; border: none; color: white; cursor: pointer; font-weight: bold; font-size: 14px; padding: 0 5px; line-height: 1; }
+        /* BARRA BLU SOTTILE */
+        .drag-handle { background: #3498db; padding: 2px 6px; color: white; display: flex; justify-content: space-between; align-items: center; cursor: move; touch-action: none; height: 22px; }
+        .drag-handle button { background: none; border: none; color: white; cursor: pointer; font-weight: bold; font-size: 14px; padding: 0; line-height: 1; }
         
         .drag-content { position: relative; flex: 1; overflow: hidden; outline: none; background: transparent; }
         .drag-content[contenteditable="true"]:focus { background: rgba(255, 253, 231, 0.9); }
         
         .zoom-fit { position: absolute; top: 0; left: 0; transform-origin: top left; width: max-content; height: max-content; }
         
+        /* Modifiche Elementi */
         .drag-content .cw-grid { border: 2px solid #000; margin: 0; background: white; }
-        .drag-content .cw-cell { width: 40px; height: 40px; font-size: 20px; }
-        .drag-content .cw-empty { width: 40px; height: 40px; }
+        .drag-content .cw-cell { width: 35px; height: 35px; font-size: 18px; }
+        .drag-content .cw-empty { width: 35px; height: 35px; }
         
         .cart-titolo-txt { font-size: 45px; text-align: center; font-weight: bold; text-transform: uppercase; line-height: 1.1; margin: 0; white-space: nowrap; padding: 5px; }
-        .cart-papiro-txt { font-size: 18px; text-align: justify; width: 400px; padding: 10px; box-sizing: border-box; }
+        .cart-papiro-txt { font-size: 18px; text-align: justify; width: 450px; padding: 10px; box-sizing: border-box; }
         .cart-caricatura-ph { width: 300px; height: 400px; border: 3px dashed #bdc3c7; display: flex; align-items: center; justify-content: center; color: #7f8c8d; background: #f9f9f9; text-align: center; font-size: 24px; box-sizing: border-box; }
 
-        .resize-handle { position: absolute; bottom: -2px; right: -2px; width: 30px; height: 30px; background: linear-gradient(135deg, transparent 50%, var(--primary) 50%); cursor: nwse-resize; z-index: 10; touch-action: none; border-bottom-right-radius: 4px; }
+        .resize-handle { position: absolute; bottom: -3px; right: -3px; width: 30px; height: 30px; background: linear-gradient(135deg, transparent 50%, var(--primary) 50%); cursor: nwse-resize; z-index: 10; touch-action: none; border-bottom-right-radius: 4px; }
 
+        /* MODALITA STAMPA */
         .stampa-mode .drag-handle, .stampa-mode .resize-handle { display: none !important; }
         .stampa-mode .drag-box { border: none !important; background: transparent !important; }
         .stampa-mode #cartellone-lavagna { background-image: none !important; }
-        
-        /* Controlli Zoom Custom */
-        .zoom-controls { display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 10px; background: white; padding: 8px; border-radius: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .btn-zoom { background: #ecf0f1; border: none; border-radius: 50%; width: 35px; height: 35px; font-size: 18px; font-weight: bold; color: #2c3e50; cursor: pointer; }
-        .btn-zoom:hover { background: #bdc3c7; }
-        .lbl-zoom { font-weight: bold; color: var(--primary); min-width: 50px; text-align: center; font-size: 14px; }
     </style>
 </head>
 <body>
@@ -177,11 +174,11 @@
             <div class="lista-idee"><div id="lista-regalo"></div></div>
         </div>
 
-        <div id="anteprima" class="section" style="padding:10px;">
+        <div id="anteprima" class="section" style="padding:15px;">
             <div class="toolbar-anteprima">
                 <button class="btn-tool" style="background:#8e44ad; color:white;" onclick="cambiaLayout()">🔀 Layout Auto</button>
                 <button class="btn-tool" style="background:#e67e22; color:white;" onclick="centraTitolo()">↔️ Centra Titolo</button>
-                <button class="btn-tool" style="background:#2ecc71; color:white;" onclick="aggiornaDatiAnteprima()">🔄 Aggiorna</button>
+                <button class="btn-tool" style="background:#2ecc71; color:white;" onclick="aggiornaDatiAnteprima()">🔄 Aggiorna Dati</button>
                 <button class="btn-tool" style="background:#3498db; color:white;" onclick="toggleStampa()">👁️ Stampa</button>
                 
                 <select id="cart-font" class="style-select" onchange="cambiaStile()">
@@ -194,7 +191,8 @@
             </div>
             
             <div class="info-cartellone">
-                📐 Cartellone Reale 70x100 cm
+                <b>📐 Formato Cartellone 70x100 cm</b><br>
+                Usa i tasti + e - per zoomare, e fai scorrere la finestra per muoverti.
             </div>
 
             <div class="zoom-controls">
@@ -223,7 +221,6 @@
         let nomeVisuale = "";
         let dati = { cruciverba: [], caricatura: [], papiro: [], regalo: [] };
         
-        // VARIABILI ZOOM
         let currentZoom = 1.0;
         let currentLayoutIndex = 0; 
 
@@ -244,7 +241,7 @@
 
         window.creaNuovaArea = function() {
             const nomePulito = document.getElementById('input-laureato').value.trim().toLowerCase().replace(/\s+/g, '');
-            if(!nomePulito) return alert("Inserisci il nome del laureato!");
+            if(!nomePulito) return alert("Inserisci il nome!");
             idEventoSegreto = `${nomePulito}-${Math.random().toString(36).substring(2, 7)}`;
             try { window.history.pushState({}, '', `?id=${idEventoSegreto}`); } catch(err) {}
             avviaApp();
@@ -273,10 +270,10 @@
             if(el) el.classList.add('active');
         };
 
-        // --- GESTIONE ZOOM ISOLATO SUL CARTELLONE ---
+        // --- GESTIONE ZOOM AVANZATO ---
         window.modificaZoom = function(delta) {
             currentZoom += delta;
-            if(currentZoom < 0.3) currentZoom = 0.3;
+            if(currentZoom < 0.2) currentZoom = 0.2;
             if(currentZoom > 2.5) currentZoom = 2.5;
             applicaZoomCorrente();
         };
@@ -286,23 +283,18 @@
             let cartellone = document.getElementById('cartellone-lavagna');
             let wrapper = document.getElementById('zoom-wrapper');
             
-            // Applica lo scale solo alla tela
             cartellone.style.transform = `scale(${currentZoom})`;
-            
-            // Allarga il wrapper nascosto in modo che le scrollbars del telefono funzionino perfettamente!
-            // Dimensioni base fisse del cartellone = 800 x 1142
             wrapper.style.width = (800 * currentZoom) + 'px';
             wrapper.style.height = (1142 * currentZoom) + 'px';
         }
 
-        // Pinch-to-zoom con le dita SUL workspace
+        // Pinch to Zoom su cellulare
         const workspace = document.getElementById('workspace');
         let initZoomDist = 0;
         let initZoomZ = 1;
-
         workspace.addEventListener('touchstart', (e) => {
             if(e.touches.length === 2) {
-                e.preventDefault(); // Blocca lo zoom del browser
+                e.preventDefault(); 
                 initZoomDist = Math.hypot(e.touches[0].pageX - e.touches[1].pageX, e.touches[0].pageY - e.touches[1].pageY);
                 initZoomZ = currentZoom;
             }
@@ -312,19 +304,18 @@
             if(e.touches.length === 2) {
                 e.preventDefault();
                 let currDist = Math.hypot(e.touches[0].pageX - e.touches[1].pageX, e.touches[0].pageY - e.touches[1].pageY);
-                let scaleFactor = currDist / initZoomDist;
-                currentZoom = Math.min(Math.max(0.3, initZoomZ * scaleFactor), 2.5);
+                currentZoom = Math.min(Math.max(0.2, initZoomZ * (currDist / initZoomDist)), 2.5);
                 applicaZoomCorrente();
             }
         }, {passive: false});
 
 
-        // --- MOTORE LAVAGNA ---
         window.apriAnteprima = function(el) {
             apriSezione('anteprima', el);
-            // Reset zoom all'apertura per farlo fittare nello schermo del telefono (es: 40%)
-            let screenWidth = window.innerWidth;
-            currentZoom = screenWidth < 800 ? (screenWidth / 850) : 0.8;
+            // Adatta lo zoom per mostrare tutto il cartellone nello schermo del telefono
+            let screenW = document.getElementById('workspace').clientWidth;
+            currentZoom = screenW / 850; 
+            if(currentZoom > 1) currentZoom = 1;
             applicaZoomCorrente();
             aggiornaDatiAnteprima();
         };
@@ -334,15 +325,16 @@
         };
 
         window.cambiaStile = function() {
-            let fontScelto = document.getElementById('cart-font').value;
-            let coloreScelto = document.getElementById('cart-color').value;
+            let font = document.getElementById('cart-font').value;
+            let color = document.getElementById('cart-color').value;
             let lavagna = document.getElementById('cartellone-lavagna');
             if(lavagna) {
-                lavagna.style.fontFamily = fontScelto;
-                lavagna.querySelectorAll('.cart-titolo-txt, h3').forEach(t => t.style.color = coloreScelto);
+                lavagna.style.fontFamily = font;
+                lavagna.querySelectorAll('.cart-titolo-txt, h3').forEach(t => t.style.color = color);
             }
         };
 
+        // I Layout Automatici
         const presetLayouts = [
             { TITOLO: {t: 2, l: 5, w: 90}, CARICATURA: {t: 12, l: 5, w: 40}, PAPIRO: {t: 12, l: 50, w: 45}, CRUCIVERBA: {t: 50, l: 5, w: 40}, DEFINIZIONI: {t: 50, l: 50, w: 45} },
             { TITOLO: {t: 2, l: 5, w: 90}, PAPIRO: {t: 12, l: 5, w: 45}, CARICATURA: {t: 12, l: 55, w: 40}, CRUCIVERBA: {t: 50, l: 50, w: 45}, DEFINIZIONI: {t: 50, l: 5, w: 40} },
@@ -352,7 +344,6 @@
         window.cambiaLayout = function() {
             currentLayoutIndex = (currentLayoutIndex + 1) % presetLayouts.length;
             let layout = presetLayouts[currentLayoutIndex];
-            
             for(let key in layout) {
                 let box = document.getElementById('box-' + key);
                 if(box) {
@@ -375,9 +366,13 @@
             }
         };
 
+        // --- MOTORE BOX E DRAG/DROP ---
         window.aggiornaDatiAnteprima = async function() {
-            await caricaDati(); 
+            // TRY/CATCH PROTETTIVO PER IMPEDIRE IL "CARTELLONE VUOTO"
+            try { await caricaDati(); } catch(e) { console.log("Errore DB, uso dati cache"); }
+            
             let lavagna = document.getElementById('cartellone-lavagna');
+            if(!lavagna) return;
             lavagna.innerHTML = ''; 
             
             let l = presetLayouts[currentLayoutIndex];
@@ -389,13 +384,13 @@
             if(!testiPapiro) testiPapiro = "<p>Nessun aneddoto inserito.</p>";
             creaBox("PAPIRO", `<div class="cart-papiro-txt" contenteditable="true"><h3 style="margin:0 0 10px 0; text-align:center;">IL PAPIRO</h3>${testiPapiro}</div>`, l.PAPIRO.t, l.PAPIRO.l, l.PAPIRO.w);
 
-            let gridHtml = document.querySelector('#crossword-container .cw-grid') ? document.querySelector('#crossword-container .cw-grid').outerHTML : "<i style='font-size:16px; padding:10px;'>Genera prima il cruciverba!</i>";
+            let gridHtml = document.querySelector('#crossword-container .cw-grid') ? document.querySelector('#crossword-container .cw-grid').outerHTML : "<i style='font-size:16px; padding:10px;'>Genera cruciverba!</i>";
             creaBox("CRUCIVERBA", gridHtml, l.CRUCIVERBA.t, l.CRUCIVERBA.l, l.CRUCIVERBA.w);
 
             let defsHtml = document.getElementById('crossword-clues') ? document.getElementById('crossword-clues').innerHTML : "";
             if(defsHtml) {
                 let cleanDefs = defsHtml.replace(/class="cw-clues-col"/g, 'style="flex:1;"');
-                creaBox("DEFINIZIONI", `<div style="display:flex; width:100%; gap:15px; font-size:12px;" contenteditable="true">${cleanDefs}</div>`, l.DEFINIZIONI.t, l.DEFINIZIONI.l, l.DEFINIZIONI.w);
+                creaBox("DEFINIZIONI", `<div style="display:flex; width:100%; gap:15px; font-size:14px;" contenteditable="true">${cleanDefs}</div>`, l.DEFINIZIONI.t, l.DEFINIZIONI.l, l.DEFINIZIONI.w);
             }
 
             setTimeout(() => {
@@ -413,7 +408,7 @@
             box.style.width = widthPercent + '%';
             
             box.innerHTML = `
-                <div class="drag-handle"><span style="font-size:16px;">✋</span><button onclick="this.parentElement.parentElement.remove()">❌</button></div>
+                <div class="drag-handle"><span style="font-size:14px;">✋</span><button onclick="this.parentElement.parentElement.remove()">❌</button></div>
                 <div class="drag-content"><div class="zoom-fit">${content}</div></div>
                 <div class="resize-handle"></div>
             `;
@@ -427,12 +422,15 @@
                 const inner = zoomTarget.firstElementChild;
                 if(!inner) return;
 
-                let naturalW = inner.offsetWidth;
-                let naturalH = inner.offsetHeight;
-                let currentBoxW = box.offsetWidth;
+                let naturalW = inner.offsetWidth || 100;
+                let naturalH = inner.offsetHeight || 100;
+                let handleH = handle ? handle.offsetHeight : 24;
+                let currentBoxW = box.offsetWidth || parseInt(box.style.width) * 8 || 200;
                 
                 let initialScale = currentBoxW / naturalW;
-                box.style.height = (naturalH * initialScale + handle.offsetHeight) + 'px';
+                if(isNaN(initialScale) || initialScale === Infinity || initialScale === 0) initialScale = 1;
+                
+                box.style.height = (naturalH * initialScale + handleH) + 'px';
                 zoomTarget.style.transform = `scale(${initialScale})`;
             });
         }
@@ -453,12 +451,14 @@
                 if (inner.getAttribute('contenteditable') === "true") {
                     inner.addEventListener('input', () => {
                         let nH = inner.offsetHeight;
-                        let currentScale = parseFloat(zoomTarget.style.transform.replace('scale(', '').replace(')', '')) || 1;
+                        let scaleStr = zoomTarget.style.transform;
+                        let currentScale = 1;
+                        if(scaleStr.includes('scale')) currentScale = parseFloat(scaleStr.replace('scale(', '').replace(')', ''));
                         box.style.height = (nH * currentScale + handle.offsetHeight) + 'px';
                     });
                 }
 
-                // SPOSTAMENTO CON CALCOLO ZOOM CORRETTO
+                // SPOSTAMENTO (DRAG) PERFETTAMENTE CALIBRATO CON LO ZOOM
                 let startX, startY, startLeft, startTop, startWidth;
 
                 function initDrag(e) {
@@ -482,7 +482,6 @@
                     let currentX = e.clientX || (e.touches ? e.touches[0].clientX : startX);
                     let currentY = e.clientY || (e.touches ? e.touches[0].clientY : startY);
                     
-                    // Dividere per currentZoom fa muovere il box alla stessa velocità del dito!
                     let deltaX = (currentX - startX) / currentZoom;
                     let deltaY = (currentY - startY) / currentZoom;
 
@@ -493,7 +492,7 @@
                 handle.addEventListener('mousedown', initDrag, false);
                 handle.addEventListener('touchstart', initDrag, {passive: false});
 
-                // RIDIMENSIONAMENTO CON ASPECT RATIO LOCK
+                // RESIZE CON ASPECT RATIO LOCK
                 function initResize(e) {
                     e.preventDefault(); e.stopPropagation();
                     startX = e.clientX || e.touches[0].clientX;
@@ -539,21 +538,24 @@
             });
         }
 
-        // --- FUNZIONI DATI E CRUCIVERBA ---
+        // --- METODI CARICAMENTO DATI ---
         window.caricaDati = async function() {
             if (!clientSupabase) return; 
-            for (let t of ['cruciverba', 'caricatura', 'papiro', 'regalo']) {
-                const { data } = await clientSupabase.from(t).select('*').eq('laureato_tag', idEventoSegreto).order('created_at', {ascending: false});
-                if (t === 'regalo' && data) data.sort((a, b) => b.voti - a.voti);
-                dati[t] = data || [];
-                aggiornaUI(t);
-            }
+            try {
+                for (let t of ['cruciverba', 'caricatura', 'papiro', 'regalo']) {
+                    const { data, error } = await clientSupabase.from(t).select('*').eq('laureato_tag', idEventoSegreto).order('created_at', {ascending: false});
+                    if (error) { console.warn(error); continue; }
+                    if (t === 'regalo' && data) data.sort((a, b) => b.voti - a.voti);
+                    dati[t] = data || [];
+                    aggiornaUI(t);
+                }
+            } catch (err) { console.error(err); }
         };
 
         window.aggiungi = async function(tipo) {
-            let autId = tipo.substring(0,3) + '-autore';
-            let testoId = tipo==='cruciverba'?'cruci-def' : (tipo==='caricatura'?'cari-idea' : (tipo==='papiro'?'papiro-aneddoto':'reg-idea'));
-            let autInput = document.getElementById(autId);
+            let autoreId = tipo.substring(0,3) + '-autore';
+            let testoId = tipo==='cruciverba' ? 'cruci-def' : (tipo==='caricatura' ? 'cari-idea' : (tipo==='papiro' ? 'papiro-aneddoto' : 'reg-idea'));
+            let autInput = document.getElementById(autoreId);
             let aut = autInput && autInput.disabled ? "Anonimo" : (autInput ? autInput.value.trim() || "Anonimo" : "Anonimo");
             let testo = document.getElementById(testoId).value.trim();
             
@@ -567,8 +569,18 @@
 
             await clientSupabase.from(tipo).insert([obj]);
             document.getElementById(testoId).value = ''; 
+            if(autInput && !autInput.disabled) autInput.value = ''; 
             if(tipo === 'cruciverba') document.getElementById('cruci-parola').value = '';
             caricaDati();
+        };
+
+        window.aggiornaUI = function(tipo) {
+            const container = document.getElementById(`lista-${tipo}`);
+            if(!container) return;
+            container.innerHTML = dati[tipo].map(item => `
+                <div class="idea-card">
+                    <b>${item.autore}</b>: ${tipo === 'cruciverba' ? item.parola+': '+item.definizione : (item.idea_dettagliata || item.aneddoto || item.proposta_regalo)}
+                </div>`).join('');
         };
 
         window.generaCruciverbaMagico = function() {
@@ -643,7 +655,7 @@
                 htmlTable += '</tr>';
             }
             document.getElementById('crossword-container').innerHTML = htmlTable + '</table>';
-            document.getElementById('crossword-clues').innerHTML = `<div class="cw-clues-col" style="margin-right:15px;"><h4>➡️ ORIZZ.</h4>${orizz.join('')}</div><div class="cw-clues-col"><h4>⬇️ VERT.</h4>${verti.join('')}</div>`;
+            document.getElementById('crossword-clues').innerHTML = `<div class="cw-clues-col" style="margin-right:15px;"><h4>➡️ ORIZZONTALI</h4>${orizz.join('')}</div><div class="cw-clues-col"><h4>⬇️ VERTICALI</h4>${verti.join('')}</div>`;
         };
     </script>
 </body>
