@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>🎓 SiLaurea App</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -27,8 +27,8 @@
         nav button.btn-esci { color: #e74c3c; }
         nav button.btn-esci:hover { background: #e74c3c; color: white; }
 
-        main { width: 90%; max-width: 800px; margin: 40px auto; }
-        .section { display: none; background: var(--card-bg); padding: 30px; border-radius: 16px; box-shadow: 0 8px 30px rgba(0,0,0,0.05); animation: fadeIn 0.4s ease; }
+        main { width: 95%; max-width: 800px; margin: 40px auto; }
+        .section { display: none; background: var(--card-bg); padding: 20px; border-radius: 16px; box-shadow: 0 8px 30px rgba(0,0,0,0.05); animation: fadeIn 0.4s ease; }
         .section.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
@@ -60,36 +60,43 @@
         .vote-btn { background: white; border: 1px solid #ddd; padding: 6px 12px; border-radius: 15px; cursor: pointer; font-weight: 600; color: var(--text-main); margin-top: 10px; display: inline-block; }
         .vote-btn:hover { background: #eaf2f8; border-color: var(--primary); color: var(--primary); }
 
-        /* LAVAGNA INTERATTIVA (DRAG & DROP) */
-        .toolbar-anteprima { display: flex; gap: 10px; margin-bottom: 20px; justify-content: center; }
-        .btn-tool { padding: 10px 20px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; font-size: 14px; transition: 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .btn-tool:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.15); }
+        /* LAVAGNA INTERATTIVA OTTIMIZZATA MOBILE */
+        .toolbar-anteprima { display: flex; gap: 10px; margin-bottom: 15px; justify-content: center; flex-wrap: wrap; }
+        .btn-tool { padding: 8px 15px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; font-size: 13px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         
-        .cartellone-wrapper { position: relative; width: 100%; background: white; border: 2px solid #333; margin: 0 auto; box-shadow: 0 10px 30px rgba(0,0,0,0.15); aspect-ratio: 70 / 100; overflow: hidden; font-family: 'Times New Roman', serif; background-image: radial-gradient(#eee 1px, transparent 1px); background-size: 20px 20px; }
+        .cartellone-wrapper { position: relative; width: 100%; background: white; border: 2px solid #333; margin: 0 auto; box-shadow: 0 10px 30px rgba(0,0,0,0.15); aspect-ratio: 70 / 100; overflow: hidden; font-family: 'Times New Roman', serif; background-image: radial-gradient(#eee 1px, transparent 1px); background-size: 20px 20px; touch-action: none; }
         
-        .drag-box { position: absolute; background: white; border: 1px dashed #ccc; box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: flex; flex-direction: column; resize: both; overflow: hidden; min-width: 100px; min-height: 50px; }
+        /* Box Trascina (Tolto il resize nativo, aggiunto quello custom mobile) */
+        .drag-box { position: absolute; background: white; border: 1px dashed #3498db; display: flex; flex-direction: column; min-width: 60px; min-height: 40px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .drag-box:hover { border-color: var(--primary); z-index: 100; }
         
-        .drag-handle { background: #f1f2f6; cursor: move; padding: 5px; font-size: 12px; font-family: sans-serif; color: #747d8c; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; user-select: none; }
-        .drag-handle button { background: none; border: none; color: #ff4757; cursor: pointer; font-weight: bold; font-size: 14px; padding: 0 5px; }
-        .drag-handle button:hover { transform: scale(1.2); }
+        .drag-handle { background: #f1f2f6; padding: 5px; font-size: 10px; font-family: sans-serif; color: #747d8c; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; cursor: move; touch-action: none; }
+        .drag-handle button { background: none; border: none; color: #ff4757; cursor: pointer; font-weight: bold; font-size: 12px; padding: 0 5px; }
         
-        .drag-content { padding: 10px; flex: 1; overflow: hidden; outline: none; display: flex; align-items: center; justify-content: center; }
+        /* Contenuto a Zero Spazi */
+        .drag-content { padding: 0px; flex: 1; overflow: hidden; outline: none; display: flex; align-items: center; justify-content: center; background: transparent; }
         .drag-content[contenteditable="true"]:focus { background: #fffde7; }
         
-        /* Sistema di Zoom Intelligente */
+        /* Sistema Zoom Perfetto e Senza Distorsioni */
         .zoom-fit { display: flex; align-items: center; justify-content: center; transform-origin: center center; width: max-content; height: max-content; }
         
-        /* Adattamento contenuti interni al drag-box */
-        .cart-titolo-txt { font-size: 40px; text-align: center; color: #c0392b; font-weight: bold; text-transform: uppercase; line-height: 1.1; margin: 0; white-space: nowrap; }
-        .cart-papiro-txt { font-size: 18px; text-align: justify; width: 400px; }
-        .cart-caricatura-ph { width: 300px; height: 400px; border: 3px dashed #bdc3c7; display: flex; align-items: center; justify-content: center; color: #7f8c8d; background: #f9f9f9; text-align: center; box-sizing: border-box; font-size: 24px; }
-        .cart-cruci-griglia { font-size: 20px; }
+        /* Modifiche al volo per gli elementi clonati sul cartellone */
+        .drag-content .cw-clues-col { padding: 0 !important; background: transparent !important; border: none !important; min-width: auto !important; font-size: 14px; }
+        .drag-content .cw-grid { border: 2px solid #000; }
+        .drag-content .cw-cell { width: 35px; height: 35px; font-size: 18px; }
+        .drag-content .cw-empty { width: 35px; height: 35px; }
 
-        /* MODALITÀ PREVIEW STAMPA */
-        .stampa-mode .drag-handle { display: none !important; }
-        .stampa-mode .drag-box { border: none !important; box-shadow: none !important; background: transparent !important; resize: none !important; overflow: visible; }
-        .stampa-mode .cartellone-wrapper { background-image: none !important; border: 4px solid #000; }
+        .cart-titolo-txt { font-size: 35px; text-align: center; color: #c0392b; font-weight: bold; text-transform: uppercase; line-height: 1; margin: 0; white-space: nowrap; }
+        .cart-papiro-txt { font-size: 16px; text-align: justify; width: 400px; padding: 5px; }
+        .cart-caricatura-ph { width: 300px; height: 400px; border: 2px dashed #bdc3c7; display: flex; align-items: center; justify-content: center; color: #7f8c8d; background: #f9f9f9; text-align: center; font-size: 20px; }
+
+        /* MANIGLIETTA CUSTOM PER RESIZE SU MOBILE */
+        .resize-handle { position: absolute; bottom: 0; right: 0; width: 25px; height: 25px; background: linear-gradient(135deg, transparent 50%, var(--primary) 50%); cursor: nwse-resize; z-index: 10; touch-action: none; }
+
+        /* MODALITÀ PREVIEW STAMPA PULITA */
+        .stampa-mode .drag-handle, .stampa-mode .resize-handle { display: none !important; }
+        .stampa-mode .drag-box { border: none !important; box-shadow: none !important; background: transparent !important; }
+        .stampa-mode .cartellone-wrapper { background-image: none !important; border: 2px solid #000; }
     </style>
 </head>
 <body>
@@ -104,7 +111,7 @@
         <button class="tab-link" onclick="apriSezione('caricatura', this)">🎨 Caricatura</button>
         <button class="tab-link" onclick="apriSezione('papiro', this)">📜 Papiro</button>
         <button class="tab-link" onclick="apriSezione('regalo', this)">🎁 Regalo</button>
-        <button class="tab-link" style="background-color: #f1c40f; color: #333;" onclick="apriAnteprima(this)">🖼️ Anteprima Interattiva</button>
+        <button class="tab-link" style="background-color: #f1c40f; color: #333;" onclick="apriAnteprima(this)">🖼️ Anteprima Cartellone</button>
         <button class="tab-link btn-esci" onclick="esci()">🚪 Esci</button>
     </nav>
 
@@ -118,7 +125,7 @@
             <button class="btn-submit" onclick="creaNuovaArea()">Crea Area Sicura & Genera Link</button>
             <div class="avviso-invitati">
                 <b>Sei un invitato?</b><br>
-                Non puoi entrare da qui. Clicca direttamente sul link di invito che ti è stato inviato!
+                Non puoi entrare da qui. Clicca sul link di invito che ti è stato inviato su WhatsApp!
             </div>
         </div>
 
@@ -135,7 +142,7 @@
             <h2>🧩 Cruciverba</h2>
             <div class="form-group row-autore">
                 <input type="text" id="cruci-autore" placeholder="Il tuo nome">
-                <label class="anonimo-check"><input type="checkbox" onchange="toggleAnonimo('cruci-autore', this)"> Invia in anonimo</label>
+                <label class="anonimo-check"><input type="checkbox" onchange="toggleAnonimo('cruci-autore', this)"> Anonimo</label>
             </div>
             <div class="form-group"><input type="text" id="cruci-parola" placeholder="Parola (es. SPRITZ)"></div>
             <div class="form-group"><textarea id="cruci-def" rows="2" placeholder="Definizione (es. Lo beve sempre il venerdì)"></textarea></div>
@@ -149,7 +156,7 @@
             <h2>🎨 Caricatura</h2>
             <div class="form-group row-autore">
                 <input type="text" id="cari-autore" placeholder="Il tuo nome">
-                <label class="anonimo-check"><input type="checkbox" onchange="toggleAnonimo('cari-autore', this)"> Invia in anonimo</label>
+                <label class="anonimo-check"><input type="checkbox" onchange="toggleAnonimo('cari-autore', this)"> Anonimo</label>
             </div>
             <div class="form-group"><textarea id="cari-idea" rows="3" placeholder="Descrivi la tua idea per il disegno..."></textarea></div>
             <button class="btn-submit" onclick="aggiungi('caricatura')">Invia Proposta</button>
@@ -160,7 +167,7 @@
             <h2>📜 Papiro</h2>
             <div class="form-group row-autore">
                 <input type="text" id="papiro-autore" placeholder="Il tuo nome">
-                <label class="anonimo-check"><input type="checkbox" onchange="toggleAnonimo('papiro-autore', this)"> Invia in anonimo</label>
+                <label class="anonimo-check"><input type="checkbox" onchange="toggleAnonimo('papiro-autore', this)"> Anonimo</label>
             </div>
             <div class="form-group"><textarea id="papiro-aneddoto" rows="3" placeholder="Scrivi un aneddoto, una figuraccia o una rima..."></textarea></div>
             <button class="btn-submit" onclick="aggiungi('papiro')">Aggiungi al Papiro</button>
@@ -171,7 +178,7 @@
             <h2>🎁 Regalo</h2>
             <div class="form-group row-autore">
                 <input type="text" id="reg-autore" placeholder="Il tuo nome">
-                <label class="anonimo-check"><input type="checkbox" onchange="toggleAnonimo('reg-autore', this)"> Invia in anonimo</label>
+                <label class="anonimo-check"><input type="checkbox" onchange="toggleAnonimo('reg-autore', this)"> Anonimo</label>
             </div>
             <div class="form-group"><textarea id="reg-idea" rows="2" placeholder="Cosa regaliamo? Proponi qualcosa..."></textarea></div>
             <button class="btn-submit" onclick="aggiungi('regalo')">Proponi Regalo</button>
@@ -181,10 +188,9 @@
         <div id="anteprima" class="section">
             <div class="toolbar-anteprima">
                 <button class="btn-tool" style="background:#2ecc71; color:white;" onclick="aggiornaDatiAnteprima()">🔄 Aggiorna Dati</button>
-                <button class="btn-tool" style="background:#3498db; color:white;" onclick="toggleStampa()">👁️ Preview Stampa (ON/OFF)</button>
+                <button class="btn-tool" style="background:#3498db; color:white;" onclick="toggleStampa()">👁️ Preview Stampa</button>
             </div>
-            <h2>🖼️ Anteprima Interattiva 70x100</h2>
-            <p style="font-size: 14px; text-align: center;">Sposta i riquadri trascinando la barra grigia. Allargali usando l'angolo in basso a destra. Clicca sui testi per modificarli. Se qualcosa non ti serve, eliminalo con la X!</p>
+            <p style="font-size: 12px; text-align: center; color: var(--text-muted); margin-top:0;">Trascina la barra grigia per spostare. Trascina l'angolino blu in basso a destra per allargare. Clicca sui testi per modificarli.</p>
             <div class="cartellone-wrapper" id="cartellone-lavagna">
                 </div>
         </div>
@@ -221,10 +227,8 @@
         window.creaNuovaArea = function() {
             const nomePulito = document.getElementById('input-laureato').value.trim().toLowerCase().replace(/\s+/g, '');
             if(!nomePulito) return alert("Per favore, inserisci il nome del laureato!");
-            
             const codiceSegreto = Math.random().toString(36).substring(2, 7); 
             idEventoSegreto = `${nomePulito}-${codiceSegreto}`;
-            
             try { window.history.pushState({}, '', `?id=${idEventoSegreto}`); } catch(err) {}
             avviaApp();
         };
@@ -233,7 +237,6 @@
             if(!confirm("Vuoi uscire dall'area di questo evento?")) return;
             idEventoSegreto = "";
             try { window.history.pushState({}, '', window.location.pathname); } catch(err) {}
-            
             document.getElementById('main-nav').style.display = 'none';
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             document.getElementById('login-section').style.display = 'block';
@@ -244,17 +247,13 @@
         window.avviaApp = function() {
             document.getElementById('login-section').style.display = 'none';
             document.getElementById('main-nav').style.display = 'flex';
-            
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('.tab-link').forEach(b => b.classList.remove('active'));
             document.querySelector('.tab-link').classList.add('active'); 
             document.getElementById('home').classList.add('active');
-            
             let nomeRaw = idEventoSegreto.split('-')[0];
             nomeVisuale = nomeRaw.charAt(0).toUpperCase() + nomeRaw.slice(1);
-            
             document.getElementById('display-laureato').innerText = `🎓 Area dedicata a: ${nomeVisuale}`;
-            
             let base_url = window.location.href.split('?')[0];
             document.getElementById('share-link').value = `${base_url}?id=${idEventoSegreto}`;
             caricaDati();
@@ -267,7 +266,7 @@
             if(el) el.classList.add('active');
         };
 
-        // --- MOTORE LAVAGNA INTERATTIVA E STAMPA ---
+        // --- MOTORE LAVAGNA INTERATTIVA MOBILE ---
         window.apriAnteprima = function(el) {
             apriSezione('anteprima', el);
             aggiornaDatiAnteprima();
@@ -282,122 +281,124 @@
             let lavagna = document.getElementById('cartellone-lavagna');
             lavagna.innerHTML = ''; 
             
-            // 1. Box Titolo
-            lavagna.innerHTML += `
-                <div class="drag-box" style="top: 2%; left: 5%; width: 90%; height: 10%;">
-                    <div class="drag-handle">✋ Sposta Titolo <button onclick="this.parentElement.parentElement.remove()">❌</button></div>
-                    <div class="drag-content"><div class="zoom-fit"><div class="cart-titolo-txt" contenteditable="true">LAUREA DI ${nomeVisuale.toUpperCase()}</div></div></div>
-                </div>`;
-            
-            // 2. Box Caricatura
-            lavagna.innerHTML += `
-                <div class="drag-box" style="top: 15%; left: 5%; width: 40%; height: 35%;">
-                    <div class="drag-handle">✋ Sposta Caricatura <button onclick="this.parentElement.parentElement.remove()">❌</button></div>
-                    <div class="drag-content"><div class="zoom-fit"><div class="cart-caricatura-ph">📸<br>Spazio Caricatura</div></div></div>
-                </div>`;
+            // Creazione dei box con padding 0 e contenuti aderenti
+            creaBox("TITOLO", `<div class="cart-titolo-txt" contenteditable="true">LAUREA DI ${nomeVisuale.toUpperCase()}</div>`, 2, 5, 90, 10);
+            creaBox("CARICATURA", `<div class="cart-caricatura-ph">📸<br>Spazio Caricatura</div>`, 15, 5, 45, 30);
 
-            // 3. Box Papiro
-            let testiPapiro = dati.papiro.map(p => `<p>"${p.aneddoto}" <br><small><b>- ${p.autore}</b></small></p>`).join('');
-            if(!testiPapiro) testiPapiro = "<p>Nessun aneddoto ancora inserito.</p>";
-            lavagna.innerHTML += `
-                <div class="drag-box" style="top: 15%; left: 50%; width: 45%; height: 80%;">
-                    <div class="drag-handle">✋ Sposta Papiro <button onclick="this.parentElement.parentElement.remove()">❌</button></div>
-                    <div class="drag-content"><div class="zoom-fit"><div class="cart-papiro-txt" contenteditable="true"><h3 style="margin-top:0">IL PAPIRO</h3>${testiPapiro}</div></div></div>
-                </div>`;
+            let testiPapiro = dati.papiro.map(p => `<p style="margin:5px 0;">"${p.aneddoto}" <br><small><b>- ${p.autore}</b></small></p>`).join('');
+            if(!testiPapiro) testiPapiro = "<p>Nessun aneddoto inserito.</p>";
+            creaBox("PAPIRO", `<div class="cart-papiro-txt" contenteditable="true"><h3 style="margin:0 0 10px 0;text-align:center;">IL PAPIRO</h3>${testiPapiro}</div>`, 15, 52, 43, 80);
 
-            // 4. Box Cruciverba Griglia
-            let gridHtml = document.querySelector('#crossword-container .cw-grid') ? document.querySelector('#crossword-container .cw-grid').outerHTML : "<i>Genera prima il cruciverba nella sezione apposita!</i>";
-            lavagna.innerHTML += `
-                <div class="drag-box" style="top: 55%; left: 5%; width: 40%; height: 25%;">
-                    <div class="drag-handle">✋ Sposta Griglia <button onclick="this.parentElement.parentElement.remove()">❌</button></div>
-                    <div class="drag-content"><div class="zoom-fit cart-cruci-griglia">${gridHtml}</div></div>
-                </div>`;
+            let gridHtml = document.querySelector('#crossword-container .cw-grid') ? document.querySelector('#crossword-container .cw-grid').outerHTML : "Genera prima il cruciverba!";
+            creaBox("CRUCIVERBA", gridHtml, 48, 5, 45, 30);
 
-            // 5. Box Definizioni Cruciverba
             let defsHtml = document.getElementById('crossword-clues') ? document.getElementById('crossword-clues').innerHTML : "";
             if(defsHtml) {
-                lavagna.innerHTML += `
-                    <div class="drag-box" style="top: 85%; left: 5%; width: 40%; height: 10%;">
-                        <div class="drag-handle">✋ Sposta Definizioni <button onclick="this.parentElement.parentElement.remove()">❌</button></div>
-                        <div class="drag-content"><div class="zoom-fit"><div style="display:flex; gap:20px; font-size:16px;" contenteditable="true">${defsHtml}</div></div></div>
-                    </div>`;
+                creaBox("DEFINIZIONI", `<div style="display:flex; gap:15px;" contenteditable="true">${defsHtml}</div>`, 80, 5, 90, 15);
             }
 
-            attivaDragAndDrop();
+            attivaMotoreMobile();
         };
 
-        // Funzione JS per far muovere e scalare i box
-        function attivaDragAndDrop() {
+        function creaBox(label, content, top, left, w, h) {
+            let box = document.createElement('div');
+            box.className = 'drag-box';
+            box.style.cssText = `top:${top}%; left:${left}%; width:${w}%; height:${h}%;`;
+            // Inserita la maniglietta resize per il mobile
+            box.innerHTML = `
+                <div class="drag-handle"><span>🤚 Sposta</span><button onclick="this.parentElement.parentElement.remove()">❌</button></div>
+                <div class="drag-content"><div class="zoom-fit">${content}</div></div>
+                <div class="resize-handle"></div>
+            `;
+            document.getElementById('cartellone-lavagna').appendChild(box);
+        }
+
+        // Funzione unificata Drag & Custom Resize per Mobile
+        function attivaMotoreMobile() {
             document.querySelectorAll('.drag-box').forEach(box => {
                 const handle = box.querySelector('.drag-handle');
-                if(!handle) return;
-                
-                // DRAG LOGIC
-                let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-                
-                handle.onmousedown = function(e) {
+                const resizer = box.querySelector('.resize-handle');
+                let startX, startY, startWidth, startHeight, startLeft, startTop;
+
+                // --- 1. FUNZIONE DRAG (SPOSTAMENTO) ---
+                function initDrag(e) {
                     if(e.target.tagName === 'BUTTON') return; 
                     e.preventDefault();
-                    pos3 = e.clientX;
-                    pos4 = e.clientY;
-                    document.onmouseup = closeDragElement;
-                    document.onmousemove = elementDrag;
-                };
+                    startX = e.clientX || e.touches[0].clientX;
+                    startY = e.clientY || e.touches[0].clientY;
+                    startLeft = box.offsetLeft;
+                    startTop = box.offsetTop;
+                    document.addEventListener('mousemove', doDrag, {passive: false});
+                    document.addEventListener('touchmove', doDrag, {passive: false});
+                    document.addEventListener('mouseup', stopAll, false);
+                    document.addEventListener('touchend', stopAll, false);
+                }
 
-                handle.ontouchstart = function(e) {
-                    if(e.target.tagName === 'BUTTON') return;
-                    let touch = e.touches[0];
-                    pos3 = touch.clientX;
-                    pos4 = touch.clientY;
-                    document.ontouchend = closeDragElement;
-                    document.ontouchmove = elementDragTouch;
-                };
-
-                function elementDrag(e) {
+                function doDrag(e) {
                     e.preventDefault();
-                    calcolaSpostamento(e.clientX, e.clientY);
-                }
-                
-                function elementDragTouch(e) {
-                    let touch = e.touches[0];
-                    calcolaSpostamento(touch.clientX, touch.clientY);
-                }
-
-                function calcolaSpostamento(clientX, clientY) {
-                    pos1 = pos3 - clientX;
-                    pos2 = pos4 - clientY;
-                    pos3 = clientX;
-                    pos4 = clientY;
+                    let currentX = e.clientX || (e.touches ? e.touches[0].clientX : startX);
+                    let currentY = e.clientY || (e.touches ? e.touches[0].clientY : startY);
                     
+                    let newLeft = startLeft + (currentX - startX);
+                    let newTop = startTop + (currentY - startY);
+                    
+                    // Limiti per non uscire
                     let parent = box.parentElement;
-                    let newTop = box.offsetTop - pos2;
-                    let newLeft = box.offsetLeft - pos1;
-                    
-                    if(newTop < 0) newTop = 0;
                     if(newLeft < 0) newLeft = 0;
+                    if(newTop < 0) newTop = 0;
                     if(newLeft + box.offsetWidth > parent.offsetWidth) newLeft = parent.offsetWidth - box.offsetWidth;
                     if(newTop + box.offsetHeight > parent.offsetHeight) newTop = parent.offsetHeight - box.offsetHeight;
 
-                    box.style.top = newTop + "px";
-                    box.style.left = newLeft + "px";
+                    box.style.left = newLeft + 'px';
+                    box.style.top = newTop + 'px';
                 }
 
-                function closeDragElement() {
-                    document.onmouseup = null;
-                    document.onmousemove = null;
-                    document.ontouchend = null;
-                    document.ontouchmove = null;
+                handle.addEventListener('mousedown', initDrag, false);
+                handle.addEventListener('touchstart', initDrag, {passive: false});
+
+                // --- 2. FUNZIONE RESIZE CUSTOM (PER MOBILE) ---
+                function initResize(e) {
+                    e.preventDefault(); e.stopPropagation();
+                    startX = e.clientX || e.touches[0].clientX;
+                    startY = e.clientY || e.touches[0].clientY;
+                    startWidth = box.offsetWidth;
+                    startHeight = box.offsetHeight;
+                    document.addEventListener('mousemove', doResize, {passive: false});
+                    document.addEventListener('touchmove', doResize, {passive: false});
+                    document.addEventListener('mouseup', stopAll, false);
+                    document.addEventListener('touchend', stopAll, false);
                 }
 
-                // ZOOM LOGIC (Scala automatica del contenuto quando allarghi il box)
+                function doResize(e) {
+                    e.preventDefault();
+                    let currentX = e.clientX || (e.touches ? e.touches[0].clientX : startX);
+                    let currentY = e.clientY || (e.touches ? e.touches[0].clientY : startY);
+                    box.style.width = (startWidth + currentX - startX) + 'px';
+                    box.style.height = (startHeight + currentY - startY) + 'px';
+                }
+
+                if(resizer) {
+                    resizer.addEventListener('mousedown', initResize, false);
+                    resizer.addEventListener('touchstart', initResize, {passive: false});
+                }
+
+                function stopAll() {
+                    document.removeEventListener('mousemove', doDrag, false);
+                    document.removeEventListener('touchmove', doDrag, false);
+                    document.removeEventListener('mousemove', doResize, false);
+                    document.removeEventListener('touchmove', doResize, false);
+                    document.removeEventListener('mouseup', stopAll, false);
+                    document.removeEventListener('touchend', stopAll, false);
+                }
+
+                // --- 3. ZOOM AUTOMATICO ADATTIVO ---
                 const observer = new ResizeObserver(entries => {
                     for (let entry of entries) {
                         const contentContainer = box.querySelector('.drag-content');
                         const zoomTarget = box.querySelector('.zoom-fit');
 
                         if (contentContainer && zoomTarget && zoomTarget.firstElementChild) {
-                            // Resetta temporaneamente per misurare la vera grandezza del contenuto
-                            zoomTarget.style.transform = 'scale(1)';
+                            zoomTarget.style.transform = 'scale(1)'; // reset per misurare
                             
                             let inner = zoomTarget.firstElementChild;
                             const naturalWidth = inner.offsetWidth;
@@ -407,11 +408,8 @@
                             const boxHeight = contentContainer.clientHeight;
 
                             if(naturalWidth > 0 && naturalHeight > 0) {
-                                // Calcola quanto deve scalare per riempire il box (aggiungo un 5% di margine)
-                                const scaleX = boxWidth / naturalWidth;
-                                const scaleY = boxHeight / naturalHeight;
-                                const scale = Math.min(scaleX, scaleY) * 0.95; 
-
+                                // Usa il valore minimo per mantenere le proporzioni senza sformare (Cruciverba resta quadrato!)
+                                const scale = Math.min(boxWidth / naturalWidth, boxHeight / naturalHeight); 
                                 zoomTarget.style.transform = `scale(${scale})`;
                             }
                         }
@@ -421,6 +419,7 @@
             });
         }
 
+        // --- FUNZIONI DATABASE STANDARD ---
         window.caricaDati = async function() {
             if (!clientSupabase) return; 
             try {
