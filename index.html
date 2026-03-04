@@ -130,7 +130,8 @@
     <script>
         // --- CONFIGURAZIONE SUPABASE ---
         const SUPABASE_URL = 'https://dfjvdenqbokvtmsqyjsh.supabase.co';
-        const SUPABASE_KEY = 'sb_publishable__jAwKk7vIvlcTuVT8hRMRg_wGTDRmw-';
+        // QUI È DOVE C'ERA L'ERRORE! ORA LA CHIAVE È QUELLA GIUSTA:
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRmanZkZW5xYm9rdnRtc3F5anNoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI2MTM1MzAsImV4cCI6MjA4ODE4OTUzMH0.kOvBhb3bnJT562q8nOGJFwgf7Lf28soDV0yIhyF0BCI';
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         let nomeLaureato = "";
