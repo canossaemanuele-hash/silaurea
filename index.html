@@ -24,8 +24,6 @@
         nav { display: none; justify-content: center; gap: 10px; margin-top: -25px; background: var(--card-bg); padding: 10px 20px; border-radius: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); flex-wrap: wrap; z-index: 10; }
         nav button { background: transparent; border: none; padding: 10px 20px; border-radius: 20px; font-size: 15px; font-weight: 600; color: var(--text-muted); cursor: pointer; transition: all 0.3s ease; }
         nav button:hover, nav button.active { background: var(--primary); color: white; }
-        
-        /* Stile speciale per il tasto Esci */
         nav button.btn-esci { color: #e74c3c; }
         nav button.btn-esci:hover { background: #e74c3c; color: white; }
 
@@ -35,6 +33,7 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
         .badge-laureato { background: #e1f5fe; color: var(--primary); padding: 8px 20px; border-radius: 20px; font-weight: bold; margin-bottom: 20px; display: inline-block; border: 1px solid var(--primary); }
+        .avviso-invitati { background: #fff3cd; color: #856404; padding: 15px; border-radius: 8px; border-left: 4px solid #ffeeba; margin-top: 20px; font-size: 14px; }
 
         .form-group { margin-bottom: 20px; }
         .form-group label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 14px; }
@@ -43,7 +42,6 @@
         button.btn-submit { background-color: var(--primary); color: white; border: none; padding: 14px 24px; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 600; width: 100%; margin-bottom: 10px; transition: 0.3s; }
         button.btn-submit:hover { background: var(--primary-hover); transform: translateY(-2px); }
 
-        /* CRUCIVERBA ECO-FRIENDLY */
         #crossword-container { margin-top: 20px; overflow-x: auto; text-align: center; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 8px; }
         .cw-grid { border-collapse: collapse; margin: 0 auto; background: white; border: 2px solid #000; }
         .cw-cell { width: 35px; height: 35px; background: white; border: 1px solid #000; text-align: center; vertical-align: middle; position: relative; font-weight: bold; text-transform: uppercase; font-family: monospace; font-size: 18px; }
@@ -75,22 +73,27 @@
 
     <main>
         <div id="login-section" class="section active">
-            <h2>Chi festeggiamo oggi?</h2>
-            <p>Inserisci <b>Nome e Cognome</b> (tutto attaccato) per creare un'area unica ed evitare di mischiarti con altri laureati!</p>
+            <h2>Gestione Evento</h2>
+            <p>Sei l'organizzatore? Inserisci il nome del laureato per creare un'area sicura e generare il link di invito univoco.</p>
             <div class="form-group">
-                <input type="text" id="input-laureato" placeholder="Es: LisaRossi">
+                <input type="text" id="input-laureato" placeholder="Nome del Laureato (es: Lisa Rossi)">
             </div>
-            <button class="btn-submit" onclick="impostaLaureato()">Entra / Crea Area</button>
+            <button class="btn-submit" onclick="creaNuovaArea()">Crea Area Sicura & Genera Link</button>
+            
+            <div class="avviso-invitati">
+                <b>Sei un invitato?</b><br>
+                Non puoi entrare da qui. Devi cliccare direttamente sul link di invito che ti è stato inviato su WhatsApp o via email!
+            </div>
         </div>
 
         <div id="home" class="section">
             <div id="display-laureato" class="badge-laureato"></div>
             <h2>Pronti per la festa? 🎉</h2>
-            <p>Copia questo link e invialo agli amici su WhatsApp per raccogliere le idee:</p>
+            <p>Copia questo link segreto e invialo agli amici su WhatsApp per raccogliere le idee:</p>
             <div class="form-group">
                 <input type="text" id="share-link" readonly onclick="this.select(); document.execCommand('copy'); alert('Link copiato negli appunti!');">
             </div>
-            <p style="font-size: 0.9em; color: var(--text-muted);">Tutte le idee inserite in questo momento saranno salvate in modo sicuro e associate a questo link unico.</p>
+            <p style="font-size: 0.9em; color: var(--text-muted);">Attenzione: solo chi ha questo link esatto potrà vedere e inserire contenuti per questa festa.</p>
         </div>
 
         <div id="cruciverba" class="section">
@@ -138,36 +141,42 @@
             clientSupabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         } catch(e) { console.error("Errore database", e); }
 
-        let nomeLaureato = "";
+        let idEventoSegreto = ""; 
         let dati = { cruciverba: [], caricatura: [], papiro: [], regalo: [] };
 
+        // --- AVVIO APP: CONTROLLA SE C'È UN LINK DI INVITO ---
         window.onload = function() {
             try {
                 const params = new URLSearchParams(window.location.search);
-                const l = params.get('laureato');
-                if (l) {
-                    nomeLaureato = l.toLowerCase();
-                    avviaApp();
+                // Ora leggiamo "id" invece di "laureato"
+                const idInvitato = params.get('id'); 
+                if (idInvitato) {
+                    idEventoSegreto = idInvitato;
+                    avviaApp(); // Bypass diretto per gli invitati
                 }
             } catch(e) { console.error(e); }
         };
 
-        window.impostaLaureato = function() {
-            // Rimuovo spazi vuoti in mezzo per creare un link unico pulito (es. Lisa Rossi -> lisarossi)
-            const val = document.getElementById('input-laureato').value.trim().replace(/\s+/g, '');
-            if(!val) return alert("Per favore, inserisci un identificativo (es. NomeCognome)!");
-            nomeLaureato = val.toLowerCase();
-            try { window.history.pushState({}, '', `?laureato=${nomeLaureato}`); } catch(err) {}
+        // --- CREAZIONE AREA SICURA (SOLO PER ORGANIZZATORE) ---
+        window.creaNuovaArea = function() {
+            const nomePulito = document.getElementById('input-laureato').value.trim().toLowerCase().replace(/\s+/g, '');
+            if(!nomePulito) return alert("Per favore, inserisci il nome del laureato!");
+            
+            // Genera una stringa casuale di 5 caratteri
+            const codiceSegreto = Math.random().toString(36).substring(2, 7); 
+            
+            // Unisce il nome al codice segreto (es. lisarossi-x9p2q)
+            idEventoSegreto = `${nomePulito}-${codiceSegreto}`;
+            
+            try { window.history.pushState({}, '', `?id=${idEventoSegreto}`); } catch(err) {}
             avviaApp();
         };
 
-        // NUOVA FUNZIONE ESCI
         window.esci = function() {
-            nomeLaureato = "";
-            // Pulisce l'URL in alto togliendo il ?laureato=...
+            if(!confirm("Vuoi davvero uscire dall'area di questo evento?")) return;
+            idEventoSegreto = "";
             try { window.history.pushState({}, '', window.location.pathname); } catch(err) {}
             
-            // Nasconde tutto e rimostra il login
             document.getElementById('main-nav').style.display = 'none';
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             
@@ -175,7 +184,6 @@
             loginSec.style.display = 'block';
             loginSec.classList.add('active');
             
-            // Svuota l'input
             document.getElementById('input-laureato').value = '';
         };
 
@@ -184,16 +192,18 @@
             document.getElementById('main-nav').style.display = 'flex';
             
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            
-            // Seleziona la tab Home e la evidenzia
             document.querySelectorAll('.tab-link').forEach(b => b.classList.remove('active'));
-            document.querySelector('.tab-link').classList.add('active'); // La prima è la Home
+            document.querySelector('.tab-link').classList.add('active'); 
             document.getElementById('home').classList.add('active');
             
-            document.getElementById('display-laureato').innerText = `🎓 Area dedicata a: ${nomeLaureato.toUpperCase()}`;
+            // Estrae il nome vero dal codice segreto (es. prende "lisarossi" da "lisarossi-x9p2q")
+            let nomeVisuale = idEventoSegreto.split('-')[0];
+            nomeVisuale = nomeVisuale.charAt(0).toUpperCase() + nomeVisuale.slice(1);
+            
+            document.getElementById('display-laureato').innerText = `🎓 Area dedicata a: ${nomeVisuale}`;
             
             let base_url = window.location.href.split('?')[0];
-            document.getElementById('share-link').value = `${base_url}?laureato=${nomeLaureato}`;
+            document.getElementById('share-link').value = `${base_url}?id=${idEventoSegreto}`;
             caricaDati();
         };
 
@@ -208,7 +218,8 @@
             if (!clientSupabase) return; 
             try {
                 for (let t of ['cruciverba', 'caricatura', 'papiro', 'regalo']) {
-                    const { data, error } = await clientSupabase.from(t).select('*').eq('laureato_tag', nomeLaureato).order('created_at', {ascending: false});
+                    // Cerca nel database usando l'ID univoco completo!
+                    const { data, error } = await clientSupabase.from(t).select('*').eq('laureato_tag', idEventoSegreto).order('created_at', {ascending: false});
                     if (error) throw error;
                     if (t === 'regalo' && data) data.sort((a, b) => b.voti - a.voti);
                     dati[t] = data || [];
@@ -227,7 +238,8 @@
 
             let autore = document.getElementById(autoreId).value.trim() || "Anonimo";
             let campoTesto = document.getElementById(testoId).value.trim();
-            let obj = { autore: autore, laureato_tag: nomeLaureato };
+            // Salva nel database associandolo all'ID univoco completo
+            let obj = { autore: autore, laureato_tag: idEventoSegreto };
 
             if (tipo === 'cruciverba') {
                 let parola = document.getElementById('cruci-parola').value.toUpperCase().replace(/[^A-Z]/g, '');
