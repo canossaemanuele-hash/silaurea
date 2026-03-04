@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎓 SiLaurea App</title>
+    <title>🎓 SiLaurea App - Pro Edition</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
@@ -18,68 +18,69 @@
         }
 
         body { font-family: 'Poppins', sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; }
-        header { background: linear-gradient(135deg, var(--primary), #3498db); color: white; width: 100%; text-align: center; padding: 2rem 0; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; }
+        header { background: linear-gradient(135deg, var(--primary), #3498db); color: white; width: 100%; text-align: center; padding: 2.5rem 0; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-bottom-left-radius: 25px; border-bottom-right-radius: 25px; }
         h1 { margin: 0; font-weight: 600; letter-spacing: 1px; }
 
-        nav { display: none; justify-content: center; gap: 10px; margin-top: -25px; background: var(--card-bg); padding: 10px 20px; border-radius: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); flex-wrap: wrap; z-index: 10; }
-        nav button { background: transparent; border: none; padding: 10px 20px; border-radius: 20px; font-size: 15px; font-weight: 600; color: var(--text-muted); cursor: pointer; transition: all 0.3s ease; }
+        /* Navigazione */
+        nav { display: none; justify-content: center; gap: 10px; margin-top: -25px; background: var(--card-bg); padding: 12px 25px; border-radius: 35px; box-shadow: 0 4px 25px rgba(0,0,0,0.1); flex-wrap: wrap; z-index: 100; }
+        nav button { background: transparent; border: none; padding: 12px 20px; border-radius: 25px; font-size: 14px; font-weight: 600; color: var(--text-muted); cursor: pointer; transition: all 0.3s ease; }
         nav button:hover, nav button.active { background: var(--primary); color: white; }
-        nav button.btn-esci { color: #e74c3c; }
+        nav button.btn-esci { color: #e74c3c; border: 1px solid transparent; }
         nav button.btn-esci:hover { background: #e74c3c; color: white; }
 
-        main { width: 90%; max-width: 800px; margin: 40px auto; }
-        .section { display: none; background: var(--card-bg); padding: 30px; border-radius: 16px; box-shadow: 0 8px 30px rgba(0,0,0,0.05); animation: fadeIn 0.4s ease; }
+        main { width: 95%; max-width: 900px; margin: 40px auto; }
+        .section { display: none; background: var(--card-bg); padding: 35px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.06); animation: fadeIn 0.4s ease; }
         .section.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        .badge-laureato { background: #e1f5fe; color: var(--primary); padding: 8px 20px; border-radius: 20px; font-weight: bold; margin-bottom: 20px; display: inline-block; border: 1px solid var(--primary); }
-        .avviso-invitati { background: #fff3cd; color: #856404; padding: 15px; border-radius: 8px; border-left: 4px solid #ffeeba; margin-top: 20px; font-size: 14px; }
+        .badge-laureato { background: #e1f5fe; color: var(--primary); padding: 10px 25px; border-radius: 25px; font-weight: bold; margin-bottom: 25px; display: inline-block; border: 1px solid var(--primary); }
 
-        .form-group { margin-bottom: 20px; }
+        /* Form */
+        .form-group { margin-bottom: 22px; }
         .form-group label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 14px; }
-        .form-group input[type="text"], .form-group textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; box-sizing: border-box; }
-        .form-group input:disabled { background-color: #f5f5f5; color: #aaa; cursor: not-allowed; }
+        .form-group input[type="text"], .form-group textarea { width: 100%; padding: 14px; border: 1px solid #ddd; border-radius: 10px; font-family: inherit; font-size: 15px; box-sizing: border-box; transition: 0.3s; }
+        .form-group input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(41, 128, 185, 0.1); }
+        .form-group input:disabled { background-color: #f9f9f9; color: #bbb; cursor: not-allowed; }
         
         .row-autore { display: flex; align-items: center; gap: 15px; }
-        .row-autore input[type="text"] { flex: 1; }
-        .row-autore .anonimo-check { display: flex; align-items: center; gap: 5px; font-size: 14px; color: var(--text-muted); cursor: pointer; white-space: nowrap; }
+        .row-autore input { flex: 1; }
+        .anonimo-check { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-muted); cursor: pointer; white-space: nowrap; }
 
-        button.btn-submit { background-color: var(--primary); color: white; border: none; padding: 14px 24px; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 600; width: 100%; margin-bottom: 10px; transition: 0.3s; }
-        button.btn-submit:hover { background: var(--primary-hover); transform: translateY(-2px); }
+        button.btn-submit { background-color: var(--primary); color: white; border: none; padding: 16px 28px; border-radius: 10px; cursor: pointer; font-size: 16px; font-weight: 600; width: 100%; margin-bottom: 12px; transition: 0.3s; box-shadow: 0 4px 12px rgba(41, 128, 185, 0.2); }
+        button.btn-submit:hover { background: var(--primary-hover); transform: translateY(-2px); box-shadow: 0 6px 15px rgba(41, 128, 185, 0.3); }
 
-        #crossword-container { margin-top: 20px; overflow-x: auto; text-align: center; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 8px; }
+        /* Cruciverba Originale (Sezione Gestione) */
+        #crossword-container { margin-top: 25px; overflow-x: auto; text-align: center; padding: 15px; background: #fff; border: 1px solid #eee; border-radius: 10px; }
         .cw-grid { border-collapse: collapse; margin: 0 auto; background: white; border: 2px solid #000; }
-        .cw-cell { width: 35px; height: 35px; background: white; border: 1px solid #000; text-align: center; vertical-align: middle; position: relative; font-weight: bold; text-transform: uppercase; font-family: monospace; font-size: 18px; }
-        .cw-empty { background: transparent; border: none; width: 35px; height: 35px; }
-        .cw-number { position: absolute; top: 1px; left: 2px; font-size: 10px; color: #000; line-height: 1; font-weight: normal; font-family: sans-serif; }
-        .cw-clues-container { display: flex; flex-wrap: wrap; gap: 20px; margin-top: 20px; text-align: left; font-size: 14px; }
-        .cw-clues-col { flex: 1; min-width: 200px; padding: 15px; background: #f9f9f9; border-radius: 8px; border-left: 4px solid var(--primary); }
+        .cw-cell { width: 34px; height: 34px; background: white; border: 1px solid #000; text-align: center; vertical-align: middle; position: relative; font-weight: bold; text-transform: uppercase; font-family: monospace; font-size: 18px; }
+        .cw-empty { background: transparent; border: none; width: 34px; height: 34px; }
+        .cw-number { position: absolute; top: 1px; left: 2px; font-size: 10px; color: #000; line-height: 1; font-weight: normal; }
 
-        .idea-card { background: #f9f9f9; border-left: 4px solid var(--primary); padding: 15px; border-radius: 8px; margin-bottom: 15px; position: relative; word-wrap: break-word; }
-        .btn-del { position: absolute; right: 10px; top: 10px; background: none; border: none; cursor: pointer; color: #e74c3c; font-weight: bold; font-size: 16px; }
-        .vote-btn { background: white; border: 1px solid #ddd; padding: 6px 12px; border-radius: 15px; cursor: pointer; font-weight: 600; color: var(--text-main); margin-top: 10px; display: inline-block; }
-        .vote-btn:hover { background: #eaf2f8; border-color: var(--primary); color: var(--primary); }
+        /* Anteprima Interattiva / Lavagna */
+        .toolbar-anteprima { display: flex; gap: 12px; margin-bottom: 20px; }
+        .btn-tool { padding: 10px 20px; border-radius: 10px; border: none; cursor: pointer; font-weight: bold; transition: 0.2s; }
+        .btn-tool:active { transform: scale(0.95); }
+        
+        .cartellone-wrapper { position: relative; width: 100%; background: white; border: 2px solid #333; margin: 0 auto; aspect-ratio: 70 / 100; overflow: hidden; font-family: 'Times New Roman', serif; box-sizing: border-box; background-image: radial-gradient(#ddd 1px, transparent 1px); background-size: 25px 25px; }
+        
+        /* Box Trascina e Ridimensiona */
+        .drag-box { position: absolute; background: white; border: 1px dashed #3498db; display: flex; flex-direction: column; resize: both; overflow: hidden; min-width: 60px; min-height: 40px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .drag-box:hover { border-style: solid; z-index: 500; }
+        .drag-handle { background: #f1f2f6; cursor: move; padding: 5px 10px; font-size: 11px; font-family: sans-serif; color: #2980b9; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e1e2e6; }
+        .drag-handle button { background: none; border: none; color: #ff4757; cursor: pointer; font-weight: bold; font-size: 14px; }
+        
+        .drag-content { padding: 10px; flex: 1; outline: none; box-sizing: border-box; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .zoom-fit { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; transform-origin: center; pointer-events: none; }
+        .drag-content[contenteditable="true"] .zoom-fit { pointer-events: auto; }
 
-        /* NUOVI STILI: LAVAGNA INTERATTIVA (DRAG & DROP) */
-        .cartellone-wrapper { position: relative; width: 100%; background: white; border: 2px solid #333; margin: 0 auto; box-shadow: 0 10px 30px rgba(0,0,0,0.15); aspect-ratio: 70 / 100; overflow: hidden; font-family: 'Times New Roman', serif; background-image: radial-gradient(#eee 1px, transparent 1px); background-size: 20px 20px; }
-        
-        .drag-box { position: absolute; background: white; border: 1px dashed #ccc; box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: flex; flex-direction: column; resize: both; overflow: auto; min-width: 100px; min-height: 50px; }
-        .drag-box:hover { border-color: var(--primary); z-index: 100; }
-        
-        .drag-handle { background: #f1f2f6; cursor: move; padding: 5px; font-size: 12px; font-family: sans-serif; color: #747d8c; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; user-select: none; }
-        .drag-handle button { background: none; border: none; color: #ff4757; cursor: pointer; font-weight: bold; font-size: 14px; padding: 0 5px; }
-        .drag-handle button:hover { transform: scale(1.2); }
-        
-        .drag-content { padding: 10px; flex: 1; overflow-y: auto; outline: none; }
-        .drag-content[contenteditable="true"]:focus { background: #fffde7; }
-        
-        /* Adattamento contenuti interni al drag-box */
-        .drag-content .cw-grid { width: max-content; margin: 0 auto; transform-origin: top left; }
-        .drag-content .cw-cell { width: 22px; height: 22px; font-size: 14px; }
-        .drag-content .cw-empty { width: 22px; height: 22px; }
-        .cart-titolo-txt { font-size: 2.5em; text-align: center; color: #c0392b; font-weight: bold; text-transform: uppercase; line-height: 1.1; margin: 0; }
-        .cart-papiro-txt { font-size: 14px; text-align: justify; }
-        .cart-caricatura-ph { width: 100%; height: 100%; min-height: 150px; border: 3px dashed #bdc3c7; display: flex; align-items: center; justify-content: center; color: #7f8c8d; background: #f9f9f9; text-align: center; box-sizing: border-box; }
+        /* Stili Stampa */
+        .stampa-mode .drag-handle, .stampa-mode .drag-box { border: none !important; box-shadow: none !important; background: transparent !important; }
+        .stampa-mode .drag-handle { display: none !important; }
+        .stampa-mode .drag-box { resize: none !important; }
+        .stampa-mode .cartellone-wrapper { background-image: none; border: 4px solid #000; }
+
+        .idea-card { background: #f9f9f9; border-left: 5px solid var(--primary); padding: 15px; border-radius: 10px; margin-bottom: 15px; position: relative; word-wrap: break-word; }
+        .btn-del-item { position: absolute; right: 12px; top: 12px; background: none; border: none; color: #e74c3c; cursor: pointer; font-weight: bold; font-size: 16px; }
     </style>
 </head>
 <body>
@@ -94,156 +95,136 @@
         <button class="tab-link" onclick="apriSezione('caricatura', this)">🎨 Caricatura</button>
         <button class="tab-link" onclick="apriSezione('papiro', this)">📜 Papiro</button>
         <button class="tab-link" onclick="apriSezione('regalo', this)">🎁 Regalo</button>
-        <button class="tab-link" style="background-color: #f1c40f; color: #333;" onclick="apriAnteprima(this)">🖼️ Anteprima Interattiva</button>
+        <button class="tab-link" style="background-color: #f1c40f; color: #2c3e50;" onclick="apriAnteprima(this)">🖼️ Lavagna Cartellone</button>
         <button class="tab-link btn-esci" onclick="esci()">🚪 Esci</button>
     </nav>
 
     <main>
         <div id="login-section" class="section active">
-            <h2>Gestione Evento</h2>
-            <p>Sei l'organizzatore? Inserisci il nome per creare l'area sicura e generare il link di invito.</p>
+            <h2>Crea o Accedi alla Festa</h2>
+            <p>Se sei l'organizzatore, inserisci il nome per generare il link segreto da mandare agli amici.</p>
             <div class="form-group">
-                <input type="text" id="input-laureato" placeholder="Nome (es: Lisa Rossi)">
+                <input type="text" id="input-laureato" placeholder="Esempio: Lisa Rossi">
             </div>
             <button class="btn-submit" onclick="creaNuovaArea()">Crea Area Sicura & Genera Link</button>
             <div class="avviso-invitati">
-                <b>Sei un invitato?</b><br>
-                Non puoi entrare da qui. Clicca direttamente sul link di invito che ti è stato inviato!
+                <b>Sei un invitato?</b> Clicca sul link ricevuto su WhatsApp per entrare direttamente.
             </div>
         </div>
 
         <div id="home" class="section">
             <div id="display-laureato" class="badge-laureato"></div>
-            <h2>Pronti per la festa? 🎉</h2>
-            <p>Copia questo link segreto e invialo agli amici su WhatsApp:</p>
+            <h3>Link da Condividere 🔗</h3>
+            <p>Invia questo link al gruppo WhatsApp degli amici:</p>
             <div class="form-group">
-                <input type="text" id="share-link" readonly onclick="this.select(); document.execCommand('copy'); alert('Link copiato negli appunti!');">
+                <input type="text" id="share-link" readonly onclick="this.select(); document.execCommand('copy'); alert('Link copiato!');">
             </div>
         </div>
 
         <div id="cruciverba" class="section">
             <h2>🧩 Cruciverba</h2>
             <div class="form-group row-autore">
-                <input type="text" id="cruci-autore" placeholder="Il tuo nome">
-                <label class="anonimo-check"><input type="checkbox" onchange="toggleAnonimo('cruci-autore', this)"> Invia in anonimo</label>
+                <input type="text" id="cruci-autore" placeholder="Tuo Nome">
+                <label class="anonimo-check"><input type="checkbox" onchange="toggleAnonimo('cruci-autore', this)"> Anonimo</label>
             </div>
-            <div class="form-group"><input type="text" id="cruci-parola" placeholder="Parola (es. SPRITZ)"></div>
-            <div class="form-group"><textarea id="cruci-def" rows="2" placeholder="Definizione (es. Lo beve sempre il venerdì)"></textarea></div>
+            <div class="form-group"><input type="text" id="cruci-parola" placeholder="Parola (es: SPRITZ)"></div>
+            <div class="form-group"><textarea id="cruci-def" rows="2" placeholder="Definizione..."></textarea></div>
             <button class="btn-submit" onclick="aggiungi('cruciverba')">Salva nel Database</button>
-            <button class="btn-submit" style="background:#2c3e50" onclick="generaCruciverbaMagico()">🎲 Crea Griglia da Stampare</button>
-            <div id="crossword-wrapper" style="display: none; margin-top:30px;"><div id="crossword-container"></div><div id="crossword-clues" class="cw-clues-container"></div></div>
-            <div class="lista-idee"><h3>Parole attuali:</h3><div id="lista-cruciverba"></div></div>
+            <button class="btn-submit" style="background:#2c3e50" onclick="generaCruciverbaMagico()">🎲 Genera Griglia per Cartellone</button>
+            
+            <div id="crossword-wrapper" style="display: none; margin-top:25px;">
+                <div id="crossword-container"></div>
+                <div id="crossword-clues" class="cw-clues-container"></div>
+            </div>
+            <div class="lista-idee"><h3>Parole caricate:</h3><div id="lista-cruciverba"></div></div>
         </div>
 
         <div id="caricatura" class="section">
             <h2>🎨 Caricatura</h2>
             <div class="form-group row-autore">
-                <input type="text" id="cari-autore" placeholder="Il tuo nome">
-                <label class="anonimo-check"><input type="checkbox" onchange="toggleAnonimo('cari-autore', this)"> Invia in anonimo</label>
+                <input type="text" id="cari-autore" placeholder="Tuo Nome">
+                <label class="anonimo-check"><input type="checkbox" onchange="toggleAnonimo('cari-autore', this)"> Anonimo</label>
             </div>
-            <div class="form-group"><textarea id="cari-idea" rows="3" placeholder="Descrivi la tua idea per il disegno..."></textarea></div>
+            <div class="form-group"><textarea id="cari-idea" rows="3" placeholder="Proponi un'idea per il disegno..."></textarea></div>
             <button class="btn-submit" onclick="aggiungi('caricatura')">Invia Proposta</button>
-            <div class="lista-idee"><h3>Idee raccolte:</h3><div id="lista-caricatura"></div></div>
+            <div id="lista-caricatura"></div>
         </div>
 
         <div id="papiro" class="section">
             <h2>📜 Papiro</h2>
             <div class="form-group row-autore">
-                <input type="text" id="papiro-autore" placeholder="Il tuo nome">
-                <label class="anonimo-check"><input type="checkbox" onchange="toggleAnonimo('papiro-autore', this)"> Invia in anonimo</label>
+                <input type="text" id="papiro-autore" placeholder="Tuo Nome">
+                <label class="anonimo-check"><input type="checkbox" onchange="toggleAnonimo('papiro-autore', this)"> Anonimo</label>
             </div>
-            <div class="form-group"><textarea id="papiro-aneddoto" rows="3" placeholder="Scrivi un aneddoto, una figuraccia o una rima..."></textarea></div>
+            <div class="form-group"><textarea id="papiro-aneddoto" rows="3" placeholder="Scrivi una rima o un aneddoto imbarazzante..."></textarea></div>
             <button class="btn-submit" onclick="aggiungi('papiro')">Aggiungi al Papiro</button>
-            <div class="lista-idee"><h3>Aneddoti raccolti:</h3><div id="lista-papiro"></div></div>
+            <div id="lista-papiro"></div>
         </div>
 
         <div id="regalo" class="section">
             <h2>🎁 Regalo</h2>
             <div class="form-group row-autore">
-                <input type="text" id="reg-autore" placeholder="Il tuo nome">
-                <label class="anonimo-check"><input type="checkbox" onchange="toggleAnonimo('reg-autore', this)"> Invia in anonimo</label>
+                <input type="text" id="reg-autore" placeholder="Tuo Nome">
+                <label class="anonimo-check"><input type="checkbox" onchange="toggleAnonimo('reg-autore', this)"> Anonimo</label>
             </div>
-            <div class="form-group"><textarea id="reg-idea" rows="2" placeholder="Cosa regaliamo? Proponi qualcosa..."></textarea></div>
-            <button class="btn-submit" onclick="aggiungi('regalo')">Proponi Regalo</button>
-            <div class="lista-idee"><h3>Proposte Regalo:</h3><div id="lista-regalo"></div></div>
+            <div class="form-group"><textarea id="reg-idea" rows="2" placeholder="Cosa regaliamo?"></textarea></div>
+            <button class="btn-submit" onclick="aggiungi('regalo')">Invia Idea Regalo</button>
+            <div id="lista-regalo"></div>
         </div>
 
         <div id="anteprima" class="section">
-            <h2>🖼️ Anteprima Interattiva 70x100</h2>
-            <p>Sposta i riquadri trascinando la barra grigia. Allargali usando l'angolo in basso a destra. Clicca sui testi per modificarli. Se qualcosa non ti serve, eliminalo con la X!</p>
+            <div class="toolbar-anteprima">
+                <button class="btn-tool" style="background:#2ecc71; color:white" onclick="aggiornaDatiAnteprima()">🔄 Aggiorna Dati</button>
+                <button class="btn-tool" style="background:#3498db; color:white" onclick="toggleStampa()">👁️ Preview Stampa (ON/OFF)</button>
+            </div>
             <div class="cartellone-wrapper" id="cartellone-lavagna">
                 </div>
         </div>
     </main>
 
     <script>
+        // --- CONFIGURAZIONE SUPABASE ---
         const SUPABASE_URL = 'https://dfjvdenqbokvtmsqyjsh.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRmanZkZW5xYm9rdnRtc3F5anNoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI2MTM1MzAsImV4cCI6MjA4ODE4OTUzMH0.kOvBhb3bnJT562q8nOGJFwgf7Lf28soDV0yIhyF0BCI';
-        
-        let clientSupabase;
-        try { clientSupabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY); } catch(e) {}
+        const clientSupabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         let idEventoSegreto = ""; 
-        let nomeVisuale = "";
         let dati = { cruciverba: [], caricatura: [], papiro: [], regalo: [] };
 
+        // --- AVVIO E GESTIONE URL ---
         window.onload = function() {
-            try {
-                const params = new URLSearchParams(window.location.search);
-                const idInvitato = params.get('id'); 
-                if (idInvitato) {
-                    idEventoSegreto = idInvitato;
-                    avviaApp(); 
-                }
-            } catch(e) {}
+            const params = new URLSearchParams(window.location.search);
+            const idUrl = params.get('id');
+            if (idUrl) {
+                idEventoSegreto = idUrl;
+                avviaApp();
+            }
         };
 
         window.toggleAnonimo = function(inputId, checkbox) {
-            let inputField = document.getElementById(inputId);
-            inputField.disabled = checkbox.checked;
-            if(checkbox.checked) inputField.value = ''; 
+            let field = document.getElementById(inputId);
+            field.disabled = checkbox.checked;
+            if(checkbox.checked) field.value = "";
         };
 
         window.creaNuovaArea = function() {
-            const nomePulito = document.getElementById('input-laureato').value.trim().toLowerCase().replace(/\s+/g, '');
-            if(!nomePulito) return alert("Per favore, inserisci il nome del laureato!");
-            
-            const codiceSegreto = Math.random().toString(36).substring(2, 7); 
-            idEventoSegreto = `${nomePulito}-${codiceSegreto}`;
-            
-            try { window.history.pushState({}, '', `?id=${idEventoSegreto}`); } catch(err) {}
+            const nome = document.getElementById('input-laureato').value.trim().toLowerCase().replace(/\s+/g, '');
+            if(!nome) return alert("Inserisci il nome!");
+            const rnd = Math.random().toString(36).substring(2, 7);
+            idEventoSegreto = `${nome}-${rnd}`;
+            window.history.pushState({}, '', `?id=${idEventoSegreto}`);
             avviaApp();
-        };
-
-        window.esci = function() {
-            if(!confirm("Vuoi uscire dall'area di questo evento?")) return;
-            idEventoSegreto = "";
-            try { window.history.pushState({}, '', window.location.pathname); } catch(err) {}
-            
-            document.getElementById('main-nav').style.display = 'none';
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.getElementById('login-section').style.display = 'block';
-            document.getElementById('login-section').classList.add('active');
-            document.getElementById('input-laureato').value = '';
         };
 
         window.avviaApp = function() {
             document.getElementById('login-section').style.display = 'none';
             document.getElementById('main-nav').style.display = 'flex';
+            apriSezione('home', document.querySelector('.tab-link'));
             
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.tab-link').forEach(b => b.classList.remove('active'));
-            document.querySelector('.tab-link').classList.add('active'); 
-            document.getElementById('home').classList.add('active');
-            
-            let nomeRaw = idEventoSegreto.split('-')[0];
-            nomeVisuale = nomeRaw.charAt(0).toUpperCase() + nomeRaw.slice(1);
-            
-            document.getElementById('display-laureato').innerText = `🎓 Area dedicata a: ${nomeVisuale}`;
-            
-            let base_url = window.location.href.split('?')[0];
-            document.getElementById('share-link').value = `${base_url}?id=${idEventoSegreto}`;
-            caricaDati();
+            let nomePuro = idEventoSegreto.split('-')[0].toUpperCase();
+            document.getElementById('display-laureato').innerText = `FESTA DI: ${nomePuro}`;
+            document.getElementById('share-link').value = window.location.href;
+            caricaTuttiIDati();
         };
 
         window.apriSezione = function(id, el) {
@@ -253,297 +234,239 @@
             el.classList.add('active');
         };
 
-        // --- MOTORE LAVAGNA INTERATTIVA ---
-        window.apriAnteprima = function(el) {
-            apriSezione('anteprima', el);
-            
-            let lavagna = document.getElementById('cartellone-lavagna');
-            lavagna.innerHTML = ''; // Svuota la lavagna
-            
-            // 1. Box Titolo
-            lavagna.innerHTML += `
-                <div class="drag-box" style="top: 2%; left: 5%; width: 90%; height: auto;">
-                    <div class="drag-handle">✋ Sposta Titolo <button onclick="this.parentElement.parentElement.remove()">❌</button></div>
-                    <div class="drag-content cart-titolo-txt" contenteditable="true">LAUREA DI ${nomeVisuale.toUpperCase()}</div>
-                </div>`;
-            
-            // 2. Box Caricatura (Spazio Vuoto)
-            lavagna.innerHTML += `
-                <div class="drag-box" style="top: 15%; left: 5%; width: 40%; height: 35%;">
-                    <div class="drag-handle">✋ Sposta Caricatura <button onclick="this.parentElement.parentElement.remove()">❌</button></div>
-                    <div class="drag-content"><div class="cart-caricatura-ph">📸<br>Spazio Caricatura</div></div>
-                </div>`;
-
-            // 3. Box Papiro
-            let testiPapiro = dati.papiro.map(p => `<p>"${p.aneddoto}" <br><small><b>- ${p.autore}</b></small></p>`).join('');
-            if(!testiPapiro) testiPapiro = "<p>Nessun aneddoto ancora inserito.</p>";
-            lavagna.innerHTML += `
-                <div class="drag-box" style="top: 15%; left: 50%; width: 45%; height: 80%;">
-                    <div class="drag-handle">✋ Sposta Papiro <button onclick="this.parentElement.parentElement.remove()">❌</button></div>
-                    <div class="drag-content cart-papiro-txt" contenteditable="true"><h3 style="margin-top:0">IL PAPIRO</h3>${testiPapiro}</div>
-                </div>`;
-
-            // 4. Box Cruciverba Griglia
-            let gridHtml = document.querySelector('#crossword-container .cw-grid') ? document.querySelector('#crossword-container .cw-grid').outerHTML : "<i>Genera prima il cruciverba nella sezione apposita!</i>";
-            lavagna.innerHTML += `
-                <div class="drag-box" style="top: 55%; left: 5%; width: 40%; height: auto;">
-                    <div class="drag-handle">✋ Sposta Griglia <button onclick="this.parentElement.parentElement.remove()">❌</button></div>
-                    <div class="drag-content">${gridHtml}</div>
-                </div>`;
-
-            // 5. Box Definizioni Cruciverba
-            let defsHtml = document.getElementById('crossword-clues') ? document.getElementById('crossword-clues').innerHTML : "";
-            if(defsHtml) {
-                lavagna.innerHTML += `
-                    <div class="drag-box" style="top: 80%; left: 5%; width: 90%; height: 18%;">
-                        <div class="drag-handle">✋ Sposta Definizioni <button onclick="this.parentElement.parentElement.remove()">❌</button></div>
-                        <div class="drag-content" style="display:flex; gap:20px; font-size:12px;" contenteditable="true">${defsHtml}</div>
-                    </div>`;
-            }
-
-            attivaDragAndDrop();
+        window.esci = function() {
+            if(confirm("Vuoi uscire?")) window.location.href = window.location.pathname;
         };
 
-        // Funzione JS per far muovere i box
-        function attivaDragAndDrop() {
-            document.querySelectorAll('.drag-box').forEach(box => {
-                const handle = box.querySelector('.drag-handle');
-                if(!handle) return;
-                
-                let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-                
-                handle.onmousedown = function(e) {
-                    if(e.target.tagName === 'BUTTON') return; // Ignora se clicchi la X
-                    e.preventDefault();
-                    pos3 = e.clientX;
-                    pos4 = e.clientY;
-                    document.onmouseup = closeDragElement;
-                    document.onmousemove = elementDrag;
-                };
-
-                // Supporto per i telefoni (Touch)
-                handle.ontouchstart = function(e) {
-                    if(e.target.tagName === 'BUTTON') return;
-                    let touch = e.touches[0];
-                    pos3 = touch.clientX;
-                    pos4 = touch.clientY;
-                    document.ontouchend = closeDragElement;
-                    document.ontouchmove = elementDragTouch;
-                };
-
-                function elementDrag(e) {
-                    e.preventDefault();
-                    calcolaSpostamento(e.clientX, e.clientY);
-                }
-                
-                function elementDragTouch(e) {
-                    let touch = e.touches[0];
-                    calcolaSpostamento(touch.clientX, touch.clientY);
-                }
-
-                function calcolaSpostamento(clientX, clientY) {
-                    pos1 = pos3 - clientX;
-                    pos2 = pos4 - clientY;
-                    pos3 = clientX;
-                    pos4 = clientY;
-                    
-                    // Calcolo confini (per non farli sparire fuori dal cartellone)
-                    let parent = box.parentElement;
-                    let newTop = box.offsetTop - pos2;
-                    let newLeft = box.offsetLeft - pos1;
-                    
-                    if(newTop < 0) newTop = 0;
-                    if(newLeft < 0) newLeft = 0;
-                    if(newLeft + box.offsetWidth > parent.offsetWidth) newLeft = parent.offsetWidth - box.offsetWidth;
-                    if(newTop + box.offsetHeight > parent.offsetHeight) newTop = parent.offsetHeight - box.offsetHeight;
-
-                    box.style.top = newTop + "px";
-                    box.style.left = newLeft + "px";
-                }
-
-                function closeDragElement() {
-                    document.onmouseup = null;
-                    document.onmousemove = null;
-                    document.ontouchend = null;
-                    document.ontouchmove = null;
-                }
-            });
-        }
-
-        window.caricaDati = async function() {
-            if (!clientSupabase) return; 
-            try {
-                for (let t of ['cruciverba', 'caricatura', 'papiro', 'regalo']) {
-                    const { data, error } = await clientSupabase.from(t).select('*').eq('laureato_tag', idEventoSegreto).order('created_at', {ascending: false});
-                    if (error) throw error;
-                    if (t === 'regalo' && data) data.sort((a, b) => b.voti - a.voti);
+        // --- DATABASE ---
+        async function caricaTuttiIDati() {
+            if(!idEventoSegreto) return;
+            for (let t of ['cruciverba', 'caricatura', 'papiro', 'regalo']) {
+                const { data, error } = await clientSupabase.from(t).select('*').eq('laureato_tag', idEventoSegreto).order('created_at', {ascending: false});
+                if(!error) {
                     dati[t] = data || [];
                     aggiornaUI(t);
                 }
-            } catch (err) {}
-        };
-
-        window.aggiungi = async function(tipo) {
-            if (!clientSupabase) return alert("Database non connesso.");
-            let autoreId = ''; let testoId = '';
-            if (tipo === 'cruciverba') { autoreId = 'cruci-autore'; testoId = 'cruci-def'; }
-            if (tipo === 'caricatura') { autoreId = 'cari-autore'; testoId = 'cari-idea'; }
-            if (tipo === 'papiro') { autoreId = 'papiro-autore'; testoId = 'papiro-aneddoto'; }
-            if (tipo === 'regalo') { autoreId = 'reg-autore'; testoId = 'reg-idea'; }
-
-            let autoreInput = document.getElementById(autoreId);
-            let autore = autoreInput.disabled ? "Anonimo" : (autoreInput.value.trim() || "Anonimo");
-            
-            let campoTesto = document.getElementById(testoId).value.trim();
-            let obj = { autore: autore, laureato_tag: idEventoSegreto };
-
-            if (tipo === 'cruciverba') {
-                let parola = document.getElementById('cruci-parola').value.toUpperCase().replace(/[^A-Z]/g, '');
-                if (!parola || !campoTesto) return alert("Compila parola e definizione!");
-                obj.parola = parola; obj.definizione = campoTesto;
-            } else if (tipo === 'caricatura') {
-                if(!campoTesto) return alert("Scrivi l'idea!"); obj.idea_dettagliata = campoTesto;
-            } else if (tipo === 'papiro') {
-                if(!campoTesto) return alert("Scrivi l'aneddoto!"); obj.aneddoto = campoTesto;
-            } else if (tipo === 'regalo') {
-                if(!campoTesto) return alert("Scrivi la proposta!"); obj.proposta_regalo = campoTesto; obj.voti = 0;
             }
+        }
 
-            const { error } = await clientSupabase.from(tipo).insert([obj]);
-            if(error) alert("Errore: " + error.message);
-            else {
-                document.getElementById(testoId).value = ''; 
-                if(!autoreInput.disabled) autoreInput.value = ''; 
-                if(tipo === 'cruciverba') document.getElementById('cruci-parola').value = '';
-                caricaDati();
-            }
-        };
-
-        window.elimina = async function(tipo, id) {
-            if(confirm("Sei sicuro?")) { await clientSupabase.from(tipo).delete().eq('id', id); caricaDati(); }
-        };
-
-        window.votaRegalo = async function(id) {
-            let item = dati.regalo.find(r => r.id === id);
-            if(item) { await clientSupabase.from('regalo').update({ voti: item.voti + 1 }).eq('id', id); caricaDati(); }
-        };
-
-        window.aggiornaUI = function(tipo) {
+        function aggiornaUI(tipo) {
             const container = document.getElementById(`lista-${tipo}`);
+            if(!container) return;
             container.innerHTML = dati[tipo].length ? '' : '<i>Nessun contributo.</i>';
             dati[tipo].forEach(item => {
-                let txt = '';
-                if (tipo === 'cruciverba') txt = `<b>${item.parola}</b>: ${item.definizione}`;
-                if (tipo === 'caricatura') txt = item.idea_dettagliata;
-                if (tipo === 'papiro') txt = item.aneddoto;
-                if (tipo === 'regalo') txt = item.proposta_regalo;
-
-                let extraBtn = (tipo === 'regalo') ? `<br><button class="vote-btn" onclick="votaRegalo(${item.id})">👍 Vota (${item.voti || 0})</button>` : '';
-                container.innerHTML += `<div class="idea-card"><button class="btn-del" title="Elimina" onclick="elimina('${tipo}', ${item.id})">🗑️</button><b>${item.autore}</b> ha scritto:<br>${txt}${extraBtn}</div>`;
+                let txt = tipo === 'cruciverba' ? `<b>${item.parola}</b>: ${item.definizione}` : (item.aneddoto || item.idea_dettagliata || item.proposta_regalo);
+                container.innerHTML += `
+                    <div class="idea-card">
+                        <button class="btn-del-item" onclick="eliminaDato('${tipo}', ${item.id})">🗑️</button>
+                        <b>${item.autore}</b> ha scritto:<br>${txt}
+                    </div>`;
             });
+        }
+
+        window.aggiungi = async function(tipo) {
+            let pref = tipo.substring(0,3);
+            let autoreFld = document.getElementById(`${pref}-autore`);
+            let autore = autoreFld.disabled ? "Anonimo" : (autoreFld.value.trim() || "Anonimo");
+            
+            let testoId = tipo === 'cruciverba' ? 'cruci-def' : (tipo === 'caricatura' ? 'cari-idea' : (tipo === 'papiro' ? 'papiro-aneddoto' : 'reg-idea'));
+            let testo = document.getElementById(testoId).value.trim();
+            if(!testo) return alert("Scrivi qualcosa!");
+
+            let obj = { autore: autore, laureato_tag: idEventoSegreto };
+            if(tipo === 'cruciverba') {
+                let p = document.getElementById('cruci-parola').value.trim().toUpperCase().replace(/[^A-Z]/g, '');
+                if(!p) return alert("Metti la parola!");
+                obj.parola = p; obj.definizione = testo;
+            } else if(tipo === 'caricatura') obj.idea_dettagliata = testo;
+            else if(tipo === 'papiro') obj.aneddoto = testo;
+            else obj.proposta_regalo = testo;
+
+            const { error } = await clientSupabase.from(tipo).insert([obj]);
+            if(error) alert(error.message);
+            else {
+                document.getElementById(testoId).value = "";
+                if(tipo==='cruciverba') document.getElementById('cruci-parola').value = "";
+                caricaTuttiIDati();
+            }
         };
 
+        window.eliminaDato = async function(t, id) {
+            if(confirm("Eliminare definitivamente?")) {
+                await clientSupabase.from(t).delete().eq('id', id);
+                caricaTuttiIDati();
+            }
+        };
+
+        // --- ALGORITMO CRUCIVERBA AVANZATO ---
         window.generaCruciverbaMagico = function() {
             if(dati.cruciverba.length < 2) return alert("Inserisci almeno 2 parole!");
             document.getElementById('crossword-wrapper').style.display = 'block';
             let words = [...dati.cruciverba].sort((a,b) => b.parola.length - a.parola.length);
-            const SIZE = 60; let grid = Array(SIZE).fill(null).map(() => Array(SIZE).fill(null));
-            let placedWords = [];
+            
+            const SIZE = 60; 
+            let grid = Array(SIZE).fill(null).map(() => Array(SIZE).fill(null));
+            let placed = [];
 
-            function placeWord(w, r, c, dir) {
-                for(let i=0; i<w.parola.length; i++) { if (dir==='H') grid[r][c+i] = w.parola[i]; else grid[r+i][c] = w.parola[i]; }
-                placedWords.push({ ...w, r: r, c: c, dir: dir });
-            }
-
-            function canPlace(p, r, c, dir) {
-                if (dir==='H' && c+p.length > SIZE) return false;
-                if (dir==='V' && r+p.length > SIZE) return false;
-                if (r<0 || c<0) return false;
-                let inter = 0;
-                for (let i=0; i<p.length; i++) {
-                    let cR = dir==='H' ? r : r+i; let cC = dir==='H' ? c+i : c;
-                    if (grid[cR][cC] === p[i]) { inter++; continue; }
-                    if (grid[cR][cC] !== null) return false; 
-                    if (dir==='H') {
-                        if (cR>0 && grid[cR-1][cC] !== null) return false;
-                        if (cR<SIZE-1 && grid[cR+1][cC] !== null) return false;
+            function canPlace(w, r, c, dir) {
+                if(dir==='H' && c+w.length > SIZE) return false;
+                if(dir==='V' && r+w.length > SIZE) return false;
+                let inters = 0;
+                for(let i=0; i<w.length; i++) {
+                    let curR = dir==='H' ? r : r+i;
+                    let curC = dir==='H' ? c+i : c;
+                    if(grid[curR][curC] === w[i]) { inters++; continue; }
+                    if(grid[curR][curC] !== null) return false;
+                    // Check vicini per non incollare parole
+                    if(dir==='H') {
+                        if(curR > 0 && grid[curR-1][curC]) return false;
+                        if(curR < SIZE-1 && grid[curR+1][curC]) return false;
                     } else {
-                        if (cC>0 && grid[cR][cC-1] !== null) return false;
-                        if (cC<SIZE-1 && grid[cR][cC+1] !== null) return false;
+                        if(curC > 0 && grid[curR][curC-1]) return false;
+                        if(curC < SIZE-1 && grid[curR][curC+1]) return false;
                     }
                 }
-                if (dir==='H') {
-                    if (c>0 && grid[r][c-1] !== null) return false;
-                    if (c+p.length < SIZE && grid[r][c+p.length] !== null) return false;
-                } else {
-                    if (r>0 && grid[r-1][c] !== null) return false;
-                    if (r+p.length < SIZE && grid[r+p.length][c] !== null) return false;
-                }
-                return inter > 0 || placedWords.length === 0;
+                return inters > 0 || placed.length === 0;
             }
 
-            let firstWord = words.shift();
-            placeWord(firstWord, 30, 30 - Math.floor(firstWord.parola.length / 2), 'H');
+            // Piazza la prima
+            let first = words.shift();
+            for(let i=0; i<first.parola.length; i++) grid[30][25+i] = first.parola[i];
+            placed.push({ ...first, r:30, c:25, dir:'H' });
 
+            // Tenta di incrociare le altre
             words.forEach(wordObj => {
-                let placed = false;
-                for (let p of placedWords) {
-                    if (placed) break;
-                    for (let i=0; i<p.parola.length; i++) {
-                        for (let j=0; j<wordObj.parola.length; j++) {
-                            if (p.parola[i] === wordObj.parola[j]) {
+                let success = false;
+                for(let p of placed) {
+                    if(success) break;
+                    for(let i=0; i<p.parola.length; i++) {
+                        for(let j=0; j<wordObj.parola.length; j++) {
+                            if(p.parola[i] === wordObj.parola[j]) {
                                 let nR = p.dir==='H' ? p.r-j : p.r+i;
                                 let nC = p.dir==='H' ? p.c+i : p.c-j;
-                                let nDir = p.dir==='H' ? 'V' : 'H';
-                                if (canPlace(wordObj.parola, nR, nC, nDir)) { placeWord(wordObj, nR, nC, nDir); placed = true; break; }
+                                let nD = p.dir==='H' ? 'V' : 'H';
+                                if(canPlace(wordObj.parola, nR, nC, nD)) {
+                                    for(let k=0; k<wordObj.parola.length; k++) {
+                                        if(nD==='H') grid[nR][nC+k] = wordObj.parola[k];
+                                        else grid[nR+k][nC] = wordObj.parola[k];
+                                    }
+                                    placed.push({ ...wordObj, r:nR, c:nC, dir:nD });
+                                    success = true; break;
+                                }
                             }
                         }
-                        if (placed) break;
+                        if(success) break;
                     }
                 }
             });
 
-            let minR = SIZE, maxR = 0, minC = SIZE, maxC = 0;
-            for (let r=0; r<SIZE; r++) {
-                for (let c=0; c<SIZE; c++) {
-                    if (grid[r][c] !== null) {
-                        minR = Math.min(minR, r); maxR = Math.max(maxR, r);
-                        minC = Math.min(minC, c); maxC = Math.max(maxC, c);
+            // Crop della griglia e render HTML
+            let minR=SIZE, maxR=0, minC=SIZE, maxC=0;
+            grid.forEach((row, r) => row.forEach((cell, c) => {
+                if(cell) { minR=Math.min(minR,r); maxR=Math.max(maxR,r); minC=Math.min(minC,c); maxC=Math.max(maxC,c); }
+            }));
+            
+            let table = '<table class="cw-grid">';
+            let counter = 1; let oriz=[]; let vert=[];
+            for(let r=minR-1; r<=maxR+1; r++) {
+                table += '<tr>';
+                for(let c=minC-1; c<=maxC+1; c++) {
+                    if(!grid[r][c]) table += '<td class="cw-empty"></td>';
+                    else {
+                        let start = placed.filter(p => p.r===r && p.c===c);
+                        let numHtml = '';
+                        if(start.length) {
+                            numHtml = `<span class="cw-number">${counter}</span>`;
+                            start.forEach(s => { 
+                                let d = `<b>${counter}.</b> ${s.definizione}`;
+                                if(s.dir==='H') oriz.push(d); else vert.push(d);
+                            });
+                            counter++;
+                        }
+                        table += `<td class="cw-cell">${numHtml}</td>`;
                     }
                 }
+                table += '</tr>';
             }
-            minR = Math.max(0, minR-1); maxR = Math.min(SIZE-1, maxR+1);
-            minC = Math.max(0, minC-1); maxC = Math.min(SIZE-1, maxC+1);
+            document.getElementById('crossword-container').innerHTML = table + '</table>';
+            document.getElementById('crossword-clues').innerHTML = `
+                <div class="cw-clues-col"><h4>ORIZZONTALI</h4>${oriz.join('<br>')}</div>
+                <div class="cw-clues-col"><h4>VERTICALI</h4>${vert.join('<br>')}</div>`;
+        };
 
-            let htmlTable = '<table class="cw-grid">';
-            let numCounter = 1; let orizz = []; let verti = [];
+        // --- LAVAGNA INTERATTIVA 70x100 ---
+        window.apriAnteprima = function(el) {
+            apriSezione('anteprima', el);
+            aggiornaDatiAnteprima();
+        };
 
-            for (let r = minR; r <= maxR; r++) {
-                htmlTable += '<tr>';
-                for (let c = minC; c <= maxC; c++) {
-                    if (grid[r][c] === null) {
-                        htmlTable += '<td class="cw-empty"></td>';
-                    } else {
-                        let startsHere = placedWords.filter(p => p.r === r && p.c === c);
-                        if (startsHere.length > 0) {
-                            htmlTable += `<td class="cw-cell"><span class="cw-number">${numCounter}</span></td>`;
-                            startsHere.forEach(w => {
-                                let dHtml = `<b>${numCounter}.</b> ${w.definizione}`;
-                                if (w.dir === 'H') orizz.push(dHtml); else verti.push(dHtml);
-                            });
-                            numCounter++;
-                        } else {
-                            htmlTable += `<td class="cw-cell"></td>`;
+        window.aggiornaDatiAnteprima = async function() {
+            await caricaTuttiIDati();
+            const lavagna = document.getElementById('cartellone-lavagna');
+            lavagna.innerHTML = ""; // Reset
+            
+            // 1. Titolo
+            creaBox("TITOLO", `<div class="cart-titolo-txt" contenteditable="true">CONGRATULAZIONI DOTTORESSA ${idEventoSegreto.split('-')[0].toUpperCase()}</div>`, 2, 5, 90, 12);
+            // 2. Caricatura
+            creaBox("CARICATURA", `<div class="cart-caricatura-ph">📸 SPAZIO CARICATURA</div>`, 18, 5, 40, 35);
+            // 3. Papiro
+            let papiroTxt = dati.papiro.map(p => `"${p.aneddoto}"\n(${p.autore})`).join('\n\n');
+            creaBox("PAPIRO", `<div class="cart-papiro-txt" contenteditable="true">${papiroTxt || 'Scrivete qui gli aneddoti...'}</div>`, 18, 50, 45, 75);
+            // 4. Cruciverba
+            let gridHtml = document.querySelector('#crossword-container .cw-grid') ? document.querySelector('#crossword-container .cw-grid').outerHTML : "Genera il cruciverba prima!";
+            creaBox("CRUCIVERBA", gridHtml, 55, 5, 40, 30);
+            // 5. Definizioni
+            let defsHtml = document.getElementById('crossword-clues').innerHTML;
+            if(defsHtml) creaBox("DEFINIZIONI", `<div style="display:flex; gap:15px; text-align:left; font-size:11px;">${defsHtml}</div>`, 87, 5, 90, 10);
+
+            attivaFunzioniLavagna();
+        };
+
+        function creaBox(label, content, top, left, w, h) {
+            const box = document.createElement('div');
+            box.className = 'drag-box';
+            box.style.cssText = `top:${top}%; left:${left}%; width:${w}%; height:${h}%;`;
+            box.innerHTML = `
+                <div class="drag-handle"><span>${label}</span><button onclick="this.parentElement.parentElement.remove()">❌</button></div>
+                <div class="drag-content"><div class="zoom-fit">${content}</div></div>
+            `;
+            document.getElementById('cartellone-lavagna').appendChild(box);
+        }
+
+        window.toggleStampa = function() {
+            document.getElementById('anteprima').classList.toggle('stampa-mode');
+        };
+
+        function attivaFunzioniLavagna() {
+            document.querySelectorAll('.drag-box').forEach(box => {
+                const handle = box.querySelector('.drag-handle');
+                
+                // DRAG & DROP
+                handle.onmousedown = (e) => {
+                    if(e.target.tagName === 'BUTTON') return;
+                    let offX = e.clientX - box.offsetLeft;
+                    let offY = e.clientY - box.offsetTop;
+                    document.onmousemove = (ev) => {
+                        box.style.left = (ev.clientX - offX) + 'px';
+                        box.style.top = (ev.clientY - offY) + 'px';
+                    };
+                    document.onmouseup = () => document.onmousemove = null;
+                };
+
+                // ZOOM AUTOMATICO DEL CONTENUTO
+                const observer = new ResizeObserver(entries => {
+                    for (let entry of entries) {
+                        const content = box.querySelector('.zoom-fit');
+                        const inner = content.firstChild;
+                        if(inner && inner.offsetWidth > 0) {
+                            const scale = Math.min(entry.contentRect.width / (inner.offsetWidth + 20), entry.contentRect.height / (inner.offsetHeight + 20));
+                            content.style.transform = `scale(${scale})`;
                         }
                     }
-                }
-                htmlTable += '</tr>';
-            }
-            htmlTable += '</table>';
-
-            document.getElementById('crossword-container').innerHTML = htmlTable;
-            document.getElementById('crossword-clues').innerHTML = `<div class="cw-clues-col"><h4>➡️ ORIZZONTALI</h4>${orizz.join('<br><br>')}</div><div class="cw-clues-col"><h4>⬇️ VERTICALI</h4>${verti.join('<br><br>')}</div>`;
-        };
+                });
+                observer.observe(box);
+            });
+        }
     </script>
 </body>
 </html>
