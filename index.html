@@ -49,13 +49,21 @@
         button.btn-submit { background-color: var(--primary); color: white; border: none; padding: 14px 24px; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 600; width: 100%; margin-bottom: 10px; transition: 0.3s; }
         button.btn-submit:hover { background: var(--primary-hover); transform: translateY(-2px); }
 
-        /* UPSELL BANNER (Caricatura Premium) */
-        .upsell-banner { background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%); border: 2px solid #f1c40f; padding: 15px; border-radius: 12px; margin-top: 20px; text-align: center; }
-        .upsell-banner h3 { margin: 0 0 10px 0; color: #d35400; font-size: 18px; }
-        .upsell-banner p { margin: 0; font-size: 13px; color: #555; }
+        /* UPSELL BANNER INTERATTIVO */
+        .box-gratis { background: #fdfdfd; border: 1px solid #eee; padding: 15px; border-radius: 12px; margin-bottom: 15px; }
+        .upsell-banner { background: linear-gradient(135deg, #fffdf5 0%, #fcf3cf 100%); border: 2px solid #f1c40f; padding: 15px; border-radius: 12px; text-align: center; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 10px rgba(241, 196, 15, 0.2); }
+        .upsell-banner:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(241, 196, 15, 0.3); }
+        .upsell-banner h3 { margin: 0 0 5px 0; color: #d35400; font-size: 18px; }
+        .upsell-banner p { margin: 0; font-size: 13px; color: #7f8c8d; }
+        
+        /* Form Premium Espandibile */
+        .premium-form-container { display: none; background: #fffdf5; border: 2px solid #f1c40f; border-top: none; padding: 15px; border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; margin-top: -10px; animation: fadeIn 0.3s ease; }
+
         .custom-file-upload { border: 2px dashed var(--primary); display: inline-block; padding: 15px; cursor: pointer; border-radius: 8px; color: var(--primary); font-weight: bold; width: 100%; text-align: center; box-sizing: border-box; background: #f4f9fc; transition: 0.3s; }
         .custom-file-upload:hover { background: #eaf2f8; }
         input[type="file"] { display: none; }
+
+        .preview-img-mini { width: 60px; height: 60px; object-fit: cover; border-radius: 8px; border: 2px solid #ddd; display: none; }
 
         /* CRUCIVERBA */
         #crossword-container { margin-top: 20px; overflow-x: auto; text-align: center; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 8px; }
@@ -125,7 +133,6 @@
         .btn-pay:hover { background: #219653; }
         .btn-cancel { background: transparent; color: #e74c3c; width: 100%; margin-top: 5px; box-shadow: none; }
         
-        /* Loader Export */
         #loader-export { display: none; text-align: center; margin-top: 15px; font-weight: bold; color: var(--primary); }
     </style>
 </head>
@@ -138,7 +145,7 @@
     <nav id="main-nav">
         <button class="tab-link active" onclick="apriSezione('home', this)">🏠 Home</button>
         <button class="tab-link" onclick="apriSezione('cruciverba', this)">🧩 Cruciverba</button>
-        <button class="tab-link" onclick="apriSezione('immagine', this)">🖼️ Immagine</button>
+        <button class="tab-link" onclick="apriSezione('caricatura', this)">🎨 Caricatura</button>
         <button class="tab-link" onclick="apriSezione('papiro', this)">📜 Papiro</button>
         <button class="tab-link" onclick="apriSezione('regalo', this)">🎁 Regalo</button>
         <button class="tab-link" style="background-color: #f1c40f; color: #333;" onclick="apriAnteprima(this)">🖼️ Preview Cartellone</button>
@@ -148,7 +155,7 @@
     <main>
         <div id="login-section" class="section active">
             <h2>Gestione Evento</h2>
-            <p>✅ Crea l'evento e componi il cartellone <b>100% Gratis</b>. Pagherai solo alla fine per scaricare il PDF da stampa in Alta Definizione.</p>
+            <p>✅ Crea l'evento e componi il cartellone <b>100% Gratis</b>. Pagherai solo alla fine per scaricare il PDF in Alta Definizione.</p>
             <div class="form-group">
                 <input type="text" id="input-laureato" placeholder="Nome Festeggiato (es: Lisa Rossi)">
             </div>
@@ -177,22 +184,56 @@
             <div id="crossword-wrapper" style="display: none; margin-top:30px;"><div id="crossword-container"></div><div id="crossword-clues"></div></div>
         </div>
 
-        <div id="immagine" class="section">
-            <h2>🖼️ Immagine Centrale</h2>
-            <p>Carica una foto divertente dal telefono. Sarà inserita automaticamente al centro del cartellone!</p>
+        <div id="caricatura" class="section">
+            <h2>🎨 Sezione Immagini</h2>
             
-            <label class="custom-file-upload">
-                <input type="file" id="foto-upload" accept="image/*" onchange="comprimiESalvaFoto(event)">
-                📸 Clicca qui per scegliere la foto
-            </label>
-            <div id="preview-foto-container" style="display:none; text-align:center; margin-top:15px;">
-                <p style="font-size:12px; color:green;">✓ Foto caricata con successo!</p>
-                <img id="preview-foto" style="max-height: 200px; border-radius: 8px; border: 2px solid #ddd;">
+            <div class="box-gratis">
+                <h3 style="margin-top:0;">Opzione Base (Gratis)</h3>
+                <p style="font-size:13px; color:#555;">Carica una foto divertente dal telefono. Sarà inserita automaticamente al centro del cartellone.</p>
+                <label class="custom-file-upload">
+                    <input type="file" accept="image/*" onchange="comprimiESalvaFoto(event, 'preview-foto')">
+                    📸 Scegli Foto Base
+                </label>
+                <div id="container-preview-foto" style="display:none; text-align:center; margin-top:10px;">
+                    <p style="font-size:12px; color:green; margin:5px 0;">✓ Foto base caricata!</p>
+                    <img id="preview-foto" style="max-height: 150px; border-radius: 8px; border: 2px solid #ddd;">
+                </div>
             </div>
 
-            <div class="upsell-banner">
-                <h3>👑 Vuoi rendere il cartellone Epico?</h3>
-                <p>Invece della solita foto, fai realizzare una <b>Caricatura Premium</b> ai nostri artisti AI in 24h. Sceglierai questa opzione al momento del Download!</p>
+            <div class="upsell-banner" id="btn-open-premium" onclick="togglePremiumForm()">
+                <h3>👑 Richiedi Caricatura Premium AI (+9,90€)</h3>
+                <p>Clicca qui per dare istruzioni ai nostri artisti e caricare le foto del viso!</p>
+                <div style="font-size:24px; margin-top:5px;">👇</div>
+            </div>
+
+            <div id="premium-form-area" class="premium-form-container">
+                <div class="form-group">
+                    <label>Descrivi la tua idea:</label>
+                    <textarea id="cari-idea" rows="3" placeholder="Es: Vestito da Spiderman con una corona d'alloro e uno spritz in mano..."></textarea>
+                </div>
+                
+                <label style="font-weight:600; font-size:14px; display:block; margin-bottom:5px;">Carica 2 foto chiare del viso (Referenze):</label>
+                <div style="display:flex; gap:10px; margin-bottom:15px;">
+                    <div style="flex:1;">
+                        <label class="custom-file-upload" style="padding:10px; font-size:13px;">
+                            <input type="file" accept="image/*" onchange="comprimiESalvaFoto(event, 'ref-1')">
+                            📸 Foto 1
+                        </label>
+                    </div>
+                    <div style="flex:1;">
+                        <label class="custom-file-upload" style="padding:10px; font-size:13px;">
+                            <input type="file" accept="image/*" onchange="comprimiESalvaFoto(event, 'ref-2')">
+                            📸 Foto 2
+                        </label>
+                    </div>
+                </div>
+                
+                <div style="display:flex; gap:10px; justify-content:center; margin-bottom:15px;">
+                    <img id="ref-1" class="preview-img-mini">
+                    <img id="ref-2" class="preview-img-mini">
+                </div>
+
+                <button class="btn-submit" style="background:#f39c12; box-shadow: 0 4px 10px rgba(243, 156, 18, 0.3);" onclick="inviaRichiestaPremium()">✅ Salva Richiesta Premium</button>
             </div>
         </div>
 
@@ -248,7 +289,7 @@
     <div id="checkout-modal" class="modal-overlay" style="display:none;">
         <div class="modal-content">
             <h2>🛒 Completa e Stampa</h2>
-            <p style="font-size:13px; color:#555; margin-top:-5px;">Scegli le opzioni per sbloccare il tuo cartellone senza loghi e in alta risoluzione.</p>
+            <p style="font-size:13px; color:#555; margin-top:-5px;">Scegli le opzioni per sbloccare il tuo cartellone senza loghi.</p>
             
             <div style="margin-bottom: 10px; font-weight: bold; font-size: 14px;">1. Scegli l'Immagine Centrale:</div>
             <label class="checkout-option">
@@ -256,15 +297,17 @@
                 <span class="chk-price">0,00€</span>
             </label>
             <label class="checkout-option" style="border-color:#f1c40f; background:#fffdf5;">
-                <div><input type="radio" name="chk-img" value="9.90" onchange="calcolaTotale()"> <span class="chk-title">👑 Caricatura Premium</span></div>
+                <div><input type="radio" name="chk-img" value="9.90" onchange="calcolaTotale()" id="radio-premium-img"> <span class="chk-title">👑 Caricatura Premium</span></div>
                 <span class="chk-price">+9,90€</span>
             </label>
 
             <div style="margin-top:20px; margin-bottom: 10px; font-weight: bold; font-size: 14px;">2. Scegli il Formato:</div>
+            
             <label class="checkout-option">
-                <div><input type="radio" name="chk-fmt" value="4.90" checked onchange="calcolaTotale()"> <span class="chk-title">Solo File PDF (Fai da te)</span></div>
+                <div><input type="radio" name="chk-fmt" value="4.90" checked onchange="calcolaTotale()"> <span class="chk-title">Solo File PDF (Altissima Definizione)</span></div>
                 <span class="chk-price">4,90€</span>
             </label>
+            
             <label class="checkout-option" style="border-color:#2980b9; background:#f4f9fc;">
                 <div><input type="radio" name="chk-fmt" value="34.90" onchange="calcolaTotale()"> <span class="chk-title">📦 Stampa & Spedizione a Casa</span><br><span style="font-size:11px; color:#777; margin-left:25px;">(Ricevi il 70x100 pronto in 48h)</span></div>
                 <span class="chk-price">34,90€</span>
@@ -292,8 +335,6 @@
         
         let currentZoom = 1.0;
         let currentLayoutIndex = 0; 
-
-        // VARIABILE PER LA FOTO CARICATA (Base64)
         let fotoCaricataBase64 = "";
 
         window.onload = function() {
@@ -333,14 +374,13 @@
             document.getElementById('display-laureato').innerText = `🎓 Area dedicata a: ${nomeVisuale}`;
             document.getElementById('share-link').value = `${window.location.href.split('?')[0]}?id=${idEventoSegreto}`;
             
-            // Recupero foto dalla memoria locale del telefono (per non intasare subito il database nella demo)
+            // Carica foto base salvata se esiste
             let savedImg = localStorage.getItem('foto_' + idEventoSegreto);
             if(savedImg) {
                 fotoCaricataBase64 = savedImg;
                 document.getElementById('preview-foto').src = savedImg;
-                document.getElementById('preview-foto-container').style.display = 'block';
+                document.getElementById('container-preview-foto').style.display = 'block';
             }
-
             caricaDati();
         };
 
@@ -351,8 +391,42 @@
             if(el) el.classList.add('active');
         };
 
-        // --- MAGIA: COMPRESSIONE FOTO SUL CELLULARE PRIMA DELL'USO ---
-        window.comprimiESalvaFoto = function(event) {
+        // --- GESTIONE CARICATURA PREMIUM ---
+        window.togglePremiumForm = function() {
+            let form = document.getElementById('premium-form-area');
+            let btn = document.getElementById('btn-open-premium');
+            if(form.style.display === 'block') {
+                form.style.display = 'none';
+                btn.style.borderBottomLeftRadius = '12px';
+                btn.style.borderBottomRightRadius = '12px';
+            } else {
+                form.style.display = 'block';
+                btn.style.borderBottomLeftRadius = '0';
+                btn.style.borderBottomRightRadius = '0';
+            }
+        };
+
+        window.inviaRichiestaPremium = async function() {
+            let idea = document.getElementById('cari-idea').value;
+            let ref1 = document.getElementById('ref-1').src;
+            let ref2 = document.getElementById('ref-2').src;
+            
+            if(!idea) return alert("Scrivi almeno un'idea per la caricatura!");
+            
+            // Salvo nel DB l'idea testuale
+            if(clientSupabase) {
+                await clientSupabase.from('caricatura').insert([{ autore: "Organizzatore", idea_dettagliata: idea, laureato_tag: idEventoSegreto }]);
+            }
+            
+            // Auto-seleziono l'opzione premium nel carrello
+            document.getElementById('radio-premium-img').checked = true;
+            
+            alert("✅ Richiesta Premium salvata! Procedi all'acquisto finale dalla Lavagna per confermare l'ordine.");
+            togglePremiumForm();
+        };
+
+        // --- COMPRESSIONE IMMAGINI UNIFICATA ---
+        window.comprimiESalvaFoto = function(event, targetImgId) {
             let file = event.target.files[0];
             if(!file) return;
 
@@ -363,7 +437,7 @@
                 img.src = e.target.result;
                 img.onload = function() {
                     let canvas = document.createElement('canvas');
-                    let max_size = 800; // Riduciamo la larghezza per renderla leggerissima
+                    let max_size = 800; // Ottimo compromesso peso/qualità
                     let width = img.width; let height = img.height;
 
                     if (width > height) {
@@ -376,16 +450,19 @@
                     let ctx = canvas.getContext('2d');
                     ctx.drawImage(img, 0, 0, width, height);
                     
-                    // Comprime in JPEG al 70% di qualità
                     let compressedBase64 = canvas.toDataURL("image/jpeg", 0.7);
                     
-                    fotoCaricataBase64 = compressedBase64;
-                    // Salviamo localmente legati a questo evento
-                    localStorage.setItem('foto_' + idEventoSegreto, compressedBase64);
+                    // Assegna l'immagine al target corretto
+                    let targetElement = document.getElementById(targetImgId);
+                    targetElement.src = compressedBase64;
+                    targetElement.style.display = 'inline-block';
                     
-                    document.getElementById('preview-foto').src = compressedBase64;
-                    document.getElementById('preview-foto-container').style.display = 'block';
-                    alert("Foto compressa e caricata con successo!");
+                    // Se è la foto base gratis, la salvo anche per il cartellone
+                    if(targetImgId === 'preview-foto') {
+                        fotoCaricataBase64 = compressedBase64;
+                        localStorage.setItem('foto_' + idEventoSegreto, compressedBase64);
+                        document.getElementById('container-preview-foto').style.display = 'block';
+                    }
                 };
             };
         };
@@ -437,6 +514,10 @@
             aggiornaDatiAnteprima();
         };
 
+        window.toggleStampa = function() {
+            document.getElementById('anteprima').classList.toggle('stampa-mode');
+        };
+
         window.cambiaStile = function() {
             let font = document.getElementById('cart-font').value;
             let color = document.getElementById('cart-color').value;
@@ -484,10 +565,9 @@
 
             creaBox("TITOLO", `<div class="cart-titolo-txt" contenteditable="true">LAUREA DI ${nomeVisuale.toUpperCase()}</div>`, l.TITOLO.t, l.TITOLO.l, l.TITOLO.w);
             
-            // IMMAGINE CENTRALE (Se caricata, la usa. Altrimenti mostra il placeholder)
             let imgHTML = fotoCaricataBase64 
                 ? `<div class="cart-caricatura-ph" style="border:none;"><img src="${fotoCaricataBase64}"></div>` 
-                : `<div class="cart-caricatura-ph">📸<br>Nessuna Foto</div>`;
+                : `<div class="cart-caricatura-ph">📸<br>Spazio Foto</div>`;
             creaBox("CARICATURA", imgHTML, l.CARICATURA.t, l.CARICATURA.l, l.CARICATURA.w);
 
             let testiPapiro = dati.papiro.map(p => `<p style="margin:5px 0;">"${p.aneddoto}"</p>`).join('');
@@ -584,7 +664,7 @@
             });
         }
 
-        // --- SISTEMA CHECKOUT E GENERAZIONE PDF (LA MINIERA D'ORO) ---
+        // --- SISTEMA CHECKOUT E PDF ---
         window.apriCheckout = function() { document.getElementById('checkout-modal').style.display = 'flex'; calcolaTotale(); };
         window.chiudiCheckout = function() { document.getElementById('checkout-modal').style.display = 'none'; document.getElementById('loader-export').style.display = 'none'; document.getElementById('btn-pay-action').style.display = 'block'; };
 
@@ -597,47 +677,32 @@
         };
 
         window.avviaGenerazionePDF = async function() {
-            // Nasconde il bottone e mostra il caricamento
             document.getElementById('btn-pay-action').style.display = 'none';
             document.getElementById('loader-export').style.display = 'block';
             
-            // Finta attesa per simulare la transazione bancaria Apple Pay/Stripe (qui ci andrà il codice Stripe)
             setTimeout(async () => {
-                // Attiviamo la modalità stampa per nascondere i bordi tratteggiati
                 document.getElementById('anteprima').classList.add('stampa-mode');
-                
                 let cartellone = document.getElementById('cartellone-lavagna');
-                // Temporaneamente resetto lo zoom a 1 per evitare sgranature
                 let oldTransform = cartellone.style.transform;
                 cartellone.style.transform = 'scale(1)';
                 
                 try {
-                    // Magia: html2canvas fotografa il div ad alta risoluzione (scale: 2)
                     let canvas = await html2canvas(cartellone, { scale: 2, useCORS: true, backgroundColor: '#ffffff' });
                     let imgData = canvas.toDataURL('image/jpeg', 0.9);
-
-                    // Crea un PDF 70x100 cm (700x1000 mm)
                     const { jsPDF } = window.jspdf;
                     let pdf = new jsPDF('p', 'mm', [700, 1000]);
-                    
-                    // Incolla la foto nel PDF
                     pdf.addImage(imgData, 'JPEG', 0, 0, 700, 1000);
                     pdf.save(`Cartellone_${nomeVisuale}.pdf`);
-                    
                     alert("✅ Pagamento confermato! Il PDF in Alta Risoluzione è stato scaricato.");
-                } catch(error) {
-                    alert("Si è verificato un errore durante l'esportazione.");
-                }
+                } catch(error) { alert("Si è verificato un errore durante l'esportazione."); }
 
-                // Ripristiniamo la lavagna
                 cartellone.style.transform = oldTransform;
                 document.getElementById('anteprima').classList.remove('stampa-mode');
                 chiudiCheckout();
-
-            }, 2000); // 2 secondi di finta attesa
+            }, 2000); 
         };
 
-        // --- FUNZIONI DATI E CRUCIVERBA (INVARIATE) ---
+        // --- CARICAMENTO DATI BASE ---
         window.caricaDati = async function() {
             if (!clientSupabase) return; 
             for (let t of ['cruciverba', 'papiro', 'regalo']) {
