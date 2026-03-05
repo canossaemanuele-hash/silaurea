@@ -148,7 +148,7 @@
 
         /* CHECKOUT MODAL */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
-        .modal-content { background: white; width: 90%; max-width: 450px; padding: 25px; border-radius: 20px; box-shadow: 0 15px 50px rgba(0,0,0,0.2); }
+        .modal-content { background: white; width: 90%; max-width: 450px; padding: 25px; border-radius: 20px; box-shadow: 0 15px 50px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto; }
         .checkout-option { border: 2px solid #eee; padding: 12px; border-radius: 10px; margin-bottom: 10px; cursor: pointer; transition: 0.2s; display: flex; justify-content: space-between; align-items: center; }
         .checkout-option input[type="radio"] { margin-right: 10px; transform: scale(1.3); cursor: pointer;}
         .total-price { font-size: 24px; font-weight: bold; text-align: center; margin: 20px 0; color: #27ae60; }
@@ -195,6 +195,9 @@
             <div class="form-group">
                 <label style="font-size: 13px; color: #555; font-weight: bold;">Data della festa (Serve per le tempistiche):</label>
                 <input type="date" id="input-data-festa">
+                <div style="font-size: 11px; color: #e74c3c; margin-top: 5px;">
+                    ⚠️ Le informazioni inserite verranno rimosse in automatico il giorno dopo la data della festa.
+                </div>
             </div>
 
             <button class="btn-submit" onclick="creaNuovaArea()">Crea Area Sicura & Genera Link</button>
@@ -330,9 +333,24 @@
                 <span class="chk-price">34,90€</span>
             </label>
 
-            <div id="shipping-info" style="display: none; margin-top: 15px; margin-bottom: 15px;">
-                <label style="font-size: 13px; font-weight: bold; color: var(--primary);">📍 Indirizzo di Spedizione:</label>
-                <textarea id="indirizzo-spedizione" rows="2" style="width: 100%; padding: 8px; border-radius: 8px; border: 1px solid #ccc; font-family: inherit; font-size: 13px;" placeholder="Inserisci Nome, Cognome, Via, Civico, Città, CAP, Provincia e Cellulare."></textarea>
+            <div id="shipping-info" style="display: none; margin-top: 15px; margin-bottom: 15px; background: #f9f9f9; padding: 15px; border-radius: 8px; border: 1px solid #ddd;">
+                <label style="font-size: 13px; font-weight: bold; color: var(--primary); display:block; margin-bottom:10px;">📍 Dati di Spedizione:</label>
+                
+                <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+                    <input type="text" id="ship-nome" placeholder="Nome" style="flex:1; padding: 8px; border-radius: 6px; border: 1px solid #ccc; font-size:13px; font-family: inherit;">
+                    <input type="text" id="ship-cognome" placeholder="Cognome" style="flex:1; padding: 8px; border-radius: 6px; border: 1px solid #ccc; font-size:13px; font-family: inherit;">
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <input type="text" id="ship-indirizzo" placeholder="Indirizzo (Via/Piazza e Civico)" style="width:100%; padding: 8px; border-radius: 6px; border: 1px solid #ccc; font-size:13px; box-sizing:border-box; font-family: inherit;">
+                </div>
+                <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+                    <input type="text" id="ship-citta" placeholder="Città" style="flex:2; padding: 8px; border-radius: 6px; border: 1px solid #ccc; font-size:13px; font-family: inherit;">
+                    <input type="text" id="ship-cap" placeholder="CAP" style="flex:1; padding: 8px; border-radius: 6px; border: 1px solid #ccc; font-size:13px; font-family: inherit;">
+                    <input type="text" id="ship-prov" placeholder="Prov. (es: RM)" style="flex:1; padding: 8px; border-radius: 6px; border: 1px solid #ccc; font-size:13px; font-family: inherit;">
+                </div>
+                <div>
+                    <input type="text" id="ship-cell" placeholder="Cellulare per il Corriere" style="width:100%; padding: 8px; border-radius: 6px; border: 1px solid #ccc; font-size:13px; box-sizing:border-box; font-family: inherit;">
+                </div>
             </div>
             
             <div class="total-price" id="modal-totale">Totale: 4,90€</div>
@@ -389,7 +407,7 @@
         };
 
         // ==========================================
-        // 2. LOGICA DEL PANNELLO ADMIN (INCLUSO ELIMINA)
+        // 2. LOGICA DEL PANNELLO ADMIN E CANCELLAZIONE
         // ==========================================
         window.caricaTuttoAdmin = async function() {
             document.getElementById('admin-content').innerHTML = "<i>Sto recuperando tutti i dati dai server...</i>";
@@ -471,7 +489,7 @@
             }
         };
 
-        // Funzione Bomba per eliminare interamente una festa dal database
+        // Funzione per eliminare interamente una festa dal database
         window.eliminaEventoAdmin = async function(tag) {
             let conferma = confirm(`⚠️ ATTENZIONE ESTREMA ⚠️\nVuoi davvero eliminare TUTTO l'evento "${tag}"?\nQuesta azione non si può annullare e cancellerà tutti i testi, le foto e i regali dal database.`);
             
@@ -488,9 +506,20 @@
         };
 
         // ==========================================
-        // 3. INIZIALIZZAZIONE E CREAZIONE EVENTO
+        // 3. INIZIALIZZAZIONE E CREAZIONE EVENTO (CON DATA)
         // ==========================================
         window.onload = function() {
+            // Imposta limite date (Minimo oggi, Massimo tra 10 mesi)
+            let dataInput = document.getElementById('input-data-festa');
+            if (dataInput) {
+                let oggi = new Date();
+                let massimo = new Date();
+                massimo.setMonth(massimo.getMonth() + 10); // Massimo 10 mesi avanti
+                
+                dataInput.min = oggi.toISOString().split("T")[0];
+                dataInput.max = massimo.toISOString().split("T")[0];
+            }
+
             const params = new URLSearchParams(window.location.search);
             const idInvitato = params.get('id'); 
             if (idInvitato) { 
@@ -510,13 +539,12 @@
             const dataFesta = document.getElementById('input-data-festa').value;
             
             if (!nomePulito) return alert("Inserisci il nome del laureato!");
-            if (!dataFesta) return alert("Inserisci la data della festa per permetterci di gestire le consegne!");
+            if (!dataFesta) return alert("Inserisci la data della festa per permetterci di organizzare la consegna!");
             
             idEventoSegreto = `${nomePulito}-${Math.random().toString(36).substring(2, 7)}`;
             
-            // Appena crea l'evento, salviamo la DATA nel database così tu la vedi nell'admin
+            // Salviamo la DATA nel database così tu la vedi nell'admin
             if (clientSupabase) {
-                // Riformattiamo la data in italiano (da YYYY-MM-DD a DD/MM/YYYY)
                 let dataSplittata = dataFesta.split('-');
                 let dataItaliana = `${dataSplittata[2]}/${dataSplittata[1]}/${dataSplittata[0]}`;
                 
@@ -564,7 +592,7 @@
         };
 
         // ==========================================
-        // 4. GESTIONE CARICATURA PREMIUM E FOTO
+        // 4. GESTIONE CARICATURA E FOTO
         // ==========================================
         window.togglePremiumForm = function() {
             let form = document.getElementById('premium-form-area'); 
@@ -698,7 +726,7 @@
         };
 
         window.elimina = async function(tipo, id) { 
-            if (confirm("Eliminare?")) { 
+            if (confirm("Eliminare questo elemento?")) { 
                 await clientSupabase.from(tipo).delete().eq('id', id); 
                 caricaDati(); 
             } 
@@ -724,8 +752,8 @@
             container.innerHTML = dati[tipo].map(item => {
                 let txt = tipo === 'cruciverba' ? `<b>${item.parola}</b>: ${item.definizione}` : (item.idea_dettagliata || item.aneddoto || item.proposta_regalo);
                 
-                // Nasconde dalla lista normale i dati strutturati (Foto e date) usati dall'Admin
-                if (txt && (txt.startsWith('{"note":') || txt.startsWith('Data della festa:') || txt.startsWith('Formato:'))) return ""; 
+                // Nasconde dalla lista pubblica i dati dell'Admin
+                if (txt && (txt.startsWith('{"note":') || txt.startsWith('Data della festa:') || txt.startsWith('Formato scelto:'))) return ""; 
                 
                 let extraBtn = (tipo === 'regalo') ? `<br><button class="vote-btn" onclick="votaRegalo(${item.id})">👍 Vota (${item.voti || 0})</button>` : '';
                 
@@ -1115,7 +1143,7 @@
         }
 
         // ==========================================
-        // 8. CHECKOUT E GENERAZIONE PDF FINALE CON INDIRIZZO
+        // 8. CHECKOUT E GENERAZIONE PDF CON INDIRIZZO
         // ==========================================
         window.apriCheckout = function() { 
             document.getElementById('checkout-modal').style.display = 'flex'; 
@@ -1132,7 +1160,7 @@
             let costoImg = parseFloat(document.querySelector('input[name="chk-img"]:checked').value); 
             let costoFmt = parseFloat(document.querySelector('input[name="chk-fmt"]:checked').value); 
             
-            // Seleziona la logica dell'indirizzo a comparsa
+            // Mostra o nasconde i campi dell'indirizzo
             if (costoFmt === 34.90) {
                 document.getElementById('shipping-info').style.display = 'block';
             } else {
@@ -1146,22 +1174,35 @@
 
         window.avviaGenerazionePDF = async function() {
             let costoFmt = parseFloat(document.querySelector('input[name="chk-fmt"]:checked').value);
-            let indirizzo = document.getElementById('indirizzo-spedizione').value.trim();
+            let indirizzoCompleto = "";
 
-            // Controllo sicurezza indirizzo
-            if (costoFmt === 34.90 && !indirizzo) {
-                alert("⚠️ Inserisci l'indirizzo di spedizione completo per procedere!");
-                return;
+            // Controlla che tutti i campi siano pieni se hanno scelto la spedizione
+            if (costoFmt === 34.90) {
+                let nome = document.getElementById('ship-nome').value.trim();
+                let cogn = document.getElementById('ship-cognome').value.trim();
+                let ind = document.getElementById('ship-indirizzo').value.trim();
+                let cit = document.getElementById('ship-citta').value.trim();
+                let cap = document.getElementById('ship-cap').value.trim();
+                let prv = document.getElementById('ship-prov').value.trim();
+                let cel = document.getElementById('ship-cell').value.trim();
+
+                if(!nome || !cogn || !ind || !cit || !cap || !prv || !cel) {
+                    alert("⚠️ Compila tutti i campi dell'indirizzo di spedizione per procedere!");
+                    return;
+                }
+                
+                // Crea una stringa formattata dell'indirizzo per l'Admin
+                indirizzoCompleto = `${nome} ${cogn}<br>${ind}<br>${cap} ${cit} (${prv})<br>📞 Cell: ${cel}`;
             }
 
             document.getElementById('btn-pay-action').style.display = 'none'; 
             document.getElementById('loader-export').style.display = 'block';
             
-            // Salviamo le info dell'ordine per il Pannello Admin
+            // Invia i dati dell'ordine al Pannello Admin
             if (clientSupabase) {
-                let dettagliOrdine = `Formato scelto: ${costoFmt === 34.90 ? 'Stampa e Spedizione Fisica' : 'Solo file PDF digitale'}.`;
+                let dettagliOrdine = `Formato: ${costoFmt === 34.90 ? 'Stampa e Spedizione' : 'Solo file PDF'}`;
                 if (costoFmt === 34.90) {
-                    dettagliOrdine += `<br><b>Indirizzo di Consegna:</b> ${indirizzo}`;
+                    dettagliOrdine += `<br><b>Indirizzo Consegna:</b><br>${indirizzoCompleto}`;
                 }
                 
                 await clientSupabase.from('caricatura').insert([{ 
@@ -1170,9 +1211,8 @@
                     laureato_tag: idEventoSegreto 
                 }]);
             }
-
+            
             setTimeout(async () => {
-                // Togliamo la filigrana e mettiamo in modalità stampa
                 document.getElementById('anteprima').classList.remove('preview-mode'); 
                 document.getElementById('anteprima').classList.add('stampa-mode');
                 
@@ -1190,12 +1230,16 @@
                     let imgData = canvas.toDataURL('image/jpeg', 0.9);
                     const { jsPDF } = window.jspdf; 
                     
-                    // Creazione PDF 70x100 cm (700x1000 millimetri)
                     let pdf = new jsPDF('p', 'mm', [700, 1000]);
                     pdf.addImage(imgData, 'JPEG', 0, 0, 700, 1000); 
                     pdf.save(`Cartellone_${nomeVisuale}.pdf`);
                     
-                    alert("✅ Pagamento confermato! Il PDF in Alta Risoluzione è stato scaricato.\nGrazie per aver usato SiLaurea App!");
+                    // Avviso FINALE differenziato in base a spedizione o no
+                    if (costoFmt === 34.90) {
+                        alert("✅ Pagamento confermato!\nIl file PDF in Alta Risoluzione è stato salvato sul tuo telefono/computer.\n\n⚠️ IMPORTANTE: Inviaci il PDF appena scaricato via WhatsApp o Email per permetterci di stamparlo e spedirlo al tuo indirizzo!");
+                    } else {
+                        alert("✅ Pagamento confermato! Il PDF in Alta Risoluzione è stato scaricato.\nGrazie per aver usato SiLaurea App!");
+                    }
                 } catch(error) { 
                     alert("Si è verificato un errore durante la generazione del file."); 
                 }
