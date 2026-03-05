@@ -136,7 +136,6 @@
         .preview-img-mini { width: 90px; height: 90px; object-fit: cover; border-radius: 12px; border: 3px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: none; }
         input[type="file"] { display: none; }
 
-        /* ALERTA CONSEGNA CARICATURA */
         .alert-consegnata {
             background: #f0fdf4; border: 2px solid #22c55e; padding: 20px; border-radius: 16px; 
             text-align: center; margin-bottom: 20px; animation: pulse 2s infinite;
@@ -177,18 +176,43 @@
 
         .cart-titolo-txt { font-size: 45px; text-align: center; font-weight: bold; text-transform: uppercase; line-height: 1.1; margin: 0; white-space: nowrap; padding: 10px; color: #1a202c;}
         .cart-papiro-txt { font-size: 18px; text-align: justify; width: 450px; padding: 15px; box-sizing: border-box; line-height: 1.4; color: #2d3748;}
+        
         .cart-caricatura-ph { width: 300px; height: 400px; border: 3px dashed #cbd5e1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #94a3b8; background: #f8fafc; text-align: center; font-size: 20px; font-family: 'Poppins', sans-serif; box-sizing: border-box; overflow: hidden; border-radius: 8px;}
         .cart-caricatura-ph img { width: 100%; height: 100%; object-fit: cover; }
         
+        /* SHIELD ANTI-FURTO SULLA FOTO */
+        #cartellone-lavagna:not(.stampa-mode) .cart-caricatura-ph img {
+            filter: blur(2px) contrast(0.9);
+            pointer-events: none; /* Blocca tasto destro */
+            user-select: none;
+        }
+        .img-watermark {
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            background: rgba(255,255,255,0.2); color: rgba(231, 76, 60, 0.9);
+            font-size: 24px; font-weight: 900; text-align: center;
+            transform: rotate(-15deg); pointer-events: none;
+            text-shadow: 2px 2px 4px rgba(255,255,255,0.8); line-height: 1.2;
+        }
+
+        .drag-content .cw-grid { border: 2px solid #000; margin: 0; background: white; }
+        .drag-content .cw-cell { width: 40px; height: 40px; font-size: 20px; }
+        .drag-content .cw-empty { width: 40px; height: 40px; }
+
+        /* Filigrana Globale */
         .watermark-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 999; display: none; background-image: repeating-linear-gradient(-45deg, transparent, transparent 100px, rgba(0, 0, 0, 0.03) 100px, rgba(0, 0, 0, 0.03) 150px); }
         .watermark-layer::after { content: "ANTEPRIMA SILAUREA - NON STAMPARE"; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-45deg); font-size: 55px; font-weight: 800; color: rgba(0,0,0,0.1); white-space: nowrap; font-family: 'Poppins', sans-serif;}
         .preview-mode .watermark-layer { display: block; }
         .preview-mode .drag-handle, .preview-mode .resize-handle { display: none !important; }
         .preview-mode .drag-box { border: none !important; box-shadow: none !important; background: transparent !important; }
         .preview-mode #cartellone-lavagna { background-image: none !important; }
+        
+        /* Modalità STAMPA (PDF) - Toglie tutto lo scudo! */
         .stampa-mode .drag-handle, .stampa-mode .resize-handle { display: none !important; }
         .stampa-mode .drag-box { border: none !important; box-shadow: none !important; background: transparent !important; }
         .stampa-mode #cartellone-lavagna { background-image: none !important; border: none; box-shadow: none; }
+        .stampa-mode .img-watermark { display: none !important; }
+        .stampa-mode .cart-caricatura-ph img { filter: none !important; }
 
         /* ==========================================
            4. MODALS (CHECKOUT E ADMIN)
@@ -268,7 +292,7 @@
             <div class="form-group"><input type="text" id="cruci-parola" placeholder="Parola (es. SPRITZ)"></div>
             <div class="form-group"><textarea id="cruci-def" rows="2" placeholder="Definizione per la parola..."></textarea></div>
             <button class="btn-submit" onclick="aggiungi('cruciverba')">Salva Parola</button>
-            <button class="btn-submit" style="background:#1e293b;" onclick="generaCruciverbaMagico()">🎲 Crea Griglia</button>
+            <button class="btn-submit" style="background:#1e293b; color: white;" onclick="generaCruciverbaMagico()">🎲 Crea Griglia</button>
             <div id="crossword-wrapper" style="display: none; margin-top:30px;"><div id="crossword-container"></div><div id="crossword-clues"></div></div>
             <h3 style="margin-top:40px; font-size: 18px; border-bottom: 2px solid var(--border-light); padding-bottom:10px;">Parole inserite:</h3>
             <div id="lista-cruciverba"></div>
@@ -279,7 +303,7 @@
             
             <div id="alert-caricatura-pronta" class="alert-consegnata" style="display:none;">
                 <h3 style="color:#16a34a; margin:0; font-size:22px;">🎉 Il tuo disegno è pronto!</h3>
-                <p style="color:#15803d; margin:5px 0 0 0;">L'artista ha completato la caricatura. Vai nella "Preview Cartellone" per vederla già inserita e procedere con l'acquisto per sbloccare l'alta risoluzione.</p>
+                <p style="color:#15803d; margin:5px 0 0 0;">L'artista ha completato la caricatura. Vai nella "Preview Cartellone" per vederla, poi procedi all'acquisto per sbloccare l'alta risoluzione senza filigrana.</p>
             </div>
 
             <div id="area-upload-foto">
@@ -393,7 +417,12 @@
                 <div><input type="radio" name="chk-fmt" value="4.90" checked onchange="calcolaTotale()"> <span class="chk-title">Solo PDF (Alta Definizione)</span></div><span class="chk-price">4,90€</span>
             </label>
             <label class="checkout-option" style="border: 2px solid var(--primary); background: #f0f4ff;">
-                <div><input type="radio" name="chk-fmt" value="34.90" onchange="calcolaTotale()"> <span class="chk-title">📦 Stampa & Spedizione</span><br><span style="font-size:12px; color:var(--text-muted); margin-left:32px;">(Consegna: 4-5 gg lavorativi)</span></div><span class="chk-price">34,90€</span>
+                <div>
+                    <input type="radio" name="chk-fmt" value="34.90" onchange="calcolaTotale()"> 
+                    <span class="chk-title">📦 Stampa & Spedizione</span>
+                    <br><span style="font-size:12px; color:var(--text-muted); margin-left:32px;">(Consegna: 4-5 gg lavorativi)</span>
+                </div>
+                <span class="chk-price">34,90€</span>
             </label>
 
             <div id="shipping-info" style="display: none; margin-top: 20px; animation: fadeIn 0.3s ease;">
@@ -402,13 +431,17 @@
                     <input type="text" id="ship-nome" placeholder="Nome" class="form-group" style="margin:0; padding:10px; border:1px solid #cbd5e1; border-radius:8px; width:100%; font-family:inherit;">
                     <input type="text" id="ship-cognome" placeholder="Cognome" style="margin:0; padding:10px; border:1px solid #cbd5e1; border-radius:8px; width:100%; font-family:inherit;">
                 </div>
-                <div style="margin-bottom: 10px;"><input type="text" id="ship-indirizzo" placeholder="Indirizzo (Via e Civico)" style="margin:0; padding:10px; border:1px solid #cbd5e1; border-radius:8px; width:100%; font-family:inherit; box-sizing:border-box;"></div>
+                <div style="margin-bottom: 10px;">
+                    <input type="text" id="ship-indirizzo" placeholder="Indirizzo (Via e Civico)" style="margin:0; padding:10px; border:1px solid #cbd5e1; border-radius:8px; width:100%; font-family:inherit; box-sizing:border-box;">
+                </div>
                 <div style="display: flex; gap: 10px; margin-bottom: 10px;">
                     <input type="text" id="ship-citta" placeholder="Città" style="flex:2; padding:10px; border:1px solid #cbd5e1; border-radius:8px; font-family:inherit;">
                     <input type="text" id="ship-cap" placeholder="CAP" style="flex:1; padding:10px; border:1px solid #cbd5e1; border-radius:8px; font-family:inherit;">
                     <input type="text" id="ship-prov" placeholder="Prv" style="flex:1; padding:10px; border:1px solid #cbd5e1; border-radius:8px; font-family:inherit;">
                 </div>
-                <div><input type="text" id="ship-cell" placeholder="Cellulare per il Corriere" style="width:100%; padding:10px; border:1px solid #cbd5e1; border-radius:8px; box-sizing:border-box; font-family:inherit;"></div>
+                <div>
+                    <input type="text" id="ship-cell" placeholder="Cellulare per il Corriere" style="width:100%; padding:10px; border:1px solid #cbd5e1; border-radius:8px; box-sizing:border-box; font-family:inherit;">
+                </div>
             </div>
             
             <div class="total-price" id="modal-totale">Totale: 4,90€</div>
@@ -449,7 +482,8 @@
 
         let idEventoSegreto = ""; let nomeVisuale = ""; 
         let dati = { cruciverba: [], caricatura: [], papiro: [], regalo: [] };
-        let currentZoom = 1.0; let currentLayoutIndex = 0; let fotoCaricataBase64 = "";
+        let currentZoom = 1.0; let currentLayoutIndex = 0; 
+        let fotoCaricataBase64 = "";
 
         // ==========================================
         // 1. ADMIN E CANCELLAZIONE
@@ -513,7 +547,6 @@
                                             <a href="${obj.f2}" download="foto2_${tag}.jpg" class="btn-download-foto">⬇️ Scarica Foto 2</a>
                                         </div>
                                     </div>
-                                    
                                     <label class="btn-upload-admin">
                                         📤 Carica & Consegna Disegno al Cliente
                                         <input type="file" accept="image/*" style="display:none;" onchange="consegnaDisegnoFinito(event, '${tag}')">
@@ -537,8 +570,7 @@
             reader.onload = function(e) {
                 let img = new Image(); img.src = e.target.result;
                 img.onload = async function() {
-                    let canvas = document.createElement('canvas'); 
-                    let max = 1200; // Alta qualità per il disegno
+                    let canvas = document.createElement('canvas'); let max = 1200; 
                     let w = img.width; let h = img.height;
                     if (w > h) { if (w > max) { h *= max / w; w = max; } } else { if (h > max) { w *= max / h; h = max; } }
                     canvas.width = w; canvas.height = h;
@@ -616,7 +648,7 @@
         };
 
         // ==========================================
-        // 3. CARICATURA PREMIUM UPLOAD
+        // 3. CARICATURA E UPLOAD
         // ==========================================
         window.togglePremiumForm = function() {
             let form = document.getElementById('premium-form-area'); 
@@ -633,7 +665,6 @@
                 let json = JSON.stringify({ note: "ORDINE PREMIUM", istruzioni: istruzioni, f1: ref1.src, f2: ref2.src });
                 await clientSupabase.from('caricatura').insert([{ autore: "ORDINE PREMIUM (FOTO + IDEE)", idea_dettagliata: json, laureato_tag: idEventoSegreto }]);
             }
-            
             let radioPremium = document.getElementById('radio-premium-img');
             if(radioPremium) radioPremium.checked = true;
             
@@ -664,7 +695,7 @@
         };
 
         // ==========================================
-        // 4. DATABASE E AGGIORNAMENTO UI
+        // 4. DATABASE (CRUD)
         // ==========================================
         window.caricaDati = async function() {
             if (!clientSupabase) return; 
@@ -674,27 +705,21 @@
                     if (t === 'regalo' && data) data.sort((a, b) => b.voti - a.voti);
                     dati[t] = data || []; 
 
-                    // CONTROLLO MAGICO: Il disegno è stato consegnato dall'admin?
                     if (t === 'caricatura' && data) {
                         let consegna = data.find(c => c.autore === "CARICATURA_CONSEGNATA");
                         if (consegna) {
                             fotoCaricataBase64 = consegna.idea_dettagliata;
-                            
-                            // Aggiorna l'interfaccia per il cliente
                             let alertPronta = document.getElementById('alert-caricatura-pronta');
                             let areaUpload = document.getElementById('area-upload-foto');
                             if(alertPronta) alertPronta.style.display = 'block';
                             if(areaUpload) areaUpload.style.display = 'none';
-
-                            // Seleziona il premium in automatico nel checkout
                             let radioPremium = document.getElementById('radio-premium-img');
                             if(radioPremium) radioPremium.checked = true;
                         }
                     }
-                    
                     aggiornaUI(t);
                 }
-                aggiornaDatiAnteprima(); // Aggiorna il cartellone per mostrare il disegno!
+                aggiornaDatiAnteprima(); 
             } catch (err) {}
         };
 
@@ -787,9 +812,14 @@
         window.aggiornaDatiAnteprima = async function() {
             let lavagna = document.getElementById('cartellone-lavagna'); if (!lavagna) return;
             lavagna.innerHTML = `<div class="watermark-layer"></div>`; let l = presetLayouts[currentLayoutIndex];
+            
             creaBox("TITOLO", `<div class="cart-titolo-txt" contenteditable="true">LAUREA DI ${nomeVisuale.toUpperCase()}</div>`, l.TITOLO.t, l.TITOLO.l, l.TITOLO.w);
-            let imgHTML = fotoCaricataBase64 ? `<div class="cart-caricatura-ph" style="border:none;"><img src="${fotoCaricataBase64}"></div>` : `<div class="cart-caricatura-ph">📸<br>Spazio Foto</div>`;
+            
+            // LA MAGIA DELLO SCUDO ANTI-FURTO SULLA FOTO
+            let scudoFiligrana = fotoCaricataBase64 ? `<div class="img-watermark">ANTEPRIMA<br>Bassa Qualità</div>` : "";
+            let imgHTML = fotoCaricataBase64 ? `<div class="cart-caricatura-ph" style="border:none; position:relative;"><img src="${fotoCaricataBase64}">${scudoFiligrana}</div>` : `<div class="cart-caricatura-ph">📸<br>Spazio Foto</div>`;
             creaBox("CARICATURA", imgHTML, l.CARICATURA.t, l.CARICATURA.l, l.CARICATURA.w);
+            
             let testiPapiro = dati.papiro.map(p => `<p style="margin:5px 0;">"${p.aneddoto}"</p>`).join(''); if (!testiPapiro) testiPapiro = "<p>Nessun aneddoto inserito.</p>";
             creaBox("PAPIRO", `<div class="cart-papiro-txt" contenteditable="true"><h3 style="margin:0 0 10px 0; text-align:center;">IL PAPIRO</h3>${testiPapiro}</div>`, l.PAPIRO.t, l.PAPIRO.l, l.PAPIRO.w);
             let gridHtml = document.querySelector('#crossword-container .cw-grid') ? document.querySelector('#crossword-container .cw-grid').outerHTML : "<i style='font-size:16px; padding:10px;'>Genera cruciverba!</i>";
@@ -862,7 +892,10 @@
             }
             
             setTimeout(async () => {
-                document.getElementById('anteprima').classList.remove('preview-mode'); document.getElementById('anteprima').classList.add('stampa-mode');
+                // IL SEGRETO: Entra in "stampa-mode" che disattiva sfocatura e filigrana
+                document.getElementById('anteprima').classList.remove('preview-mode'); 
+                document.getElementById('anteprima').classList.add('stampa-mode');
+                
                 let cartellone = document.getElementById('cartellone-lavagna'); let oldTransform = cartellone.style.transform; cartellone.style.transform = 'scale(1)';
                 
                 try {
@@ -875,10 +908,11 @@
                     if (costoFmt === 34.90) {
                         document.getElementById('success-modal').style.display = 'flex';
                     } else {
-                        alert("✅ Pagamento confermato! Il PDF in Alta Risoluzione è stato scaricato sul tuo dispositivo.\nGrazie per aver usato SiLaurea App!");
+                        alert("✅ Pagamento confermato! Il PDF in Alta Risoluzione senza filigrana è stato scaricato sul tuo dispositivo.\nGrazie per aver usato SiLaurea App!");
                     }
                 } catch(error) { alert("Si è verificato un errore durante la generazione."); chiudiCheckout(); }
                 
+                // Rimette lo scudo!
                 cartellone.style.transform = oldTransform; document.getElementById('anteprima').classList.remove('stampa-mode'); 
             }, 2000); 
         };
