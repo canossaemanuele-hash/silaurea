@@ -182,9 +182,7 @@
         
         /* SHIELD ANTI-FURTO SULLA FOTO */
         #cartellone-lavagna:not(.stampa-mode) .cart-caricatura-ph img {
-            filter: blur(2px) contrast(0.9);
-            pointer-events: none; /* Blocca tasto destro */
-            user-select: none;
+            filter: blur(2px) contrast(0.9); pointer-events: none; user-select: none;
         }
         .img-watermark {
             position: absolute; top: 0; left: 0; right: 0; bottom: 0;
@@ -207,7 +205,6 @@
         .preview-mode .drag-box { border: none !important; box-shadow: none !important; background: transparent !important; }
         .preview-mode #cartellone-lavagna { background-image: none !important; }
         
-        /* Modalità STAMPA (PDF) - Toglie tutto lo scudo! */
         .stampa-mode .drag-handle, .stampa-mode .resize-handle { display: none !important; }
         .stampa-mode .drag-box { border: none !important; box-shadow: none !important; background: transparent !important; }
         .stampa-mode #cartellone-lavagna { background-image: none !important; border: none; box-shadow: none; }
@@ -275,8 +272,19 @@
         <div id="home" class="section">
             <div id="display-laureato" class="badge-laureato"></div>
             <h2>Pronti per la festa? 🎉</h2>
-            <p style="color: var(--text-muted); font-size: 14px;">Copia questo link segreto e invialo agli amici su WhatsApp:</p>
-            <div class="form-group"><input type="text" id="share-link" readonly style="font-weight: 600; color: var(--primary); background: #ebf4ff; text-align: center;" onclick="this.select(); document.execCommand('copy'); alert('Link copiato!');"></div>
+            
+            <div style="background: #fff0f2; border-left: 4px solid #ff416c; padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: left;">
+                <b style="color: #ff416c; font-size: 14px;">🚨 ATTENZIONE: SALVA SUBITO IL LINK!</b>
+                <p style="margin: 5px 0 0 0; font-size: 13px; color: #475569;">Questa è l'unica "chiave" per accedere al tuo evento. Se chiudi questa pagina senza aver copiato il link, non potrai più rientrare e dovrai ricreare tutto da capo.</p>
+            </div>
+
+            <p style="color: var(--text-main); font-size: 14px; font-weight: 600; text-align: center;">👇 Clicca qui sotto per copiare il tuo link segreto 👇</p>
+            
+            <div class="form-group">
+                <input type="text" id="share-link" readonly style="font-weight: 700; color: var(--primary); background: #ebf4ff; border: 2px solid var(--primary); text-align: center; cursor: pointer; font-size: 16px; padding: 18px;" onclick="this.select(); document.execCommand('copy'); alert('✅ Link copiato!\n\nMandalo subito a te stesso o incollalo nelle tue note per non perderlo.');">
+            </div>
+            
+            <p style="color: var(--text-muted); font-size: 13px; text-align: center; margin-top: -10px;">(Invia questo link anche agli amici per farli partecipare)</p>
         </div>
 
         <div id="admin" class="section">
@@ -478,16 +486,17 @@
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRmanZkZW5xYm9rdnRtc3F5anNoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI2MTM1MzAsImV4cCI6MjA4ODE4OTUzMH0.kOvBhb3bnJT562q8nOGJFwgf7Lf28soDV0yIhyF0BCI';
         
         let clientSupabase;
-        try { clientSupabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY); } catch(e) {}
+        try { 
+            clientSupabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY); 
+        } catch(e) {
+            console.error("Errore inizializzazione Supabase", e);
+        }
 
         let idEventoSegreto = ""; let nomeVisuale = ""; 
         let dati = { cruciverba: [], caricatura: [], papiro: [], regalo: [] };
-        let currentZoom = 1.0; let currentLayoutIndex = 0; 
-        let fotoCaricataBase64 = "";
+        let currentZoom = 1.0; let currentLayoutIndex = 0; let fotoCaricataBase64 = "";
 
-        // ==========================================
-        // 1. ADMIN E CANCELLAZIONE
-        // ==========================================
+        // TRUCCO SEGRETO ADMIN
         let adminClicks = 0; let adminTimer;
         window.clickSegreto = function() {
             adminClicks++; clearTimeout(adminTimer);
@@ -504,6 +513,7 @@
             }
         };
 
+        // ADMIN E CANCELLAZIONE
         window.caricaTuttoAdmin = async function() {
             document.getElementById('admin-content').innerHTML = "<i>Recupero dati in corso...</i>";
             if (!clientSupabase) return;
@@ -511,7 +521,10 @@
                 const { data, error } = await clientSupabase.from('caricatura').select('*').order('created_at', { ascending: false });
                 if (error) throw error;
                 let gruppi = {};
-                data.forEach(item => { if (!gruppi[item.laureato_tag]) gruppi[item.laureato_tag] = []; gruppi[item.laureato_tag].push(item); });
+                data.forEach(item => {
+                    if (!gruppi[item.laureato_tag]) gruppi[item.laureato_tag] = [];
+                    gruppi[item.laureato_tag].push(item);
+                });
 
                 let html = "";
                 for (let tag in gruppi) {
@@ -524,11 +537,13 @@
                     let haInfo = false;
                     gruppi[tag].forEach(c => {
                         if (c.autore === "INFO EVENTO") {
-                            html += `<p style="color:var(--success); font-weight:700; font-size:16px; margin:0 0 15px 0;">📅 ${c.idea_dettagliata}</p>`; haInfo = true;
+                            html += `<p style="color:var(--success); font-weight:700; font-size:16px; margin:0 0 15px 0;">📅 ${c.idea_dettagliata}</p>`;
+                            haInfo = true;
                         } else if (c.autore === "ORDINE ACQUISTATO") {
                             html += `<div style="background:#f0fdf4; border:1px solid #bbf7d0; padding:15px; border-radius:12px; margin-bottom:15px;">
                                         <b style="color:#166534;">📦 ORDINE RICEVUTO:</b><br><span style="color:#15803d;">${c.idea_dettagliata}</span>
-                                     </div>`; haInfo = true;
+                                     </div>`;
+                            haInfo = true;
                         } else if (c.autore === "ORDINE PREMIUM (FOTO + IDEE)") {
                             haInfo = true;
                             try {
@@ -547,6 +562,7 @@
                                             <a href="${obj.f2}" download="foto2_${tag}.jpg" class="btn-download-foto">⬇️ Scarica Foto 2</a>
                                         </div>
                                     </div>
+                                    
                                     <label class="btn-upload-admin">
                                         📤 Carica & Consegna Disegno al Cliente
                                         <input type="file" accept="image/*" style="display:none;" onchange="consegnaDisegnoFinito(event, '${tag}')">
@@ -570,7 +586,8 @@
             reader.onload = function(e) {
                 let img = new Image(); img.src = e.target.result;
                 img.onload = async function() {
-                    let canvas = document.createElement('canvas'); let max = 1200; 
+                    let canvas = document.createElement('canvas'); 
+                    let max = 1200; // Alta qualità per il disegno
                     let w = img.width; let h = img.height;
                     if (w > h) { if (w > max) { h *= max / w; w = max; } } else { if (h > max) { w *= max / h; h = max; } }
                     canvas.width = w; canvas.height = h;
@@ -597,9 +614,7 @@
             }
         };
 
-        // ==========================================
-        // 2. INIZIALIZZAZIONE
-        // ==========================================
+        // INIZIALIZZAZIONE E DATA
         window.onload = function() {
             let dataInput = document.getElementById('input-data-festa');
             if (dataInput) {
@@ -647,9 +662,7 @@
             document.getElementById(id).classList.add('active'); if (el) el.classList.add('active');
         };
 
-        // ==========================================
-        // 3. CARICATURA E UPLOAD
-        // ==========================================
+        // CARICATURA PREMIUM
         window.togglePremiumForm = function() {
             let form = document.getElementById('premium-form-area'); 
             form.style.display = (form.style.display === 'block') ? 'none' : 'block';
@@ -665,9 +678,7 @@
                 let json = JSON.stringify({ note: "ORDINE PREMIUM", istruzioni: istruzioni, f1: ref1.src, f2: ref2.src });
                 await clientSupabase.from('caricatura').insert([{ autore: "ORDINE PREMIUM (FOTO + IDEE)", idea_dettagliata: json, laureato_tag: idEventoSegreto }]);
             }
-            let radioPremium = document.getElementById('radio-premium-img');
-            if(radioPremium) radioPremium.checked = true;
-            
+            document.getElementById('radio-premium-img').checked = true;
             alert("✅ Inviato! L'opzione Premium è selezionata nel carrello.");
             togglePremiumForm();
         };
@@ -694,9 +705,7 @@
             };
         };
 
-        // ==========================================
-        // 4. DATABASE (CRUD)
-        // ==========================================
+        // DATABASE CRUD
         window.caricaDati = async function() {
             if (!clientSupabase) return; 
             try {
@@ -705,6 +714,7 @@
                     if (t === 'regalo' && data) data.sort((a, b) => b.voti - a.voti);
                     dati[t] = data || []; 
 
+                    // CONTROLLO MAGICO: Il disegno è stato consegnato?
                     if (t === 'caricatura' && data) {
                         let consegna = data.find(c => c.autore === "CARICATURA_CONSEGNATA");
                         if (consegna) {
@@ -749,9 +759,7 @@
             }).join('');
         };
 
-        // ==========================================
-        // 5. CRUCIVERBA MAGICO
-        // ==========================================
+        // CRUCIVERBA
         window.generaCruciverbaMagico = function() {
             if (dati.cruciverba.length < 2) return alert("Inserisci almeno 2 parole!");
             document.getElementById('crossword-wrapper').style.display = 'block'; 
@@ -789,9 +797,7 @@
             document.getElementById('crossword-clues').innerHTML = `<div style="flex:1; text-align:left;"><h4 style="margin-top:0; border-bottom:1px solid #ccc; padding-bottom:5px;">ORIZZONTALI</h4>${orizz.join('')}</div><div style="flex:1; text-align:left;"><h4 style="margin-top:0; border-bottom:1px solid #ccc; padding-bottom:5px;">VERTICALI</h4>${verti.join('')}</div>`;
         };
 
-        // ==========================================
-        // 6. LAVAGNA E ZOOM
-        // ==========================================
+        // LAVAGNA E ZOOM
         window.modificaZoom = function(delta) { currentZoom += delta; if (currentZoom < 0.2) currentZoom = 0.2; if (currentZoom > 2.5) currentZoom = 2.5; applicaZoomCorrente(); };
         function applicaZoomCorrente() { document.getElementById('lbl-zoom').innerText = Math.round(currentZoom * 100) + '%'; let cartellone = document.getElementById('cartellone-lavagna'); let wrapper = document.getElementById('zoom-wrapper'); cartellone.style.transform = `scale(${currentZoom})`; wrapper.style.width = (800 * currentZoom) + 'px'; wrapper.style.height = (1142 * currentZoom) + 'px'; }
         const workspace = document.getElementById('workspace'); let initZoomDist = 0; let initZoomZ = 1;
@@ -815,7 +821,7 @@
             
             creaBox("TITOLO", `<div class="cart-titolo-txt" contenteditable="true">LAUREA DI ${nomeVisuale.toUpperCase()}</div>`, l.TITOLO.t, l.TITOLO.l, l.TITOLO.w);
             
-            // LA MAGIA DELLO SCUDO ANTI-FURTO SULLA FOTO
+            // LA MAGIA DELLO SCUDO ANTI-FURTO
             let scudoFiligrana = fotoCaricataBase64 ? `<div class="img-watermark">ANTEPRIMA<br>Bassa Qualità</div>` : "";
             let imgHTML = fotoCaricataBase64 ? `<div class="cart-caricatura-ph" style="border:none; position:relative;"><img src="${fotoCaricataBase64}">${scudoFiligrana}</div>` : `<div class="cart-caricatura-ph">📸<br>Spazio Foto</div>`;
             creaBox("CARICATURA", imgHTML, l.CARICATURA.t, l.CARICATURA.l, l.CARICATURA.w);
@@ -854,9 +860,7 @@
             });
         }
 
-        // ==========================================
-        // 7. CHECKOUT E PDF
-        // ==========================================
+        // CHECKOUT E PDF
         window.apriCheckout = function() { document.getElementById('checkout-modal').style.display = 'flex'; calcolaTotale(); };
         window.chiudiCheckout = function() { document.getElementById('checkout-modal').style.display = 'none'; document.getElementById('loader-export').style.display = 'none'; document.getElementById('btn-pay-action').style.display = 'block'; };
         
@@ -892,7 +896,7 @@
             }
             
             setTimeout(async () => {
-                // IL SEGRETO: Entra in "stampa-mode" che disattiva sfocatura e filigrana
+                // TOGLIE LA FILIGRANA PER LA STAMPA
                 document.getElementById('anteprima').classList.remove('preview-mode'); 
                 document.getElementById('anteprima').classList.add('stampa-mode');
                 
@@ -908,11 +912,11 @@
                     if (costoFmt === 34.90) {
                         document.getElementById('success-modal').style.display = 'flex';
                     } else {
-                        alert("✅ Pagamento confermato! Il PDF in Alta Risoluzione senza filigrana è stato scaricato sul tuo dispositivo.\nGrazie per aver usato SiLaurea App!");
+                        alert("✅ Pagamento confermato! Il PDF in Alta Risoluzione e SENZA FILIGRANA è stato scaricato.\nGrazie per aver usato SiLaurea App!");
                     }
                 } catch(error) { alert("Si è verificato un errore durante la generazione."); chiudiCheckout(); }
                 
-                // Rimette lo scudo!
+                // RIMETTE LA FILIGRANA SUBITO DOPO
                 cartellone.style.transform = oldTransform; document.getElementById('anteprima').classList.remove('stampa-mode'); 
             }, 2000); 
         };
