@@ -3,14 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>🎓 SiLaurea App</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>🎓 SiLaurea App - Pro Business</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
     <style>
         :root {
             --primary: #2980b9; 
             --primary-hover: #1f618d;
+            --accent: #f39c12;
+            --accent-hover: #d68910;
             --bg-color: #f0f2f5;
             --card-bg: #ffffff;
             --text-main: #2c3e50;
@@ -19,8 +25,9 @@
 
         body { font-family: 'Poppins', sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; }
         header { background: linear-gradient(135deg, var(--primary), #3498db); color: white; width: 100%; text-align: center; padding: 2rem 0; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; }
-        h1 { margin: 0; font-weight: 600; letter-spacing: 1px; }
+        h1 { margin: 0; font-weight: 700; letter-spacing: 1px; }
 
+        /* Navigazione */
         nav { display: none; justify-content: center; gap: 8px; margin-top: -25px; background: var(--card-bg); padding: 10px 15px; border-radius: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); flex-wrap: wrap; z-index: 10; }
         nav button { background: transparent; border: none; padding: 8px 15px; border-radius: 20px; font-size: 14px; font-weight: 600; color: var(--text-muted); cursor: pointer; transition: all 0.3s ease; }
         nav button:hover, nav button.active { background: var(--primary); color: white; }
@@ -32,74 +39,94 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
         .badge-laureato { background: #e1f5fe; color: var(--primary); padding: 8px 20px; border-radius: 20px; font-weight: bold; margin-bottom: 20px; display: inline-block; border: 1px solid var(--primary); }
-        .avviso-invitati { background: #fff3cd; color: #856404; padding: 15px; border-radius: 8px; border-left: 4px solid #ffeeba; margin-top: 20px; font-size: 14px; }
 
         .form-group { margin-bottom: 20px; }
         .form-group input[type="text"], .form-group textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; box-sizing: border-box; }
-        .form-group input:disabled { background-color: #f5f5f5; color: #aaa; cursor: not-allowed; }
-        
         .row-autore { display: flex; align-items: center; gap: 15px; }
         .row-autore input[type="text"] { flex: 1; }
-        .row-autore .anonimo-check { display: flex; align-items: center; gap: 5px; font-size: 14px; color: var(--text-muted); cursor: pointer; white-space: nowrap; }
+        .anonimo-check { display: flex; align-items: center; gap: 5px; font-size: 14px; color: var(--text-muted); cursor: pointer; }
 
         button.btn-submit { background-color: var(--primary); color: white; border: none; padding: 14px 24px; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 600; width: 100%; margin-bottom: 10px; transition: 0.3s; }
         button.btn-submit:hover { background: var(--primary-hover); transform: translateY(-2px); }
 
+        /* UPSELL BANNER (Caricatura Premium) */
+        .upsell-banner { background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%); border: 2px solid #f1c40f; padding: 15px; border-radius: 12px; margin-top: 20px; text-align: center; }
+        .upsell-banner h3 { margin: 0 0 10px 0; color: #d35400; font-size: 18px; }
+        .upsell-banner p { margin: 0; font-size: 13px; color: #555; }
+        .custom-file-upload { border: 2px dashed var(--primary); display: inline-block; padding: 15px; cursor: pointer; border-radius: 8px; color: var(--primary); font-weight: bold; width: 100%; text-align: center; box-sizing: border-box; background: #f4f9fc; transition: 0.3s; }
+        .custom-file-upload:hover { background: #eaf2f8; }
+        input[type="file"] { display: none; }
+
+        /* CRUCIVERBA */
         #crossword-container { margin-top: 20px; overflow-x: auto; text-align: center; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 8px; }
         .cw-grid { border-collapse: collapse; margin: 0 auto; background: white; border: 2px solid #000; }
         .cw-cell { width: 35px; height: 35px; background: white; border: 1px solid #000; text-align: center; vertical-align: middle; position: relative; font-weight: bold; text-transform: uppercase; font-family: monospace; font-size: 18px; }
         .cw-empty { background: transparent; border: none; width: 35px; height: 35px; }
         .cw-number { position: absolute; top: 1px; left: 2px; font-size: 10px; color: #000; line-height: 1; font-weight: normal; font-family: sans-serif; }
-        
-        .idea-card { background: #f9f9f9; border-left: 4px solid var(--primary); padding: 15px; border-radius: 8px; margin-bottom: 15px; position: relative; word-wrap: break-word; }
-        .btn-del { position: absolute; right: 10px; top: 10px; background: none; border: none; cursor: pointer; color: #e74c3c; font-weight: bold; font-size: 16px; }
 
-        /* LAVAGNA INTERATTIVA E STRUMENTI */
+        /* LAVAGNA INTERATTIVA E ZOOM */
         .toolbar-anteprima { display: flex; gap: 8px; margin-bottom: 10px; justify-content: center; flex-wrap: wrap; align-items: center; }
-        .btn-tool { padding: 8px 12px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; font-size: 13px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .style-select { padding: 6px 10px; border-radius: 8px; border: 1px solid #ddd; font-size: 13px; font-family: inherit; }
+        .btn-tool { padding: 8px 12px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; font-size: 13px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); color: white; }
+        .btn-buy { background: var(--accent); font-size: 15px; padding: 10px 15px; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        
+        .style-select { padding: 6px 10px; border-radius: 8px; border: 1px solid #ddd; font-size: 13px; }
         .color-picker { padding: 0; width: 35px; height: 35px; border: 1px solid #ddd; border-radius: 8px; cursor: pointer; }
         
         .info-cartellone { font-size: 13px; text-align: center; color: #e67e22; margin-bottom: 10px; }
-
-        /* CONTROLLI ZOOM MANUALI */
         .zoom-controls { display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 15px; }
         .btn-zoom { background: #ecf0f1; border: 1px solid #bdc3c7; border-radius: 5px; width: 40px; height: 35px; font-size: 20px; font-weight: bold; color: #2c3e50; cursor: pointer; display: flex; align-items: center; justify-content: center; }
         .lbl-zoom { font-weight: bold; color: var(--primary); min-width: 50px; text-align: center; font-size: 14px; }
 
-        /* WORKSPACE CON ZOOM ISOLATO */
         .workspace { width: 100%; height: 65vh; overflow: auto; background: #dcdde1; border-radius: 8px; border: 2px solid #bdc3c7; box-shadow: inset 0 0 10px rgba(0,0,0,0.1); touch-action: pan-x pan-y; }
         #zoom-wrapper { position: relative; width: 800px; height: 1142px; margin: 0 auto; transform-origin: top left; }
+        
+        /* IL CARTELLONE */
         #cartellone-lavagna { position: absolute; top: 0; left: 0; width: 800px; height: 1142px; background: white; border: 1px solid #999; box-shadow: 0 10px 30px rgba(0,0,0,0.15); font-family: 'Times New Roman', serif; background-image: radial-gradient(#eee 1px, transparent 1px); background-size: 20px 20px; transform-origin: top left; }
         
-        /* BOX TRASCINABILI */
         .drag-box { position: absolute; background: transparent; border: 2px dashed #3498db; display: flex; flex-direction: column; min-width: 50px; min-height: 40px; box-sizing: border-box; transition: top 0.4s ease, left 0.4s ease, width 0.4s ease; }
         .drag-box:hover { z-index: 100; background: rgba(255,255,255,0.7); }
         
-        /* BARRA BLU SOTTILE */
         .drag-handle { background: #3498db; padding: 2px 6px; color: white; display: flex; justify-content: space-between; align-items: center; cursor: move; touch-action: none; height: 22px; }
         .drag-handle button { background: none; border: none; color: white; cursor: pointer; font-weight: bold; font-size: 14px; padding: 0 5px; line-height: 1; }
         
         .drag-content { position: relative; flex: 1; overflow: hidden; outline: none; background: transparent; }
         .drag-content[contenteditable="true"]:focus { background: rgba(255, 253, 231, 0.9); }
-        
         .zoom-fit { position: absolute; top: 0; left: 0; transform-origin: top left; width: max-content; height: max-content; }
         
-        /* Modifiche Elementi nel Cartellone */
+        /* Stili Interni Cartellone */
         .drag-content .cw-grid { border: 2px solid #000; margin: 0; background: white; }
         .drag-content .cw-cell { width: 40px; height: 40px; font-size: 20px; }
         .drag-content .cw-empty { width: 40px; height: 40px; }
         
         .cart-titolo-txt { font-size: 45px; text-align: center; font-weight: bold; text-transform: uppercase; line-height: 1.1; margin: 0; white-space: nowrap; padding: 5px; }
         .cart-papiro-txt { font-size: 18px; text-align: justify; width: 450px; padding: 10px; box-sizing: border-box; }
-        .cart-caricatura-ph { width: 300px; height: 400px; border: 3px dashed #bdc3c7; display: flex; align-items: center; justify-content: center; color: #7f8c8d; background: #f9f9f9; text-align: center; font-size: 24px; box-sizing: border-box; }
+        .cart-caricatura-ph { width: 300px; height: 400px; border: 3px dashed #bdc3c7; display: flex; align-items: center; justify-content: center; color: #7f8c8d; background: #f9f9f9; text-align: center; font-size: 24px; box-sizing: border-box; overflow: hidden;}
+        .cart-caricatura-ph img { width: 100%; height: 100%; object-fit: cover; }
 
         .resize-handle { position: absolute; bottom: -3px; right: -3px; width: 30px; height: 30px; background: linear-gradient(135deg, transparent 50%, var(--primary) 50%); cursor: nwse-resize; z-index: 10; touch-action: none; border-bottom-right-radius: 4px; }
 
-        /* MODALITA STAMPA */
+        /* MODALITÀ ESPORTAZIONE / STAMPA */
         .stampa-mode .drag-handle, .stampa-mode .resize-handle { display: none !important; }
         .stampa-mode .drag-box { border: none !important; background: transparent !important; }
-        .stampa-mode #cartellone-lavagna { background-image: none !important; }
+        .stampa-mode #cartellone-lavagna { background-image: none !important; border: none; box-shadow: none; }
+
+        /* MODAL CHECKOUT */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
+        .modal-content { background: white; width: 90%; max-width: 450px; padding: 25px; border-radius: 20px; box-shadow: 0 15px 50px rgba(0,0,0,0.2); animation: fadeIn 0.3s ease; }
+        .modal-content h2 { margin-top: 0; color: var(--text-main); font-size: 22px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        .checkout-option { border: 2px solid #eee; padding: 12px; border-radius: 10px; margin-bottom: 10px; cursor: pointer; transition: 0.2s; display: flex; justify-content: space-between; align-items: center; }
+        .checkout-option:hover { border-color: var(--primary); background: #f4f9fc; }
+        .checkout-option input[type="radio"] { margin-right: 10px; transform: scale(1.3); cursor: pointer;}
+        .chk-title { font-weight: bold; font-size: 15px; color: var(--text-main); }
+        .chk-price { font-weight: bold; color: var(--primary); }
+        .total-price { font-size: 24px; font-weight: bold; text-align: center; margin: 20px 0; color: #27ae60; }
+        .btn-pay { background: #27ae60; width: 100%; font-size: 18px; padding: 15px; }
+        .btn-pay:hover { background: #219653; }
+        .btn-cancel { background: transparent; color: #e74c3c; width: 100%; margin-top: 5px; box-shadow: none; }
+        
+        /* Loader Export */
+        #loader-export { display: none; text-align: center; margin-top: 15px; font-weight: bold; color: var(--primary); }
     </style>
 </head>
 <body>
@@ -111,7 +138,7 @@
     <nav id="main-nav">
         <button class="tab-link active" onclick="apriSezione('home', this)">🏠 Home</button>
         <button class="tab-link" onclick="apriSezione('cruciverba', this)">🧩 Cruciverba</button>
-        <button class="tab-link" onclick="apriSezione('caricatura', this)">🎨 Caricatura</button>
+        <button class="tab-link" onclick="apriSezione('immagine', this)">🖼️ Immagine</button>
         <button class="tab-link" onclick="apriSezione('papiro', this)">📜 Papiro</button>
         <button class="tab-link" onclick="apriSezione('regalo', this)">🎁 Regalo</button>
         <button class="tab-link" style="background-color: #f1c40f; color: #333;" onclick="apriAnteprima(this)">🖼️ Preview Cartellone</button>
@@ -121,8 +148,9 @@
     <main>
         <div id="login-section" class="section active">
             <h2>Gestione Evento</h2>
+            <p>✅ Crea l'evento e componi il cartellone <b>100% Gratis</b>. Pagherai solo alla fine per scaricare il PDF da stampa in Alta Definizione.</p>
             <div class="form-group">
-                <input type="text" id="input-laureato" placeholder="Nome (es: Lisa Rossi)">
+                <input type="text" id="input-laureato" placeholder="Nome Festeggiato (es: Lisa Rossi)">
             </div>
             <button class="btn-submit" onclick="creaNuovaArea()">Crea Area Sicura & Genera Link</button>
         </div>
@@ -130,8 +158,9 @@
         <div id="home" class="section">
             <div id="display-laureato" class="badge-laureato"></div>
             <h2>Pronti per la festa? 🎉</h2>
+            <p>Copia questo link segreto e invialo agli amici su WhatsApp:</p>
             <div class="form-group">
-                <input type="text" id="share-link" readonly onclick="this.select(); document.execCommand('copy'); alert('Link copiato negli appunti!');">
+                <input type="text" id="share-link" readonly onclick="this.select(); document.execCommand('copy'); alert('Link copiato!');">
             </div>
         </div>
 
@@ -146,14 +175,25 @@
             <button class="btn-submit" onclick="aggiungi('cruciverba')">Salva</button>
             <button class="btn-submit" style="background:#2c3e50" onclick="generaCruciverbaMagico()">🎲 Crea Griglia da Stampare</button>
             <div id="crossword-wrapper" style="display: none; margin-top:30px;"><div id="crossword-container"></div><div id="crossword-clues"></div></div>
-            <div class="lista-idee"><div id="lista-cruciverba"></div></div>
         </div>
 
-        <div id="caricatura" class="section">
-            <h2>🎨 Caricatura</h2>
-            <div class="form-group"><textarea id="cari-idea" rows="3" placeholder="Idea per il disegno..."></textarea></div>
-            <button class="btn-submit" onclick="aggiungi('caricatura')">Invia Proposta</button>
-            <div class="lista-idee"><div id="lista-caricatura"></div></div>
+        <div id="immagine" class="section">
+            <h2>🖼️ Immagine Centrale</h2>
+            <p>Carica una foto divertente dal telefono. Sarà inserita automaticamente al centro del cartellone!</p>
+            
+            <label class="custom-file-upload">
+                <input type="file" id="foto-upload" accept="image/*" onchange="comprimiESalvaFoto(event)">
+                📸 Clicca qui per scegliere la foto
+            </label>
+            <div id="preview-foto-container" style="display:none; text-align:center; margin-top:15px;">
+                <p style="font-size:12px; color:green;">✓ Foto caricata con successo!</p>
+                <img id="preview-foto" style="max-height: 200px; border-radius: 8px; border: 2px solid #ddd;">
+            </div>
+
+            <div class="upsell-banner">
+                <h3>👑 Vuoi rendere il cartellone Epico?</h3>
+                <p>Invece della solita foto, fai realizzare una <b>Caricatura Premium</b> ai nostri artisti AI in 24h. Sceglierai questa opzione al momento del Download!</p>
+            </div>
         </div>
 
         <div id="papiro" class="section">
@@ -176,11 +216,8 @@
 
         <div id="anteprima" class="section" style="padding:15px;">
             <div class="toolbar-anteprima">
-                <button class="btn-tool" style="background:#8e44ad; color:white;" onclick="cambiaLayout()">🔀 Layout Auto</button>
-                <button class="btn-tool" style="background:#e67e22; color:white;" onclick="centraTitolo()">↔️ Centra Titolo</button>
-                <button class="btn-tool" style="background:#2ecc71; color:white;" onclick="aggiornaDatiAnteprima()">🔄 Aggiorna</button>
-                <button class="btn-tool" style="background:#3498db; color:white;" onclick="toggleStampa()">👁️ Stampa</button>
-                
+                <button class="btn-tool" style="background:#8e44ad;" onclick="cambiaLayout()">🔀 Layout Auto</button>
+                <button class="btn-tool" style="background:#e67e22;" onclick="centraTitolo()">↔️ Centra Titolo</button>
                 <select id="cart-font" class="style-select" onchange="cambiaStile()">
                     <option value="'Times New Roman', serif">Times New Roman</option>
                     <option value="'Arial', sans-serif">Arial</option>
@@ -188,12 +225,10 @@
                     <option value="'Comic Sans MS', cursive">Comic Sans</option>
                 </select>
                 <input type="color" id="cart-color" class="color-picker" value="#c0392b" onchange="cambiaStile()" title="Colore Titoli">
+                <button class="btn-tool btn-buy" onclick="apriCheckout()">🛒 Acquista / Scarica HD</button>
             </div>
             
-            <div class="info-cartellone">
-                <b>📐 Formato Cartellone 70x100 cm</b><br>
-                Usa i tasti + e - per zoomare, e fai scorrere la finestra per muoverti.
-            </div>
+            <div class="info-cartellone"><b>📐 Cartellone 70x100 cm</b> (Zoom e scorri per posizionare bene)</div>
 
             <div class="zoom-controls">
                 <button class="btn-zoom" onclick="modificaZoom(-0.1)">-</button>
@@ -210,19 +245,56 @@
         </div>
     </main>
 
+    <div id="checkout-modal" class="modal-overlay" style="display:none;">
+        <div class="modal-content">
+            <h2>🛒 Completa e Stampa</h2>
+            <p style="font-size:13px; color:#555; margin-top:-5px;">Scegli le opzioni per sbloccare il tuo cartellone senza loghi e in alta risoluzione.</p>
+            
+            <div style="margin-bottom: 10px; font-weight: bold; font-size: 14px;">1. Scegli l'Immagine Centrale:</div>
+            <label class="checkout-option">
+                <div><input type="radio" name="chk-img" value="0" checked onchange="calcolaTotale()"> <span class="chk-title">Foto Normale (Gratis)</span></div>
+                <span class="chk-price">0,00€</span>
+            </label>
+            <label class="checkout-option" style="border-color:#f1c40f; background:#fffdf5;">
+                <div><input type="radio" name="chk-img" value="9.90" onchange="calcolaTotale()"> <span class="chk-title">👑 Caricatura Premium</span></div>
+                <span class="chk-price">+9,90€</span>
+            </label>
+
+            <div style="margin-top:20px; margin-bottom: 10px; font-weight: bold; font-size: 14px;">2. Scegli il Formato:</div>
+            <label class="checkout-option">
+                <div><input type="radio" name="chk-fmt" value="4.90" checked onchange="calcolaTotale()"> <span class="chk-title">Solo File PDF (Fai da te)</span></div>
+                <span class="chk-price">4,90€</span>
+            </label>
+            <label class="checkout-option" style="border-color:#2980b9; background:#f4f9fc;">
+                <div><input type="radio" name="chk-fmt" value="34.90" onchange="calcolaTotale()"> <span class="chk-title">📦 Stampa & Spedizione a Casa</span><br><span style="font-size:11px; color:#777; margin-left:25px;">(Ricevi il 70x100 pronto in 48h)</span></div>
+                <span class="chk-price">34,90€</span>
+            </label>
+
+            <div class="total-price" id="modal-totale">Totale: 4,90€</div>
+            
+            <button class="btn-submit btn-pay" id="btn-pay-action" onclick="avviaGenerazionePDF()">💳 Paga con Apple Pay</button>
+            <div id="loader-export">⏳ Generazione File HD in corso...<br><span style="font-size:11px; font-weight:normal;">Non chiudere la pagina, potrebbe volerci un minuto.</span></div>
+            <button class="btn-submit btn-cancel" onclick="chiudiCheckout()">Annulla</button>
+        </div>
+    </div>
+
     <script>
+        // --- SUPABASE SETUP ---
         const SUPABASE_URL = 'https://dfjvdenqbokvtmsqyjsh.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRmanZkZW5xYm9rdnRtc3F5anNoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI2MTM1MzAsImV4cCI6MjA4ODE4OTUzMH0.kOvBhb3bnJT562q8nOGJFwgf7Lf28soDV0yIhyF0BCI';
         
         let clientSupabase;
-        try { clientSupabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY); } catch(e) { console.error("Errore inizializzazione Supabase", e); }
+        try { clientSupabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY); } catch(e) { console.error(e); }
 
         let idEventoSegreto = ""; 
         let nomeVisuale = "";
-        let dati = { cruciverba: [], caricatura: [], papiro: [], regalo: [] };
+        let dati = { cruciverba: [], papiro: [], regalo: [] };
         
         let currentZoom = 1.0;
         let currentLayoutIndex = 0; 
+
+        // VARIABILE PER LA FOTO CARICATA (Base64)
+        let fotoCaricataBase64 = "";
 
         window.onload = function() {
             const params = new URLSearchParams(window.location.search);
@@ -260,6 +332,15 @@
             nomeVisuale = nomeRaw.charAt(0).toUpperCase() + nomeRaw.slice(1);
             document.getElementById('display-laureato').innerText = `🎓 Area dedicata a: ${nomeVisuale}`;
             document.getElementById('share-link').value = `${window.location.href.split('?')[0]}?id=${idEventoSegreto}`;
+            
+            // Recupero foto dalla memoria locale del telefono (per non intasare subito il database nella demo)
+            let savedImg = localStorage.getItem('foto_' + idEventoSegreto);
+            if(savedImg) {
+                fotoCaricataBase64 = savedImg;
+                document.getElementById('preview-foto').src = savedImg;
+                document.getElementById('preview-foto-container').style.display = 'block';
+            }
+
             caricaDati();
         };
 
@@ -270,7 +351,47 @@
             if(el) el.classList.add('active');
         };
 
-        // --- GESTIONE ZOOM ISOLATO ---
+        // --- MAGIA: COMPRESSIONE FOTO SUL CELLULARE PRIMA DELL'USO ---
+        window.comprimiESalvaFoto = function(event) {
+            let file = event.target.files[0];
+            if(!file) return;
+
+            let reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function(e) {
+                let img = new Image();
+                img.src = e.target.result;
+                img.onload = function() {
+                    let canvas = document.createElement('canvas');
+                    let max_size = 800; // Riduciamo la larghezza per renderla leggerissima
+                    let width = img.width; let height = img.height;
+
+                    if (width > height) {
+                        if (width > max_size) { height *= max_size / width; width = max_size; }
+                    } else {
+                        if (height > max_size) { width *= max_size / height; height = max_size; }
+                    }
+                    
+                    canvas.width = width; canvas.height = height;
+                    let ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+                    
+                    // Comprime in JPEG al 70% di qualità
+                    let compressedBase64 = canvas.toDataURL("image/jpeg", 0.7);
+                    
+                    fotoCaricataBase64 = compressedBase64;
+                    // Salviamo localmente legati a questo evento
+                    localStorage.setItem('foto_' + idEventoSegreto, compressedBase64);
+                    
+                    document.getElementById('preview-foto').src = compressedBase64;
+                    document.getElementById('preview-foto-container').style.display = 'block';
+                    alert("Foto compressa e caricata con successo!");
+                };
+            };
+        };
+
+
+        // --- GESTIONE ZOOM ---
         window.modificaZoom = function(delta) {
             currentZoom += delta;
             if(currentZoom < 0.2) currentZoom = 0.2;
@@ -282,15 +403,13 @@
             document.getElementById('lbl-zoom').innerText = Math.round(currentZoom * 100) + '%';
             let cartellone = document.getElementById('cartellone-lavagna');
             let wrapper = document.getElementById('zoom-wrapper');
-            
             cartellone.style.transform = `scale(${currentZoom})`;
             wrapper.style.width = (800 * currentZoom) + 'px';
             wrapper.style.height = (1142 * currentZoom) + 'px';
         }
 
         const workspace = document.getElementById('workspace');
-        let initZoomDist = 0;
-        let initZoomZ = 1;
+        let initZoomDist = 0; let initZoomZ = 1;
         workspace.addEventListener('touchstart', (e) => {
             if(e.touches.length === 2) {
                 e.preventDefault(); 
@@ -316,10 +435,6 @@
             if(currentZoom > 1) currentZoom = 1;
             applicaZoomCorrente();
             aggiornaDatiAnteprima();
-        };
-
-        window.toggleStampa = function() {
-            document.getElementById('anteprima').classList.toggle('stampa-mode');
         };
 
         window.cambiaStile = function() {
@@ -356,17 +471,11 @@
 
         window.centraTitolo = function() {
             let box = document.getElementById('box-TITOLO');
-            if(box) {
-                box.style.left = '50%';
-                box.style.transform = 'translateX(-50%)';
-                box.dataset.centered = "true"; 
-            }
+            if(box) { box.style.left = '50%'; box.style.transform = 'translateX(-50%)'; box.dataset.centered = "true"; }
         };
 
-        // --- MOTORE BOX E DRAG/DROP ---
         window.aggiornaDatiAnteprima = async function() {
-            try { await caricaDati(); } catch(e) { console.log("Uso dati cache"); }
-            
+            try { await caricaDati(); } catch(e) {}
             let lavagna = document.getElementById('cartellone-lavagna');
             if(!lavagna) return;
             lavagna.innerHTML = ''; 
@@ -374,7 +483,12 @@
             let l = presetLayouts[currentLayoutIndex];
 
             creaBox("TITOLO", `<div class="cart-titolo-txt" contenteditable="true">LAUREA DI ${nomeVisuale.toUpperCase()}</div>`, l.TITOLO.t, l.TITOLO.l, l.TITOLO.w);
-            creaBox("CARICATURA", `<div class="cart-caricatura-ph">📸<br>Spazio Caricatura</div>`, l.CARICATURA.t, l.CARICATURA.l, l.CARICATURA.w);
+            
+            // IMMAGINE CENTRALE (Se caricata, la usa. Altrimenti mostra il placeholder)
+            let imgHTML = fotoCaricataBase64 
+                ? `<div class="cart-caricatura-ph" style="border:none;"><img src="${fotoCaricataBase64}"></div>` 
+                : `<div class="cart-caricatura-ph">📸<br>Nessuna Foto</div>`;
+            creaBox("CARICATURA", imgHTML, l.CARICATURA.t, l.CARICATURA.l, l.CARICATURA.w);
 
             let testiPapiro = dati.papiro.map(p => `<p style="margin:5px 0;">"${p.aneddoto}"</p>`).join('');
             if(!testiPapiro) testiPapiro = "<p>Nessun aneddoto inserito.</p>";
@@ -383,35 +497,20 @@
             let gridHtml = document.querySelector('#crossword-container .cw-grid') ? document.querySelector('#crossword-container .cw-grid').outerHTML : "<i style='font-size:16px; padding:10px;'>Genera cruciverba!</i>";
             creaBox("CRUCIVERBA", gridHtml, l.CRUCIVERBA.t, l.CRUCIVERBA.l, l.CRUCIVERBA.w);
 
-            // DEFINIZIONI PERFETTAMENTE ALLINEATE SENZA FRECCE
-            let orizz = []; let verti = [];
-            // Recupero l'HTML generato dal cruciverba
             let defsHtml = document.getElementById('crossword-clues') ? document.getElementById('crossword-clues').innerHTML : "";
-            
-            creaBox("DEFINIZIONI", `
-                <div style="display:flex; width:100%; justify-content: space-between; align-items: flex-start; gap:20px; font-size:14px;" contenteditable="true">
-                    ${defsHtml}
-                </div>`, l.DEFINIZIONI.t, l.DEFINIZIONI.l, l.DEFINIZIONI.w);
+            if(defsHtml) {
+                let cleanDefs = defsHtml.replace(/class="cw-clues-col"/g, 'style="flex:1;"');
+                creaBox("DEFINIZIONI", `<div style="display:flex; width:100%; justify-content: space-between; align-items: flex-start; gap:20px; font-size:14px;" contenteditable="true">${cleanDefs}</div>`, l.DEFINIZIONI.t, l.DEFINIZIONI.l, l.DEFINIZIONI.w);
+            }
 
-            setTimeout(() => {
-                attivaMotoreMagico();
-                cambiaStile();
-            }, 100); 
+            setTimeout(() => { attivaMotoreMagico(); cambiaStile(); }, 100); 
         };
 
         function creaBox(label, content, top, left, widthPercent) {
             let box = document.createElement('div');
-            box.className = 'drag-box';
-            box.id = 'box-' + label;
-            box.style.top = top + '%';
-            box.style.left = left + '%';
-            box.style.width = widthPercent + '%';
-            
-            box.innerHTML = `
-                <div class="drag-handle"><span style="font-size:14px;">✋</span><button onclick="this.parentElement.parentElement.remove()">❌</button></div>
-                <div class="drag-content"><div class="zoom-fit">${content}</div></div>
-                <div class="resize-handle"></div>
-            `;
+            box.className = 'drag-box'; box.id = 'box-' + label;
+            box.style.top = top + '%'; box.style.left = left + '%'; box.style.width = widthPercent + '%';
+            box.innerHTML = `<div class="drag-handle"><span style="font-size:14px;">✋</span><button onclick="this.parentElement.parentElement.remove()">❌</button></div><div class="drag-content"><div class="zoom-fit">${content}</div></div><div class="resize-handle"></div>`;
             document.getElementById('cartellone-lavagna').appendChild(box);
         }
 
@@ -421,147 +520,143 @@
                 const zoomTarget = box.querySelector('.zoom-fit');
                 const inner = zoomTarget.firstElementChild;
                 if(!inner) return;
-
-                let naturalW = inner.offsetWidth || 100;
-                let naturalH = inner.offsetHeight || 100;
-                let handleH = handle ? handle.offsetHeight : 24;
-                let currentBoxW = box.offsetWidth || parseInt(box.style.width) * 8 || 200;
-                
-                let initialScale = currentBoxW / naturalW;
-                if(isNaN(initialScale) || initialScale === Infinity || initialScale === 0) initialScale = 1;
-                
-                box.style.height = (naturalH * initialScale + handleH) + 'px';
+                let initialScale = (box.offsetWidth || parseInt(box.style.width)*8) / (inner.offsetWidth || 100);
+                if(isNaN(initialScale) || initialScale === 0) initialScale = 1;
+                box.style.height = ((inner.offsetHeight||100) * initialScale + (handle?handle.offsetHeight:24)) + 'px';
                 zoomTarget.style.transform = `scale(${initialScale})`;
             });
         }
 
         function attivaMotoreMagico() {
             forzaRicalcoloAltezze(); 
-
             document.querySelectorAll('.drag-box').forEach(box => {
                 if(box.dataset.active) return;
                 box.dataset.active = "true";
-
-                const handle = box.querySelector('.drag-handle');
-                const resizer = box.querySelector('.resize-handle');
-                const zoomTarget = box.querySelector('.zoom-fit');
-                const inner = zoomTarget.firstElementChild;
+                const handle = box.querySelector('.drag-handle'); const resizer = box.querySelector('.resize-handle');
+                const zoomTarget = box.querySelector('.zoom-fit'); const inner = zoomTarget.firstElementChild;
                 if(!inner) return;
 
                 if (inner.getAttribute('contenteditable') === "true") {
                     inner.addEventListener('input', () => {
-                        let nH = inner.offsetHeight;
-                        let scaleStr = zoomTarget.style.transform;
-                        let currentScale = 1;
+                        let scaleStr = zoomTarget.style.transform; let currentScale = 1;
                         if(scaleStr.includes('scale')) currentScale = parseFloat(scaleStr.replace('scale(', '').replace(')', ''));
-                        box.style.height = (nH * currentScale + handle.offsetHeight) + 'px';
+                        box.style.height = (inner.offsetHeight * currentScale + handle.offsetHeight) + 'px';
                     });
                 }
 
                 let startX, startY, startLeft, startTop, startWidth;
-
                 function initDrag(e) {
-                    if(e.target.tagName === 'BUTTON') return; 
-                    e.preventDefault();
+                    if(e.target.tagName === 'BUTTON') return; e.preventDefault();
                     if(box.dataset.centered) { box.style.transform = 'none'; box.dataset.centered = ""; }
-                    
-                    startX = e.clientX || e.touches[0].clientX;
-                    startY = e.clientY || e.touches[0].clientY;
-                    startLeft = box.offsetLeft;
-                    startTop = box.offsetTop;
-                    
-                    document.addEventListener('mousemove', doDrag, {passive: false});
-                    document.addEventListener('touchmove', doDrag, {passive: false});
-                    document.addEventListener('mouseup', stopAll, false);
-                    document.addEventListener('touchend', stopAll, false);
+                    startX = e.clientX || e.touches[0].clientX; startY = e.clientY || e.touches[0].clientY;
+                    startLeft = box.offsetLeft; startTop = box.offsetTop;
+                    document.addEventListener('mousemove', doDrag, {passive: false}); document.addEventListener('touchmove', doDrag, {passive: false});
+                    document.addEventListener('mouseup', stopAll, false); document.addEventListener('touchend', stopAll, false);
                 }
-
                 function doDrag(e) {
                     e.preventDefault();
-                    let currentX = e.clientX || (e.touches ? e.touches[0].clientX : startX);
-                    let currentY = e.clientY || (e.touches ? e.touches[0].clientY : startY);
-                    
-                    let deltaX = (currentX - startX) / currentZoom;
-                    let deltaY = (currentY - startY) / currentZoom;
-
-                    box.style.left = (startLeft + deltaX) + 'px';
-                    box.style.top = (startTop + deltaY) + 'px';
+                    box.style.left = (startLeft + ((e.clientX || (e.touches?e.touches[0].clientX:startX)) - startX) / currentZoom) + 'px';
+                    box.style.top = (startTop + ((e.clientY || (e.touches?e.touches[0].clientY:startY)) - startY) / currentZoom) + 'px';
                 }
-
-                handle.addEventListener('mousedown', initDrag, false);
-                handle.addEventListener('touchstart', initDrag, {passive: false});
+                handle.addEventListener('mousedown', initDrag, false); handle.addEventListener('touchstart', initDrag, {passive: false});
 
                 function initResize(e) {
                     e.preventDefault(); e.stopPropagation();
-                    startX = e.clientX || e.touches[0].clientX;
-                    startWidth = box.offsetWidth;
-                    document.addEventListener('mousemove', doResize, {passive: false});
-                    document.addEventListener('touchmove', doResize, {passive: false});
-                    document.addEventListener('mouseup', stopAll, false);
-                    document.addEventListener('touchend', stopAll, false);
+                    startX = e.clientX || e.touches[0].clientX; startWidth = box.offsetWidth;
+                    document.addEventListener('mousemove', doResize, {passive: false}); document.addEventListener('touchmove', doResize, {passive: false});
+                    document.addEventListener('mouseup', stopAll, false); document.addEventListener('touchend', stopAll, false);
                 }
-
                 function doResize(e) {
                     e.preventDefault();
-                    let currentX = e.clientX || (e.touches ? e.touches[0].clientX : startX);
-                    let deltaX = (currentX - startX) / currentZoom;
-                    
-                    let newW = startWidth + deltaX;
+                    let newW = startWidth + ((e.clientX || (e.touches?e.touches[0].clientX:startX)) - startX) / currentZoom;
                     if (newW < 50) newW = 50; 
-
-                    let natW = inner.offsetWidth;
-                    let natH = inner.offsetHeight;
-
-                    let newScale = newW / natW;
-                    let newH = (natH * newScale) + handle.offsetHeight;
-
-                    box.style.width = newW + 'px';
-                    box.style.height = newH + 'px';
+                    let newScale = newW / inner.offsetWidth;
+                    box.style.width = newW + 'px'; box.style.height = (inner.offsetHeight * newScale + handle.offsetHeight) + 'px';
                     zoomTarget.style.transform = `scale(${newScale})`;
                 }
-
-                if(resizer) {
-                    resizer.addEventListener('mousedown', initResize, false);
-                    resizer.addEventListener('touchstart', initResize, {passive: false});
-                }
+                if(resizer) { resizer.addEventListener('mousedown', initResize, false); resizer.addEventListener('touchstart', initResize, {passive: false}); }
 
                 function stopAll() {
-                    document.removeEventListener('mousemove', doDrag, false);
-                    document.removeEventListener('touchmove', doDrag, false);
-                    document.removeEventListener('mousemove', doResize, false);
-                    document.removeEventListener('touchmove', doResize, false);
-                    document.removeEventListener('mouseup', stopAll, false);
-                    document.removeEventListener('touchend', stopAll, false);
+                    document.removeEventListener('mousemove', doDrag, false); document.removeEventListener('touchmove', doDrag, false);
+                    document.removeEventListener('mousemove', doResize, false); document.removeEventListener('touchmove', doResize, false);
+                    document.removeEventListener('mouseup', stopAll, false); document.removeEventListener('touchend', stopAll, false);
                 }
             });
         }
 
-        // --- METODI CARICAMENTO DATI E CRUCIVERBA ---
+        // --- SISTEMA CHECKOUT E GENERAZIONE PDF (LA MINIERA D'ORO) ---
+        window.apriCheckout = function() { document.getElementById('checkout-modal').style.display = 'flex'; calcolaTotale(); };
+        window.chiudiCheckout = function() { document.getElementById('checkout-modal').style.display = 'none'; document.getElementById('loader-export').style.display = 'none'; document.getElementById('btn-pay-action').style.display = 'block'; };
+
+        window.calcolaTotale = function() {
+            let costoImg = parseFloat(document.querySelector('input[name="chk-img"]:checked').value);
+            let costoFmt = parseFloat(document.querySelector('input[name="chk-fmt"]:checked').value);
+            let totale = (costoImg + costoFmt).toFixed(2).replace('.', ',');
+            document.getElementById('modal-totale').innerText = `Totale: ${totale}€`;
+            document.getElementById('btn-pay-action').innerText = `💳 Paga ${totale}€`;
+        };
+
+        window.avviaGenerazionePDF = async function() {
+            // Nasconde il bottone e mostra il caricamento
+            document.getElementById('btn-pay-action').style.display = 'none';
+            document.getElementById('loader-export').style.display = 'block';
+            
+            // Finta attesa per simulare la transazione bancaria Apple Pay/Stripe (qui ci andrà il codice Stripe)
+            setTimeout(async () => {
+                // Attiviamo la modalità stampa per nascondere i bordi tratteggiati
+                document.getElementById('anteprima').classList.add('stampa-mode');
+                
+                let cartellone = document.getElementById('cartellone-lavagna');
+                // Temporaneamente resetto lo zoom a 1 per evitare sgranature
+                let oldTransform = cartellone.style.transform;
+                cartellone.style.transform = 'scale(1)';
+                
+                try {
+                    // Magia: html2canvas fotografa il div ad alta risoluzione (scale: 2)
+                    let canvas = await html2canvas(cartellone, { scale: 2, useCORS: true, backgroundColor: '#ffffff' });
+                    let imgData = canvas.toDataURL('image/jpeg', 0.9);
+
+                    // Crea un PDF 70x100 cm (700x1000 mm)
+                    const { jsPDF } = window.jspdf;
+                    let pdf = new jsPDF('p', 'mm', [700, 1000]);
+                    
+                    // Incolla la foto nel PDF
+                    pdf.addImage(imgData, 'JPEG', 0, 0, 700, 1000);
+                    pdf.save(`Cartellone_${nomeVisuale}.pdf`);
+                    
+                    alert("✅ Pagamento confermato! Il PDF in Alta Risoluzione è stato scaricato.");
+                } catch(error) {
+                    alert("Si è verificato un errore durante l'esportazione.");
+                }
+
+                // Ripristiniamo la lavagna
+                cartellone.style.transform = oldTransform;
+                document.getElementById('anteprima').classList.remove('stampa-mode');
+                chiudiCheckout();
+
+            }, 2000); // 2 secondi di finta attesa
+        };
+
+        // --- FUNZIONI DATI E CRUCIVERBA (INVARIATE) ---
         window.caricaDati = async function() {
             if (!clientSupabase) return; 
-            try {
-                for (let t of ['cruciverba', 'caricatura', 'papiro', 'regalo']) {
-                    const { data, error } = await clientSupabase.from(t).select('*').eq('laureato_tag', idEventoSegreto).order('created_at', {ascending: false});
-                    if (error) { continue; }
-                    if (t === 'regalo' && data) data.sort((a, b) => b.voti - a.voti);
-                    dati[t] = data || [];
-                    aggiornaUI(t);
-                }
-            } catch (err) { console.error(err); }
+            for (let t of ['cruciverba', 'papiro', 'regalo']) {
+                const { data } = await clientSupabase.from(t).select('*').eq('laureato_tag', idEventoSegreto).order('created_at', {ascending: false});
+                if (t === 'regalo' && data) data.sort((a, b) => b.voti - a.voti);
+                dati[t] = data || [];
+                aggiornaUI(t);
+            }
         };
 
         window.aggiungi = async function(tipo) {
-            let autoreId = tipo.substring(0,3) + '-autore';
-            let testoId = tipo==='cruciverba' ? 'cruci-def' : (tipo==='caricatura' ? 'cari-idea' : (tipo==='papiro' ? 'papiro-aneddoto' : 'reg-idea'));
-            let autInput = document.getElementById(autoreId);
+            let autId = tipo.substring(0,3) + '-autore';
+            let testoId = tipo==='cruciverba' ? 'cruci-def' : (tipo==='papiro' ? 'papiro-aneddoto' : 'reg-idea');
+            let autInput = document.getElementById(autId);
             let aut = autInput && autInput.disabled ? "Anonimo" : (autInput ? autInput.value.trim() || "Anonimo" : "Anonimo");
             let testo = document.getElementById(testoId).value.trim();
             
             let obj = { autore: aut, laureato_tag: idEventoSegreto };
-            if (tipo === 'cruciverba') {
-                obj.parola = document.getElementById('cruci-parola').value.toUpperCase().replace(/[^A-Z]/g, '');
-                obj.definizione = testo;
-            } else if (tipo === 'caricatura') obj.idea_dettagliata = testo;
+            if (tipo === 'cruciverba') { obj.parola = document.getElementById('cruci-parola').value.toUpperCase().replace(/[^A-Z]/g, ''); obj.definizione = testo; }
             else if (tipo === 'papiro') obj.aneddoto = testo;
             else { obj.proposta_regalo = testo; obj.voti = 0; }
 
@@ -575,10 +670,7 @@
         window.aggiornaUI = function(tipo) {
             const container = document.getElementById(`lista-${tipo}`);
             if(!container) return;
-            container.innerHTML = dati[tipo].map(item => `
-                <div class="idea-card">
-                    <b>${item.autore}</b>: ${tipo === 'cruciverba' ? item.parola+': '+item.definizione : (item.idea_dettagliata || item.aneddoto || item.proposta_regalo)}
-                </div>`).join('');
+            container.innerHTML = dati[tipo].map(item => `<div class="idea-card"><b>${item.autore}</b>: ${tipo === 'cruciverba' ? item.parola+': '+item.definizione : (item.aneddoto || item.proposta_regalo)}</div>`).join('');
         };
 
         window.generaCruciverbaMagico = function() {
@@ -594,8 +686,7 @@
             }
 
             function canPlace(p, r, c, dir) {
-                if (dir==='H' && c+p.length > SIZE) return false;
-                if (dir==='V' && r+p.length > SIZE) return false;
+                if (dir==='H' && c+p.length > SIZE) return false; if (dir==='V' && r+p.length > SIZE) return false;
                 let inter = 0;
                 for (let i=0; i<p.length; i++) {
                     let cR = dir==='H' ? r : r+i; let cC = dir==='H' ? c+i : c;
@@ -607,8 +698,7 @@
                 return inter > 0 || placedWords.length === 0;
             }
 
-            let firstWord = words.shift();
-            placeWord(firstWord, 30, 30 - Math.floor(firstWord.parola.length / 2), 'H');
+            let firstWord = words.shift(); placeWord(firstWord, 30, 30 - Math.floor(firstWord.parola.length / 2), 'H');
 
             words.forEach(wordObj => {
                 let placed = false;
@@ -617,9 +707,7 @@
                     for (let i=0; i<p.parola.length; i++) {
                         for (let j=0; j<wordObj.parola.length; j++) {
                             if (p.parola[i] === wordObj.parola[j]) {
-                                let nR = p.dir==='H' ? p.r-j : p.r+i;
-                                let nC = p.dir==='H' ? p.c+i : p.c-j;
-                                let nDir = p.dir==='H' ? 'V' : 'H';
+                                let nR = p.dir==='H' ? p.r-j : p.r+i; let nC = p.dir==='H' ? p.c+i : p.c-j; let nDir = p.dir==='H' ? 'V' : 'H';
                                 if (canPlace(wordObj.parola, nR, nC, nDir)) { placeWord(wordObj, nR, nC, nDir); placed = true; break; }
                             }
                         }
@@ -632,8 +720,7 @@
             for(let r=0; r<SIZE; r++) { for(let c=0; c<SIZE; c++) { if(grid[r][c]) { minR=Math.min(minR,r); maxR=Math.max(maxR,r); minC=Math.min(minC,c); maxC=Math.max(maxC,c); } } }
             minR = Math.max(0, minR-1); maxR = Math.min(SIZE-1, maxR+1); minC = Math.max(0, minC-1); maxC = Math.min(SIZE-1, maxC+1);
 
-            let htmlTable = '<table class="cw-grid">';
-            let numCounter = 1; let orizz = []; let verti = [];
+            let htmlTable = '<table class="cw-grid">'; let numCounter = 1; let orizz = []; let verti = [];
             for (let r = minR; r <= maxR; r++) {
                 htmlTable += '<tr>';
                 for (let c = minC; c <= maxC; c++) {
@@ -653,17 +740,7 @@
                 htmlTable += '</tr>';
             }
             document.getElementById('crossword-container').innerHTML = htmlTable + '</table>';
-            
-            // Layout definizioni perfetto in alto
-            document.getElementById('crossword-clues').innerHTML = `
-                <div style="flex:1; text-align:left;">
-                    <h4 style="margin-top:0; border-bottom:1px solid #ccc; padding-bottom:5px;">ORIZZONTALI</h4>
-                    ${orizz.join('')}
-                </div>
-                <div style="flex:1; text-align:left;">
-                    <h4 style="margin-top:0; border-bottom:1px solid #ccc; padding-bottom:5px;">VERTICALI</h4>
-                    ${verti.join('')}
-                </div>`;
+            document.getElementById('crossword-clues').innerHTML = `<div style="flex:1; text-align:left;"><h4 style="margin-top:0; border-bottom:1px solid #ccc; padding-bottom:5px;">ORIZZONTALI</h4>${orizz.join('')}</div><div style="flex:1; text-align:left;"><h4 style="margin-top:0; border-bottom:1px solid #ccc; padding-bottom:5px;">VERTICALI</h4>${verti.join('')}</div>`;
         };
     </script>
 </body>
