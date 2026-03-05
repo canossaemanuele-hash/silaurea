@@ -16,18 +16,28 @@
             --primary: #2980b9; 
             --primary-hover: #1f618d;
             --accent: #f39c12;
+            --accent-hover: #d68910;
             --bg-color: #f0f2f5;
             --card-bg: #ffffff;
             --text-main: #2c3e50;
             --text-muted: #7f8c8d;
         }
 
-        body { font-family: 'Poppins', sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; }
-        header { background: linear-gradient(135deg, var(--primary), #3498db); color: white; width: 100%; text-align: center; padding: 2rem 0; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; }
+        body { 
+            font-family: 'Poppins', sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; 
+        }
+        header { 
+            background: linear-gradient(135deg, var(--primary), #3498db); color: white; width: 100%; text-align: center; padding: 2rem 0; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; 
+        }
         h1 { margin: 0; font-weight: 700; letter-spacing: 1px; }
 
-        nav { display: none; justify-content: center; gap: 8px; margin-top: -25px; background: var(--card-bg); padding: 10px 15px; border-radius: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); flex-wrap: wrap; z-index: 10; }
-        nav button { background: transparent; border: none; padding: 8px 15px; border-radius: 20px; font-size: 14px; font-weight: 600; color: var(--text-muted); cursor: pointer; transition: all 0.3s ease; }
+        /* Navigazione */
+        nav { 
+            display: none; justify-content: center; gap: 8px; margin-top: -25px; background: var(--card-bg); padding: 10px 15px; border-radius: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); flex-wrap: wrap; z-index: 10; 
+        }
+        nav button { 
+            background: transparent; border: none; padding: 8px 15px; border-radius: 20px; font-size: 14px; font-weight: 600; color: var(--text-muted); cursor: pointer; transition: all 0.3s ease; 
+        }
         nav button:hover, nav button.active { background: var(--primary); color: white; }
         nav button.btn-esci { color: #e74c3c; }
 
@@ -47,38 +57,35 @@
         button.btn-submit { background-color: var(--primary); color: white; border: none; padding: 14px 24px; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 600; width: 100%; margin-bottom: 10px; transition: 0.3s; }
         button.btn-submit:hover { background: var(--primary-hover); transform: translateY(-2px); }
 
-        /* LISTE E CARD (RIPRISTINATE CON BOTTONI) */
+        /* Liste e Card */
         .idea-card { background: #f9f9f9; border-left: 4px solid var(--primary); padding: 15px; border-radius: 8px; margin-bottom: 15px; position: relative; word-wrap: break-word; }
         .btn-del { position: absolute; right: 10px; top: 10px; background: none; border: none; cursor: pointer; color: #e74c3c; font-weight: bold; font-size: 18px; }
         .vote-btn { background: white; border: 1px solid #ddd; padding: 6px 15px; border-radius: 20px; cursor: pointer; font-weight: 600; color: var(--text-main); margin-top: 10px; display: inline-block; transition: 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.05);}
         .vote-btn:hover { background: #eaf2f8; border-color: var(--primary); color: var(--primary); transform: translateY(-1px);}
 
-        /* UPSELL BANNER E FOTO */
+        /* Foto e Upsell Caricatura */
         .box-gratis { background: #fdfdfd; border: 1px solid #eee; padding: 15px; border-radius: 12px; margin-bottom: 15px; }
         .upsell-banner { background: linear-gradient(135deg, #fffdf5 0%, #fcf3cf 100%); border: 2px solid #f1c40f; padding: 15px; border-radius: 12px; text-align: center; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 10px rgba(241, 196, 15, 0.2); }
         .upsell-banner:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(241, 196, 15, 0.3); }
         .upsell-banner h3 { margin: 0 0 5px 0; color: #d35400; font-size: 18px; }
         .upsell-banner p { margin: 0; font-size: 13px; color: #7f8c8d; }
-        
         .premium-form-container { display: none; background: #fffdf5; border: 2px solid #f1c40f; border-top: none; padding: 15px; border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; margin-top: -10px; animation: fadeIn 0.3s ease; }
         .custom-file-upload { border: 2px dashed var(--primary); display: inline-block; padding: 15px; cursor: pointer; border-radius: 8px; color: var(--primary); font-weight: bold; width: 100%; text-align: center; box-sizing: border-box; background: #f4f9fc; transition: 0.3s; }
-        .custom-file-upload:hover { background: #eaf2f8; }
-        input[type="file"] { display: none; }
         .preview-img-mini { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; border: 2px solid #ddd; display: none; }
+        input[type="file"] { display: none; }
 
-        /* CRUCIVERBA */
+        /* Cruciverba Originale */
         #crossword-container { margin-top: 20px; overflow-x: auto; text-align: center; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 8px; }
         .cw-grid { border-collapse: collapse; margin: 0 auto; background: white; border: 2px solid #000; }
         .cw-cell { width: 35px; height: 35px; background: white; border: 1px solid #000; text-align: center; vertical-align: middle; position: relative; font-weight: bold; text-transform: uppercase; font-family: monospace; font-size: 18px; }
         .cw-empty { background: transparent; border: none; width: 35px; height: 35px; }
         .cw-number { position: absolute; top: 1px; left: 2px; font-size: 10px; color: #000; line-height: 1; font-weight: normal; font-family: sans-serif; }
 
-        /* LAVAGNA INTERATTIVA E ZOOM */
+        /* Toolbar Lavagna */
         .toolbar-anteprima { display: flex; gap: 8px; margin-bottom: 10px; justify-content: center; flex-wrap: wrap; align-items: center; }
         .btn-tool { padding: 8px 12px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; font-size: 13px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); color: white; }
         .btn-buy { background: var(--accent); font-size: 15px; padding: 10px 15px; animation: pulse 2s infinite; }
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
-        
         .style-select { padding: 6px 10px; border-radius: 8px; border: 1px solid #ddd; font-size: 13px; }
         .color-picker { padding: 0; width: 35px; height: 35px; border: 1px solid #ddd; border-radius: 8px; cursor: pointer; }
         
@@ -87,10 +94,10 @@
         .btn-zoom { background: #ecf0f1; border: 1px solid #bdc3c7; border-radius: 5px; width: 40px; height: 35px; font-size: 20px; font-weight: bold; color: #2c3e50; cursor: pointer; display: flex; align-items: center; justify-content: center; }
         .lbl-zoom { font-weight: bold; color: var(--primary); min-width: 50px; text-align: center; font-size: 14px; }
 
+        /* Area di Lavoro Zoom e Lavagna */
         .workspace { width: 100%; height: 65vh; overflow: auto; background: #dcdde1; border-radius: 8px; border: 2px solid #bdc3c7; box-shadow: inset 0 0 10px rgba(0,0,0,0.1); touch-action: pan-x pan-y; }
         #zoom-wrapper { position: relative; width: 800px; height: 1142px; margin: 0 auto; transform-origin: top left; }
         
-        /* IL CARTELLONE */
         #cartellone-lavagna { position: absolute; top: 0; left: 0; width: 800px; height: 1142px; background: white; border: 1px solid #999; box-shadow: 0 10px 30px rgba(0,0,0,0.15); font-family: 'Times New Roman', serif; background-image: radial-gradient(#eee 1px, transparent 1px); background-size: 20px 20px; transform-origin: top left; }
         
         .drag-box { position: absolute; background: transparent; border: 2px dashed #3498db; display: flex; flex-direction: column; min-width: 50px; min-height: 40px; box-sizing: border-box; transition: top 0.4s ease, left 0.4s ease, width 0.4s ease; }
@@ -101,6 +108,7 @@
         .drag-content[contenteditable="true"]:focus { background: rgba(255, 253, 231, 0.9); }
         .zoom-fit { position: absolute; top: 0; left: 0; transform-origin: top left; width: max-content; height: max-content; }
         
+        /* Modifiche Elementi dentro al Cartellone */
         .drag-content .cw-grid { border: 2px solid #000; margin: 0; background: white; }
         .drag-content .cw-cell { width: 40px; height: 40px; font-size: 20px; }
         .drag-content .cw-empty { width: 40px; height: 40px; }
@@ -110,10 +118,18 @@
         .cart-caricatura-ph img { width: 100%; height: 100%; object-fit: cover; }
         .resize-handle { position: absolute; bottom: -3px; right: -3px; width: 30px; height: 30px; background: linear-gradient(135deg, transparent 50%, var(--primary) 50%); cursor: nwse-resize; z-index: 10; touch-action: none; border-bottom-right-radius: 4px; }
 
-        /* MODALITÀ ESPORTAZIONE / STAMPA */
+        /* Filigrana Anteprima e Modalità Stampa */
+        .watermark-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 999; display: none; background-image: repeating-linear-gradient(-45deg, transparent, transparent 100px, rgba(0, 0, 0, 0.04) 100px, rgba(0, 0, 0, 0.04) 150px); }
+        .watermark-layer::after { content: "ANTEPRIMA SILAUREA - NON STAMPARE"; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-45deg); font-size: 50px; font-weight: bold; color: rgba(0,0,0,0.15); white-space: nowrap; }
+        
+        .preview-mode .watermark-layer { display: block; }
+        .preview-mode .drag-handle, .preview-mode .resize-handle { display: none !important; }
+        .preview-mode .drag-box { border: none !important; background: transparent !important; box-shadow: none !important; }
+        .preview-mode #cartellone-lavagna { background-image: none !important; }
+        
         .stampa-mode .drag-handle, .stampa-mode .resize-handle { display: none !important; }
-        .stampa-mode .drag-box { border: none !important; background: transparent !important; }
-        .stampa-mode #cartellone-lavagna { background-image: none !important; border: none; box-shadow: none; }
+        .stampa-mode .drag-box { border: none !important; background: transparent !important; box-shadow: none !important; }
+        .stampa-mode #cartellone-lavagna { background-image: none !important; border: none; }
 
         /* MODAL CHECKOUT */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
@@ -128,7 +144,6 @@
         .btn-pay { background: #27ae60; width: 100%; font-size: 18px; padding: 15px; }
         .btn-pay:hover { background: #219653; }
         .btn-cancel { background: transparent; color: #e74c3c; width: 100%; margin-top: 5px; box-shadow: none; }
-        
         #loader-export { display: none; text-align: center; margin-top: 15px; font-weight: bold; color: var(--primary); }
     </style>
 </head>
@@ -206,7 +221,7 @@
             </div>
 
             <div id="premium-form-area" class="premium-form-container">
-                <p style="font-size:13px; color:#555; margin-top:0;">Carica 2 foto chiare del viso del festeggiato. Useremo le idee più belle proposte qui sotto per realizzare il disegno!</p>
+                <p style="font-size:13px; color:#555; margin-top:0;">Carica 2 foto chiare del viso. Useremo le idee più belle proposte qui sotto per realizzare il disegno!</p>
                 <div style="display:flex; gap:10px; margin-bottom:15px;">
                     <div style="flex:1;">
                         <label class="custom-file-upload" style="padding:10px; font-size:13px;">
@@ -225,18 +240,17 @@
                     <img id="ref-1" class="preview-img-mini">
                     <img id="ref-2" class="preview-img-mini">
                 </div>
-                <button class="btn-submit" style="background:#f39c12; box-shadow: 0 4px 10px rgba(243, 156, 18, 0.3);" onclick="confermaPremium()">✅ Conferma Foto e Attiva Premium</button>
+                <button class="btn-submit" style="background:#f39c12; box-shadow: 0 4px 10px rgba(243, 156, 18, 0.3);" onclick="confermaPremium()">✅ Invia Foto all'Artista</button>
             </div>
 
             <hr style="border:0; border-top: 1px solid #ddd; margin: 30px 0;">
 
             <h3>💡 Proponi Idee per il Disegno</h3>
-            <p style="font-size:13px; color:#555;">Scrivi come vorresti che fosse disegnato (es. "Vestito da Spiderman con uno spritz in mano").</p>
             <div class="form-group row-autore">
                 <input type="text" id="cari-autore" placeholder="Il tuo nome">
                 <label class="anonimo-check"><input type="checkbox" onchange="toggleAnonimo('cari-autore', this)"> Anonimo</label>
             </div>
-            <div class="form-group"><textarea id="cari-idea" rows="2" placeholder="La tua idea..."></textarea></div>
+            <div class="form-group"><textarea id="cari-idea" rows="2" placeholder="Es: Vestito da Spiderman con uno spritz..."></textarea></div>
             <button class="btn-submit" onclick="aggiungi('caricatura')">Salva Idea</button>
             
             <h3 style="margin-top:20px; border-bottom: 2px solid #eee; padding-bottom:5px;">Idee raccolte:</h3>
@@ -280,6 +294,8 @@
                     <option value="'Comic Sans MS', cursive">Comic Sans</option>
                 </select>
                 <input type="color" id="cart-color" class="color-picker" value="#c0392b" onchange="cambiaStile()" title="Colore Titoli">
+                
+                <button class="btn-tool" id="btn-toggle-preview" style="background:#34495e;" onclick="togglePreviewMode()">👀 Vedi Anteprima</button>
                 <button class="btn-tool btn-buy" onclick="apriCheckout()">🛒 Acquista / Scarica HD</button>
             </div>
             
@@ -294,6 +310,7 @@
             <div class="workspace" id="workspace">
                 <div id="zoom-wrapper">
                     <div id="cartellone-lavagna">
+                        <div class="watermark-layer"></div>
                         </div>
                 </div>
             </div>
@@ -303,7 +320,7 @@
     <div id="checkout-modal" class="modal-overlay" style="display:none;">
         <div class="modal-content">
             <h2>🛒 Completa e Stampa</h2>
-            <p style="font-size:13px; color:#555; margin-top:-5px;">Scegli le opzioni per sbloccare il tuo cartellone senza loghi.</p>
+            <p style="font-size:13px; color:#555; margin-top:-5px;">Scegli le opzioni per sbloccare il tuo cartellone senza filigrana.</p>
             
             <div style="margin-bottom: 10px; font-weight: bold; font-size: 14px;">1. Scegli l'Immagine Centrale:</div>
             <label class="checkout-option">
@@ -317,7 +334,7 @@
 
             <div style="margin-top:20px; margin-bottom: 10px; font-weight: bold; font-size: 14px;">2. Scegli il Formato:</div>
             <label class="checkout-option">
-                <div><input type="radio" name="chk-fmt" value="4.90" checked onchange="calcolaTotale()"> <span class="chk-title">Solo File PDF (Altissima Definizione)</span></div>
+                <div><input type="radio" name="chk-fmt" value="4.90" checked onchange="calcolaTotale()"> <span class="chk-title">Solo File PDF (Alta Definizione)</span></div>
                 <span class="chk-price">4,90€</span>
             </label>
             <label class="checkout-option" style="border-color:#2980b9; background:#f4f9fc;">
@@ -339,7 +356,11 @@
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRmanZkZW5xYm9rdnRtc3F5anNoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI2MTM1MzAsImV4cCI6MjA4ODE4OTUzMH0.kOvBhb3bnJT562q8nOGJFwgf7Lf28soDV0yIhyF0BCI';
         
         let clientSupabase;
-        try { clientSupabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY); } catch(e) { console.error(e); }
+        try { 
+            clientSupabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY); 
+        } catch(e) { 
+            console.error("Errore inizializzazione Supabase", e); 
+        }
 
         let idEventoSegreto = ""; 
         let nomeVisuale = "";
@@ -349,6 +370,7 @@
         let currentLayoutIndex = 0; 
         let fotoCaricataBase64 = "";
 
+        // --- INIZIALIZZAZIONE ---
         window.onload = function() {
             const params = new URLSearchParams(window.location.search);
             const idInvitato = params.get('id'); 
@@ -366,27 +388,29 @@
 
         window.creaNuovaArea = function() {
             const nomePulito = document.getElementById('input-laureato').value.trim().toLowerCase().replace(/\s+/g, '');
-            if(!nomePulito) return alert("Inserisci il nome!");
+            if(!nomePulito) return alert("Inserisci il nome del laureato!");
             idEventoSegreto = `${nomePulito}-${Math.random().toString(36).substring(2, 7)}`;
             try { window.history.pushState({}, '', `?id=${idEventoSegreto}`); } catch(err) {}
             avviaApp();
         };
 
         window.esci = function() {
-            if(!confirm("Vuoi uscire dall'area di questo evento?")) return;
-            window.location.href = window.location.pathname;
+            if(confirm("Vuoi uscire dall'area di questo evento?")) {
+                window.location.href = window.location.pathname;
+            }
         };
 
         window.avviaApp = function() {
             document.getElementById('login-section').style.display = 'none';
             document.getElementById('main-nav').style.display = 'flex';
             apriSezione('home', document.querySelector('.tab-link'));
+            
             let nomeRaw = idEventoSegreto.split('-')[0];
             nomeVisuale = nomeRaw.charAt(0).toUpperCase() + nomeRaw.slice(1);
             document.getElementById('display-laureato').innerText = `🎓 Area dedicata a: ${nomeVisuale}`;
             document.getElementById('share-link').value = `${window.location.href.split('?')[0]}?id=${idEventoSegreto}`;
             
-            // Carica foto base salvata se esiste
+            // Carica foto base salvata in LocalStorage per anteprima immediata
             let savedImg = localStorage.getItem('foto_' + idEventoSegreto);
             if(savedImg) {
                 fotoCaricataBase64 = savedImg;
@@ -403,7 +427,7 @@
             if(el) el.classList.add('active');
         };
 
-        // --- GESTIONE CARICATURA PREMIUM ---
+        // --- GESTIONE FOTO E CARICATURA PREMIUM ---
         window.togglePremiumForm = function() {
             let form = document.getElementById('premium-form-area');
             let btn = document.getElementById('btn-open-premium');
@@ -418,13 +442,23 @@
             }
         };
 
-        window.confermaPremium = function() {
+        window.confermaPremium = async function() {
+            let ref1 = document.getElementById('ref-1').src;
+            let ref2 = document.getElementById('ref-2').src;
+            
+            if(clientSupabase) {
+                // TRUCCO: Salviamo le foto codificate dentro il testo per fartele arrivare nel DB!
+                let jsonPayload = JSON.stringify({ note: "FOTO CARICATE PER LA CARICATURA", f1: ref1, f2: ref2 });
+                await clientSupabase.from('caricatura').insert([{ 
+                    autore: "ORDINE PREMIUM (FOTO)", idea_dettagliata: jsonPayload, laureato_tag: idEventoSegreto 
+                }]);
+            }
+            
             document.getElementById('radio-premium-img').checked = true;
-            alert("✅ Foto referenze salvate!\nL'opzione Premium è stata selezionata in automatico nel carrello. I nostri artisti leggeranno le idee proposte qui sotto!");
+            alert("✅ Foto referenze salvate e inviate al Database!\nL'opzione Premium è stata selezionata nel carrello. I nostri artisti le useranno.");
             togglePremiumForm();
         };
 
-        // --- COMPRESSIONE IMMAGINI UNIFICATA ---
         window.comprimiESalvaFoto = function(event, targetImgId) {
             let file = event.target.files[0];
             if(!file) return;
@@ -455,6 +489,7 @@
                     targetElement.src = compressedBase64;
                     targetElement.style.display = 'inline-block';
                     
+                    // Se è la foto gratuita per il cartellone, la memorizza per mostrarla subito
                     if(targetImgId === 'preview-foto') {
                         fotoCaricataBase64 = compressedBase64;
                         localStorage.setItem('foto_' + idEventoSegreto, compressedBase64);
@@ -464,7 +499,54 @@
             };
         };
 
-        // --- GESTIONE ELIMINAZIONE E VOTI (RIPRISTINATI) ---
+        // --- GESTIONE DATABASE E LISTE ---
+        window.caricaDati = async function() {
+            if (!clientSupabase) return; 
+            try {
+                for (let t of ['cruciverba', 'caricatura', 'papiro', 'regalo']) {
+                    const { data, error } = await clientSupabase.from(t).select('*').eq('laureato_tag', idEventoSegreto).order('created_at', {ascending: false});
+                    if (error) continue;
+                    if (t === 'regalo' && data) data.sort((a, b) => b.voti - a.voti);
+                    dati[t] = data || [];
+                    aggiornaUI(t);
+                }
+            } catch (err) { console.error(err); }
+        };
+
+        window.aggiungi = async function(tipo) {
+            let autoreId = tipo.substring(0,3) + '-autore';
+            let testoId = tipo==='cruciverba' ? 'cruci-def' : (tipo==='caricatura' ? 'cari-idea' : (tipo==='papiro' ? 'papiro-aneddoto' : 'reg-idea'));
+            
+            let autInput = document.getElementById(autoreId);
+            let aut = "Anonimo";
+            if (autInput && !autInput.disabled && autInput.value.trim() !== "") {
+                aut = autInput.value.trim();
+            }
+            
+            let testo = document.getElementById(testoId).value.trim();
+            if(!testo) return alert("Inserisci del testo!");
+            
+            let obj = { autore: aut, laureato_tag: idEventoSegreto };
+            
+            if (tipo === 'cruciverba') {
+                let parola = document.getElementById('cruci-parola').value.toUpperCase().replace(/[^A-Z]/g, '');
+                if(!parola) return alert("Inserisci la parola del cruciverba!");
+                obj.parola = parola; 
+                obj.definizione = testo;
+            } 
+            else if (tipo === 'caricatura') obj.idea_dettagliata = testo;
+            else if (tipo === 'papiro') obj.aneddoto = testo;
+            else { obj.proposta_regalo = testo; obj.voti = 0; }
+
+            await clientSupabase.from(tipo).insert([obj]);
+            
+            document.getElementById(testoId).value = ''; 
+            if(autInput && !autInput.disabled) autInput.value = ''; 
+            if(tipo === 'cruciverba') document.getElementById('cruci-parola').value = '';
+            
+            caricaDati();
+        };
+
         window.elimina = async function(tipo, id) {
             if(confirm("Sei sicuro di voler eliminare questo elemento?")) { 
                 await clientSupabase.from(tipo).delete().eq('id', id); 
@@ -480,8 +562,147 @@
             }
         };
 
+        window.aggiornaUI = function(tipo) {
+            const container = document.getElementById(`lista-${tipo}`);
+            if(!container) return;
+            
+            if(dati[tipo].length === 0) {
+                container.innerHTML = '<i>Nessun elemento inserito.</i>';
+                return;
+            }
 
-        // --- GESTIONE ZOOM ---
+            container.innerHTML = '';
+            dati[tipo].forEach(item => {
+                let txt = '';
+                if (tipo === 'cruciverba') txt = `<b>${item.parola}</b>: ${item.definizione}`;
+                else if (tipo === 'caricatura') txt = item.idea_dettagliata;
+                else if (tipo === 'papiro') txt = item.aneddoto;
+                else if (tipo === 'regalo') txt = item.proposta_regalo;
+
+                // Non mostrare in lista i payload JSON delle foto premium
+                if(txt && txt.startsWith('{"note":')) return;
+
+                let extraBtn = (tipo === 'regalo') ? `<br><button class="vote-btn" onclick="votaRegalo(${item.id})">👍 Vota (${item.voti || 0})</button>` : '';
+                let autoreText = item.autore === "Anonimo" ? "<b>Anonimo</b> ha scritto:" : `<b>${item.autore}</b> ha scritto:`;
+
+                container.innerHTML += `
+                    <div class="idea-card">
+                        <button class="btn-del" title="Elimina" onclick="elimina('${tipo}', ${item.id})">🗑️</button>
+                        ${autoreText}<br>${txt}
+                        ${extraBtn}
+                    </div>`;
+            });
+        };
+
+        // --- ALGORITMO CRUCIVERBA ---
+        window.generaCruciverbaMagico = function() {
+            if(dati.cruciverba.length < 2) return alert("Inserisci almeno 2 parole!");
+            document.getElementById('crossword-wrapper').style.display = 'block';
+            let words = [...dati.cruciverba].sort((a,b) => b.parola.length - a.parola.length);
+            const SIZE = 60; let grid = Array(SIZE).fill(null).map(() => Array(SIZE).fill(null));
+            let placedWords = [];
+
+            function placeWord(w, r, c, dir) {
+                for(let i=0; i<w.parola.length; i++) { 
+                    if (dir==='H') grid[r][c+i] = w.parola[i]; 
+                    else grid[r+i][c] = w.parola[i]; 
+                }
+                placedWords.push({ ...w, r: r, c: c, dir: dir });
+            }
+
+            function canPlace(p, r, c, dir) {
+                if (dir==='H' && c+p.length > SIZE) return false; 
+                if (dir==='V' && r+p.length > SIZE) return false;
+                let inter = 0;
+                for (let i=0; i<p.length; i++) {
+                    let cR = dir==='H' ? r : r+i; let cC = dir==='H' ? c+i : c;
+                    if (grid[cR][cC] === p[i]) { inter++; continue; }
+                    if (grid[cR][cC] !== null) return false; 
+                    if (dir==='H') { 
+                        if (cR>0 && grid[cR-1][cC]) return false; 
+                        if (cR<SIZE-1 && grid[cR+1][cC]) return false; 
+                    }
+                    else { 
+                        if (cC>0 && grid[cR][cC-1]) return false; 
+                        if (cC<SIZE-1 && grid[cR][cC+1]) return false; 
+                    }
+                }
+                return inter > 0 || placedWords.length === 0;
+            }
+
+            let firstWord = words.shift(); 
+            placeWord(firstWord, 30, 30 - Math.floor(firstWord.parola.length / 2), 'H');
+
+            words.forEach(wordObj => {
+                let placed = false;
+                for (let p of placedWords) {
+                    if (placed) break;
+                    for (let i=0; i<p.parola.length; i++) {
+                        for (let j=0; j<wordObj.parola.length; j++) {
+                            if (p.parola[i] === wordObj.parola[j]) {
+                                let nR = p.dir==='H' ? p.r-j : p.r+i; 
+                                let nC = p.dir==='H' ? p.c+i : p.c-j; 
+                                let nDir = p.dir==='H' ? 'V' : 'H';
+                                if (canPlace(wordObj.parola, nR, nC, nDir)) { 
+                                    placeWord(wordObj, nR, nC, nDir); placed = true; break; 
+                                }
+                            }
+                        }
+                        if (placed) break;
+                    }
+                }
+            });
+
+            let minR=SIZE, maxR=0, minC=SIZE, maxC=0;
+            for(let r=0; r<SIZE; r++) { 
+                for(let c=0; c<SIZE; c++) { 
+                    if(grid[r][c]) { 
+                        minR=Math.min(minR,r); maxR=Math.max(maxR,r); 
+                        minC=Math.min(minC,c); maxC=Math.max(maxC,c); 
+                    } 
+                } 
+            }
+            minR = Math.max(0, minR-1); maxR = Math.min(SIZE-1, maxR+1); 
+            minC = Math.max(0, minC-1); maxC = Math.min(SIZE-1, maxC+1);
+
+            let htmlTable = '<table class="cw-grid">'; 
+            let numCounter = 1; let orizz = []; let verti = [];
+            for (let r = minR; r <= maxR; r++) {
+                htmlTable += '<tr>';
+                for (let c = minC; c <= maxC; c++) {
+                    if (grid[r][c] === null) { 
+                        htmlTable += '<td class="cw-empty"></td>'; 
+                    } else {
+                        let startsHere = placedWords.filter(p => p.r === r && p.c === c);
+                        if (startsHere.length > 0) {
+                            htmlTable += `<td class="cw-cell"><span class="cw-number">${numCounter}</span></td>`;
+                            startsHere.forEach(w => {
+                                let dHtml = `<div style="margin-bottom:4px; line-height:1.2;"><b>${numCounter}.</b> ${w.definizione}</div>`;
+                                if (w.dir === 'H') orizz.push(dHtml); else verti.push(dHtml);
+                            });
+                            numCounter++;
+                        } else { 
+                            htmlTable += `<td class="cw-cell"></td>`; 
+                        }
+                    }
+                }
+                htmlTable += '</tr>';
+            }
+            document.getElementById('crossword-container').innerHTML = htmlTable + '</table>';
+            
+            // Definizioni perfettamente allineate in alto
+            document.getElementById('crossword-clues').innerHTML = `
+                <div style="flex:1; text-align:left;">
+                    <h4 style="margin-top:0; border-bottom:1px solid #ccc; padding-bottom:5px;">ORIZZONTALI</h4>
+                    ${orizz.join('')}
+                </div>
+                <div style="flex:1; text-align:left;">
+                    <h4 style="margin-top:0; border-bottom:1px solid #ccc; padding-bottom:5px;">VERTICALI</h4>
+                    ${verti.join('')}
+                </div>`;
+        };
+
+        // --- ZOOM E GESTIONE AREA DI LAVORO (LAVAGNA) ---
         window.modificaZoom = function(delta) {
             currentZoom += delta;
             if(currentZoom < 0.2) currentZoom = 0.2;
@@ -493,6 +714,7 @@
             document.getElementById('lbl-zoom').innerText = Math.round(currentZoom * 100) + '%';
             let cartellone = document.getElementById('cartellone-lavagna');
             let wrapper = document.getElementById('zoom-wrapper');
+            
             cartellone.style.transform = `scale(${currentZoom})`;
             wrapper.style.width = (800 * currentZoom) + 'px';
             wrapper.style.height = (1142 * currentZoom) + 'px';
@@ -500,6 +722,7 @@
 
         const workspace = document.getElementById('workspace');
         let initZoomDist = 0; let initZoomZ = 1;
+        
         workspace.addEventListener('touchstart', (e) => {
             if(e.touches.length === 2) {
                 e.preventDefault(); 
@@ -525,6 +748,19 @@
             if(currentZoom > 1) currentZoom = 1;
             applicaZoomCorrente();
             aggiornaDatiAnteprima();
+        };
+
+        window.togglePreviewMode = function() {
+            let sec = document.getElementById('anteprima');
+            sec.classList.toggle('preview-mode');
+            let btn = document.getElementById('btn-toggle-preview');
+            if(sec.classList.contains('preview-mode')) {
+                btn.innerHTML = "✏️ Torna a Modificare";
+                btn.style.background = "#e74c3c";
+            } else {
+                btn.innerHTML = "👀 Vedi Anteprima";
+                btn.style.background = "#34495e";
+            }
         };
 
         window.cambiaStile = function() {
@@ -561,14 +797,21 @@
 
         window.centraTitolo = function() {
             let box = document.getElementById('box-TITOLO');
-            if(box) { box.style.left = '50%'; box.style.transform = 'translateX(-50%)'; box.dataset.centered = "true"; }
+            if(box) { 
+                box.style.left = '50%'; 
+                box.style.transform = 'translateX(-50%)'; 
+                box.dataset.centered = "true"; 
+            }
         };
 
         window.aggiornaDatiAnteprima = async function() {
             try { await caricaDati(); } catch(e) {}
             let lavagna = document.getElementById('cartellone-lavagna');
             if(!lavagna) return;
-            lavagna.innerHTML = ''; 
+            
+            // Salviamo la filigrana
+            let watermarkHTML = `<div class="watermark-layer"></div>`;
+            lavagna.innerHTML = watermarkHTML; 
             
             let l = presetLayouts[currentLayoutIndex];
 
@@ -592,14 +835,25 @@
                 creaBox("DEFINIZIONI", `<div style="display:flex; width:100%; justify-content: space-between; align-items: flex-start; gap:20px; font-size:14px;" contenteditable="true">${cleanDefs}</div>`, l.DEFINIZIONI.t, l.DEFINIZIONI.l, l.DEFINIZIONI.w);
             }
 
-            setTimeout(() => { attivaMotoreMagico(); cambiaStile(); }, 100); 
+            setTimeout(() => { 
+                attivaMotoreMagico(); 
+                cambiaStile(); 
+            }, 100); 
         };
 
         function creaBox(label, content, top, left, widthPercent) {
             let box = document.createElement('div');
-            box.className = 'drag-box'; box.id = 'box-' + label;
-            box.style.top = top + '%'; box.style.left = left + '%'; box.style.width = widthPercent + '%';
-            box.innerHTML = `<div class="drag-handle"><span style="font-size:14px;">✋</span><button onclick="this.parentElement.parentElement.remove()">❌</button></div><div class="drag-content"><div class="zoom-fit">${content}</div></div><div class="resize-handle"></div>`;
+            box.className = 'drag-box'; 
+            box.id = 'box-' + label;
+            box.style.top = top + '%'; 
+            box.style.left = left + '%'; 
+            box.style.width = widthPercent + '%';
+            
+            box.innerHTML = `
+                <div class="drag-handle"><span style="font-size:14px;">✋</span><button onclick="this.parentElement.parentElement.remove()">❌</button></div>
+                <div class="drag-content"><div class="zoom-fit">${content}</div></div>
+                <div class="resize-handle"></div>
+            `;
             document.getElementById('cartellone-lavagna').appendChild(box);
         }
 
@@ -609,264 +863,180 @@
                 const zoomTarget = box.querySelector('.zoom-fit');
                 const inner = zoomTarget.firstElementChild;
                 if(!inner) return;
-                let initialScale = (box.offsetWidth || parseInt(box.style.width)*8) / (inner.offsetWidth || 100);
+                
+                let naturalW = inner.offsetWidth || 100;
+                let naturalH = inner.offsetHeight || 100;
+                let handleH = handle ? handle.offsetHeight : 24;
+                let currentBoxW = box.offsetWidth || parseInt(box.style.width)*8 || 200;
+                
+                let initialScale = currentBoxW / naturalW;
                 if(isNaN(initialScale) || initialScale === 0) initialScale = 1;
-                box.style.height = ((inner.offsetHeight||100) * initialScale + (handle?handle.offsetHeight:24)) + 'px';
+                
+                box.style.height = (naturalH * initialScale + handleH) + 'px';
                 zoomTarget.style.transform = `scale(${initialScale})`;
             });
         }
 
         function attivaMotoreMagico() {
             forzaRicalcoloAltezze(); 
+            
             document.querySelectorAll('.drag-box').forEach(box => {
                 if(box.dataset.active) return;
                 box.dataset.active = "true";
-                const handle = box.querySelector('.drag-handle'); const resizer = box.querySelector('.resize-handle');
-                const zoomTarget = box.querySelector('.zoom-fit'); const inner = zoomTarget.firstElementChild;
+                
+                const handle = box.querySelector('.drag-handle'); 
+                const resizer = box.querySelector('.resize-handle'); 
+                const zoomTarget = box.querySelector('.zoom-fit'); 
+                const inner = zoomTarget.firstElementChild;
+                
                 if(!inner) return;
 
                 if (inner.getAttribute('contenteditable') === "true") {
                     inner.addEventListener('input', () => {
-                        let scaleStr = zoomTarget.style.transform; let currentScale = 1;
-                        if(scaleStr.includes('scale')) currentScale = parseFloat(scaleStr.replace('scale(', '').replace(')', ''));
+                        let scaleStr = zoomTarget.style.transform; 
+                        let currentScale = 1;
+                        if(scaleStr.includes('scale')) {
+                            currentScale = parseFloat(scaleStr.replace('scale(', '').replace(')', ''));
+                        }
                         box.style.height = (inner.offsetHeight * currentScale + handle.offsetHeight) + 'px';
                     });
                 }
 
                 let startX, startY, startLeft, startTop, startWidth;
+                
                 function initDrag(e) {
-                    if(e.target.tagName === 'BUTTON') return; e.preventDefault();
-                    if(box.dataset.centered) { box.style.transform = 'none'; box.dataset.centered = ""; }
-                    startX = e.clientX || e.touches[0].clientX; startY = e.clientY || e.touches[0].clientY;
-                    startLeft = box.offsetLeft; startTop = box.offsetTop;
-                    document.addEventListener('mousemove', doDrag, {passive: false}); document.addEventListener('touchmove', doDrag, {passive: false});
-                    document.addEventListener('mouseup', stopAll, false); document.addEventListener('touchend', stopAll, false);
+                    if(e.target.tagName === 'BUTTON') return; 
+                    e.preventDefault();
+                    if(box.dataset.centered) { 
+                        box.style.transform = 'none'; 
+                        box.dataset.centered = ""; 
+                    }
+                    startX = e.clientX || e.touches[0].clientX; 
+                    startY = e.clientY || e.touches[0].clientY;
+                    startLeft = box.offsetLeft; 
+                    startTop = box.offsetTop;
+                    
+                    document.addEventListener('mousemove', doDrag, {passive: false}); 
+                    document.addEventListener('touchmove', doDrag, {passive: false});
+                    document.addEventListener('mouseup', stopAll, false); 
+                    document.addEventListener('touchend', stopAll, false);
                 }
+                
                 function doDrag(e) {
                     e.preventDefault();
-                    box.style.left = (startLeft + ((e.clientX || (e.touches?e.touches[0].clientX:startX)) - startX) / currentZoom) + 'px';
-                    box.style.top = (startTop + ((e.clientY || (e.touches?e.touches[0].clientY:startY)) - startY) / currentZoom) + 'px';
+                    let currentX = e.clientX || (e.touches ? e.touches[0].clientX : startX);
+                    let currentY = e.clientY || (e.touches ? e.touches[0].clientY : startY);
+                    
+                    let deltaX = (currentX - startX) / currentZoom;
+                    let deltaY = (currentY - startY) / currentZoom;
+                    
+                    box.style.left = (startLeft + deltaX) + 'px';
+                    box.style.top = (startTop + deltaY) + 'px';
                 }
-                handle.addEventListener('mousedown', initDrag, false); handle.addEventListener('touchstart', initDrag, {passive: false});
+                
+                handle.addEventListener('mousedown', initDrag, false); 
+                handle.addEventListener('touchstart', initDrag, {passive: false});
 
                 function initResize(e) {
-                    e.preventDefault(); e.stopPropagation();
-                    startX = e.clientX || e.touches[0].clientX; startWidth = box.offsetWidth;
-                    document.addEventListener('mousemove', doResize, {passive: false}); document.addEventListener('touchmove', doResize, {passive: false});
-                    document.addEventListener('mouseup', stopAll, false); document.addEventListener('touchend', stopAll, false);
+                    e.preventDefault(); 
+                    e.stopPropagation();
+                    startX = e.clientX || e.touches[0].clientX; 
+                    startWidth = box.offsetWidth;
+                    
+                    document.addEventListener('mousemove', doResize, {passive: false}); 
+                    document.addEventListener('touchmove', doResize, {passive: false});
+                    document.addEventListener('mouseup', stopAll, false); 
+                    document.addEventListener('touchend', stopAll, false);
                 }
+                
                 function doResize(e) {
                     e.preventDefault();
-                    let newW = startWidth + ((e.clientX || (e.touches?e.touches[0].clientX:startX)) - startX) / currentZoom;
+                    let currentX = e.clientX || (e.touches ? e.touches[0].clientX : startX);
+                    let deltaX = (currentX - startX) / currentZoom;
+                    
+                    let newW = startWidth + deltaX;
                     if (newW < 50) newW = 50; 
+                    
                     let newScale = newW / inner.offsetWidth;
-                    box.style.width = newW + 'px'; box.style.height = (inner.offsetHeight * newScale + handle.offsetHeight) + 'px';
+                    box.style.width = newW + 'px'; 
+                    box.style.height = (inner.offsetHeight * newScale + handle.offsetHeight) + 'px';
                     zoomTarget.style.transform = `scale(${newScale})`;
                 }
-                if(resizer) { resizer.addEventListener('mousedown', initResize, false); resizer.addEventListener('touchstart', initResize, {passive: false}); }
+                
+                if(resizer) { 
+                    resizer.addEventListener('mousedown', initResize, false); 
+                    resizer.addEventListener('touchstart', initResize, {passive: false}); 
+                }
 
                 function stopAll() {
-                    document.removeEventListener('mousemove', doDrag, false); document.removeEventListener('touchmove', doDrag, false);
-                    document.removeEventListener('mousemove', doResize, false); document.removeEventListener('touchmove', doResize, false);
-                    document.removeEventListener('mouseup', stopAll, false); document.removeEventListener('touchend', stopAll, false);
+                    document.removeEventListener('mousemove', doDrag, false); 
+                    document.removeEventListener('touchmove', doDrag, false);
+                    document.removeEventListener('mousemove', doResize, false); 
+                    document.removeEventListener('touchmove', doResize, false);
+                    document.removeEventListener('mouseup', stopAll, false); 
+                    document.removeEventListener('touchend', stopAll, false);
                 }
             });
         }
 
-        // --- SISTEMA CHECKOUT E PDF ---
-        window.apriCheckout = function() { document.getElementById('checkout-modal').style.display = 'flex'; calcolaTotale(); };
-        window.chiudiCheckout = function() { document.getElementById('checkout-modal').style.display = 'none'; document.getElementById('loader-export').style.display = 'none'; document.getElementById('btn-pay-action').style.display = 'block'; };
-
-        window.calcolaTotale = function() {
-            let costoImg = parseFloat(document.querySelector('input[name="chk-img"]:checked').value);
-            let costoFmt = parseFloat(document.querySelector('input[name="chk-fmt"]:checked').value);
-            let totale = (costoImg + costoFmt).toFixed(2).replace('.', ',');
-            document.getElementById('modal-totale').innerText = `Totale: ${totale}€`;
-            document.getElementById('btn-pay-action').innerText = `💳 Paga ${totale}€`;
+        // --- SISTEMA DI CHECKOUT ED ESPORTAZIONE PDF ---
+        window.apriCheckout = function() { 
+            document.getElementById('checkout-modal').style.display = 'flex'; 
+            calcolaTotale(); 
+        };
+        
+        window.chiudiCheckout = function() { 
+            document.getElementById('checkout-modal').style.display = 'none'; 
+            document.getElementById('loader-export').style.display = 'none'; 
+            document.getElementById('btn-pay-action').style.display = 'block'; 
+        };
+        
+        window.calcolaTotale = function() { 
+            let costoImg = parseFloat(document.querySelector('input[name="chk-img"]:checked').value); 
+            let costoFmt = parseFloat(document.querySelector('input[name="chk-fmt"]:checked').value); 
+            let totale = (costoImg + costoFmt).toFixed(2).replace('.', ','); 
+            document.getElementById('modal-totale').innerText = `Totale: ${totale}€`; 
+            document.getElementById('btn-pay-action').innerText = `💳 Paga ${totale}€`; 
         };
 
         window.avviaGenerazionePDF = async function() {
-            document.getElementById('btn-pay-action').style.display = 'none';
+            document.getElementById('btn-pay-action').style.display = 'none'; 
             document.getElementById('loader-export').style.display = 'block';
             
             setTimeout(async () => {
+                // Togliamo la filigrana e mettiamo in modalità stampa
+                document.getElementById('anteprima').classList.remove('preview-mode');
                 document.getElementById('anteprima').classList.add('stampa-mode');
+                
                 let cartellone = document.getElementById('cartellone-lavagna');
-                let oldTransform = cartellone.style.transform;
+                let oldTransform = cartellone.style.transform; 
                 cartellone.style.transform = 'scale(1)';
                 
                 try {
-                    let canvas = await html2canvas(cartellone, { scale: 2, useCORS: true, backgroundColor: '#ffffff' });
+                    let canvas = await html2canvas(cartellone, { 
+                        scale: 2, 
+                        useCORS: true, 
+                        backgroundColor: '#ffffff' 
+                    });
+                    
                     let imgData = canvas.toDataURL('image/jpeg', 0.9);
-                    const { jsPDF } = window.jspdf;
+                    const { jsPDF } = window.jspdf; 
+                    
+                    // Creazione PDF 70x100 cm (700x1000 millimetri)
                     let pdf = new jsPDF('p', 'mm', [700, 1000]);
-                    pdf.addImage(imgData, 'JPEG', 0, 0, 700, 1000);
+                    pdf.addImage(imgData, 'JPEG', 0, 0, 700, 1000); 
                     pdf.save(`Cartellone_${nomeVisuale}.pdf`);
+                    
                     alert("✅ Pagamento confermato! Il PDF in Alta Risoluzione è stato scaricato.");
-                } catch(error) { alert("Si è verificato un errore durante l'esportazione."); }
+                } catch(error) { 
+                    alert("Si è verificato un errore durante la generazione del PDF."); 
+                }
 
+                // Ripristino l'interfaccia della lavagna
                 cartellone.style.transform = oldTransform;
                 document.getElementById('anteprima').classList.remove('stampa-mode');
                 chiudiCheckout();
             }, 2000); 
-        };
-
-        // --- CARICAMENTO DATI E LISTE (RIPRISTINATE PERFETTAMENTE) ---
-        window.caricaDati = async function() {
-            if (!clientSupabase) return; 
-            try {
-                for (let t of ['cruciverba', 'caricatura', 'papiro', 'regalo']) {
-                    const { data, error } = await clientSupabase.from(t).select('*').eq('laureato_tag', idEventoSegreto).order('created_at', {ascending: false});
-                    if (error) { continue; }
-                    if (t === 'regalo' && data) data.sort((a, b) => b.voti - a.voti);
-                    dati[t] = data || [];
-                    aggiornaUI(t);
-                }
-            } catch (err) { console.error(err); }
-        };
-
-        window.aggiungi = async function(tipo) {
-            let autoreId = tipo.substring(0,3) + '-autore';
-            let testoId = tipo==='cruciverba' ? 'cruci-def' : (tipo==='caricatura' ? 'cari-idea' : (tipo==='papiro' ? 'papiro-aneddoto' : 'reg-idea'));
-            let autInput = document.getElementById(autoreId);
-            
-            // Gestione nome anonimo corretta
-            let aut = "Anonimo";
-            if (autInput && !autInput.disabled && autInput.value.trim() !== "") {
-                aut = autInput.value.trim();
-            }
-            
-            let testo = document.getElementById(testoId).value.trim();
-            if(!testo) return alert("Inserisci del testo!");
-            
-            let obj = { autore: aut, laureato_tag: idEventoSegreto };
-            
-            if (tipo === 'cruciverba') {
-                let parola = document.getElementById('cruci-parola').value.toUpperCase().replace(/[^A-Z]/g, '');
-                if(!parola) return alert("Inserisci la parola del cruciverba!");
-                obj.parola = parola; 
-                obj.definizione = testo;
-            } 
-            else if (tipo === 'caricatura') obj.idea_dettagliata = testo;
-            else if (tipo === 'papiro') obj.aneddoto = testo;
-            else { obj.proposta_regalo = testo; obj.voti = 0; }
-
-            await clientSupabase.from(tipo).insert([obj]);
-            
-            document.getElementById(testoId).value = ''; 
-            if(autInput && !autInput.disabled) autInput.value = ''; 
-            if(tipo === 'cruciverba') document.getElementById('cruci-parola').value = '';
-            
-            caricaDati();
-        };
-
-        window.aggiornaUI = function(tipo) {
-            const container = document.getElementById(`lista-${tipo}`);
-            if(!container) return;
-            
-            if(dati[tipo].length === 0) {
-                container.innerHTML = '<i>Nessun elemento inserito.</i>';
-                return;
-            }
-
-            container.innerHTML = '';
-            dati[tipo].forEach(item => {
-                let txt = '';
-                if (tipo === 'cruciverba') txt = `<b>${item.parola}</b>: ${item.definizione}`;
-                if (tipo === 'caricatura') txt = item.idea_dettagliata;
-                if (tipo === 'papiro') txt = item.aneddoto;
-                if (tipo === 'regalo') txt = item.proposta_regalo;
-
-                let extraBtn = (tipo === 'regalo') ? `<br><button class="vote-btn" onclick="votaRegalo(${item.id})">👍 Vota (${item.voti || 0})</button>` : '';
-                
-                let autoreText = item.autore === "Anonimo" ? "<b>Anonimo</b> ha scritto:" : `<b>${item.autore}</b> ha scritto:`;
-
-                container.innerHTML += `
-                    <div class="idea-card">
-                        <button class="btn-del" title="Elimina" onclick="elimina('${tipo}', ${item.id})">🗑️</button>
-                        ${autoreText}<br>${txt}
-                        ${extraBtn}
-                    </div>`;
-            });
-        };
-
-        window.generaCruciverbaMagico = function() {
-            if(dati.cruciverba.length < 2) return alert("Inserisci almeno 2 parole!");
-            document.getElementById('crossword-wrapper').style.display = 'block';
-            let words = [...dati.cruciverba].sort((a,b) => b.parola.length - a.parola.length);
-            const SIZE = 60; let grid = Array(SIZE).fill(null).map(() => Array(SIZE).fill(null));
-            let placedWords = [];
-
-            function placeWord(w, r, c, dir) {
-                for(let i=0; i<w.parola.length; i++) { if (dir==='H') grid[r][c+i] = w.parola[i]; else grid[r+i][c] = w.parola[i]; }
-                placedWords.push({ ...w, r: r, c: c, dir: dir });
-            }
-
-            function canPlace(p, r, c, dir) {
-                if (dir==='H' && c+p.length > SIZE) return false; if (dir==='V' && r+p.length > SIZE) return false;
-                let inter = 0;
-                for (let i=0; i<p.length; i++) {
-                    let cR = dir==='H' ? r : r+i; let cC = dir==='H' ? c+i : c;
-                    if (grid[cR][cC] === p[i]) { inter++; continue; }
-                    if (grid[cR][cC] !== null) return false; 
-                    if (dir==='H') { if (cR>0 && grid[cR-1][cC]) return false; if (cR<SIZE-1 && grid[cR+1][cC]) return false; }
-                    else { if (cC>0 && grid[cR][cC-1]) return false; if (cC<SIZE-1 && grid[cR][cC+1]) return false; }
-                }
-                return inter > 0 || placedWords.length === 0;
-            }
-
-            let firstWord = words.shift(); placeWord(firstWord, 30, 30 - Math.floor(firstWord.parola.length / 2), 'H');
-
-            words.forEach(wordObj => {
-                let placed = false;
-                for (let p of placedWords) {
-                    if (placed) break;
-                    for (let i=0; i<p.parola.length; i++) {
-                        for (let j=0; j<wordObj.parola.length; j++) {
-                            if (p.parola[i] === wordObj.parola[j]) {
-                                let nR = p.dir==='H' ? p.r-j : p.r+i; let nC = p.dir==='H' ? p.c+i : p.c-j; let nDir = p.dir==='H' ? 'V' : 'H';
-                                if (canPlace(wordObj.parola, nR, nC, nDir)) { placeWord(wordObj, nR, nC, nDir); placed = true; break; }
-                            }
-                        }
-                        if (placed) break;
-                    }
-                }
-            });
-
-            let minR=SIZE, maxR=0, minC=SIZE, maxC=0;
-            for(let r=0; r<SIZE; r++) { for(let c=0; c<SIZE; c++) { if(grid[r][c]) { minR=Math.min(minR,r); maxR=Math.max(maxR,r); minC=Math.min(minC,c); maxC=Math.max(maxC,c); } } }
-            minR = Math.max(0, minR-1); maxR = Math.min(SIZE-1, maxR+1); minC = Math.max(0, minC-1); maxC = Math.min(SIZE-1, maxC+1);
-
-            let htmlTable = '<table class="cw-grid">'; let numCounter = 1; let orizz = []; let verti = [];
-            for (let r = minR; r <= maxR; r++) {
-                htmlTable += '<tr>';
-                for (let c = minC; c <= maxC; c++) {
-                    if (grid[r][c] === null) { htmlTable += '<td class="cw-empty"></td>'; } 
-                    else {
-                        let startsHere = placedWords.filter(p => p.r === r && p.c === c);
-                        if (startsHere.length > 0) {
-                            htmlTable += `<td class="cw-cell"><span class="cw-number">${numCounter}</span></td>`;
-                            startsHere.forEach(w => {
-                                let dHtml = `<div style="margin-bottom:4px; line-height:1.2;"><b>${numCounter}.</b> ${w.definizione}</div>`;
-                                if (w.dir === 'H') orizz.push(dHtml); else verti.push(dHtml);
-                            });
-                            numCounter++;
-                        } else { htmlTable += `<td class="cw-cell"></td>`; }
-                    }
-                }
-                htmlTable += '</tr>';
-            }
-            document.getElementById('crossword-container').innerHTML = htmlTable + '</table>';
-            
-            document.getElementById('crossword-clues').innerHTML = `
-                <div style="flex:1; text-align:left;">
-                    <h4 style="margin-top:0; border-bottom:1px solid #ccc; padding-bottom:5px;">ORIZZONTALI</h4>
-                    ${orizz.join('')}
-                </div>
-                <div style="flex:1; text-align:left;">
-                    <h4 style="margin-top:0; border-bottom:1px solid #ccc; padding-bottom:5px;">VERTICALI</h4>
-                    ${verti.join('')}
-                </div>`;
         };
     </script>
 </body>
