@@ -64,6 +64,11 @@
             border-radius: 20px; font-weight: bold; margin-bottom: 20px; 
             display: inline-block; border: 1px solid var(--primary); 
         }
+        
+        .avviso-tempi {
+            background: #fff3cd; color: #856404; font-size: 12px; padding: 10px; 
+            border-radius: 8px; border-left: 4px solid #f1c40f; margin-top: 10px;
+        }
 
         .form-group { margin-bottom: 20px; }
         .form-group input[type="text"], .form-group input[type="date"], .form-group textarea { 
@@ -193,10 +198,15 @@
             </div>
             
             <div class="form-group">
-                <label style="font-size: 13px; color: #555; font-weight: bold;">Data della festa (Serve per le tempistiche):</label>
+                <label style="font-size: 13px; color: #555; font-weight: bold;">Data della festa:</label>
                 <input type="date" id="input-data-festa">
+                
+                <div class="avviso-tempi">
+                    <b>⏱️ ATTENZIONE ALLE TEMPISTICHE:</b><br>
+                    Se decidi di acquistare i servizi finali, considera che la <b>Caricatura richiede 24/48h</b> e la <b>Spedizione a casa 4-5 giorni lavorativi</b>. Assicurati di creare l'evento con il giusto anticipo!
+                </div>
                 <div style="font-size: 11px; color: #e74c3c; margin-top: 5px;">
-                    ⚠️ Le informazioni inserite verranno rimosse in automatico il giorno dopo la data della festa.
+                    ⚠️ Per la privacy, tutte le informazioni inserite in quest'area verranno rimosse in automatico dai server il giorno successivo alla festa.
                 </div>
             </div>
 
@@ -245,6 +255,8 @@
             </div>
 
             <div id="premium-form-area" class="premium-form-container">
+                <p style="font-size:12px; color:#e67e22; margin-top:0; margin-bottom:15px;"><b>⏳ Tempi di consegna:</b> Il disegno sarà caricato direttamente nel tuo cartellone entro 24/48 ore.</p>
+
                 <label style="font-size:13px; color:#555; font-weight:bold;">1. Scrivi come dobbiamo disegnarlo (Obbligatorio):</label>
                 <textarea id="premium-istruzioni" rows="2" style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #ccc; font-family: inherit; font-size: 13px; margin-top:5px; margin-bottom:15px; box-sizing:border-box;" placeholder="Es: Vestito da Batman, con in mano uno spritz e una pergamena..."></textarea>
                 
@@ -336,7 +348,7 @@
                 <span class="chk-price">4,90€</span>
             </label>
             <label class="checkout-option" style="border-color:#2980b9; background:#f4f9fc;">
-                <div><input type="radio" name="chk-fmt" value="34.90" onchange="calcolaTotale()"> <span class="chk-title">📦 Stampa & Spedizione</span></div>
+                <div><input type="radio" name="chk-fmt" value="34.90" onchange="calcolaTotale()"> <span class="chk-title">📦 Stampa & Spedizione</span><br><span style="font-size:11px; color:#777; margin-left:25px;">(Consegna stimata: 4-5 gg lavorativi)</span></div>
                 <span class="chk-price">34,90€</span>
             </label>
 
@@ -421,6 +433,7 @@
             if (!clientSupabase) return;
 
             try {
+                // Recuperiamo tutto dalla tabella caricatura per trovare Date, Ordini e Idee
                 const { data, error } = await clientSupabase
                     .from('caricatura')
                     .select('*')
@@ -428,6 +441,7 @@
                     
                 if (error) throw error;
 
+                // Raggruppiamo i risultati per nome evento (tag)
                 let gruppi = {};
                 data.forEach(item => {
                     if (!gruppi[item.laureato_tag]) {
@@ -449,16 +463,19 @@
                     
                     gruppi[tag].forEach(c => {
                         if (c.autore === "INFO EVENTO") {
+                            // Qui c'è salvata la data della festa
                             html += `<p style="color:#27ae60; font-weight:bold; font-size:15px; margin-top:0;">📅 ${c.idea_dettagliata}</p>`;
                             haFotoOOrdini = true;
                         }
                         else if (c.autore === "ORDINE ACQUISTATO") {
+                            // Qui c'è salvato l'ordine del PDF e l'eventuale indirizzo
                             html += `<div style="background:#e8f8f5; border:1px solid #27ae60; padding:10px; border-radius:8px; margin-bottom:10px;">
                                         <b style="color:#27ae60;">📦 NUOVO ORDINE CONFERMATO:</b><br>${c.idea_dettagliata}
                                      </div>`;
                             haFotoOOrdini = true;
                         }
                         else if (c.autore === "ORDINE PREMIUM (FOTO + IDEE)") {
+                            // Qui ci sono le foto per la caricatura
                             haFotoOOrdini = true;
                             try {
                                 let obj = JSON.parse(c.idea_dettagliata);
@@ -475,6 +492,7 @@
                                 html += `<p style="color:red;">Errore decodifica foto.</p>`; 
                             }
                         } else {
+                            // Queste sono le idee normali degli amici
                             html += `<li><b>Idea extra (${c.autore}):</b> ${c.idea_dettagliata}</li>`;
                         }
                     });
@@ -491,29 +509,32 @@
             }
         };
 
+        // Funzione per eliminare interamente una festa dal database
         window.eliminaEventoAdmin = async function(tag) {
             let conferma = confirm(`⚠️ ATTENZIONE ESTREMA ⚠️\nVuoi davvero eliminare TUTTO l'evento "${tag}"?\nQuesta azione non si può annullare.`);
             
             if (conferma && clientSupabase) {
+                // Cancella da tutte e 4 le tabelle dove il tag corrisponde
                 await clientSupabase.from('cruciverba').delete().eq('laureato_tag', tag);
                 await clientSupabase.from('caricatura').delete().eq('laureato_tag', tag);
                 await clientSupabase.from('papiro').delete().eq('laureato_tag', tag);
                 await clientSupabase.from('regalo').delete().eq('laureato_tag', tag);
                 
-                alert(`Evento ${tag} eliminato con successo!`);
-                caricaTuttoAdmin();
+                alert(`Evento ${tag} eliminato con successo dai server!`);
+                caricaTuttoAdmin(); // Ricarica la lista aggiornata
             }
         };
 
         // ==========================================
-        // 3. INIZIALIZZAZIONE E CREAZIONE EVENTO
+        // 3. INIZIALIZZAZIONE E CREAZIONE EVENTO (CON DATA)
         // ==========================================
         window.onload = function() {
+            // Imposta limite date (Minimo oggi, Massimo tra 10 mesi)
             let dataInput = document.getElementById('input-data-festa');
             if (dataInput) {
                 let oggi = new Date();
                 let massimo = new Date();
-                massimo.setMonth(massimo.getMonth() + 10);
+                massimo.setMonth(massimo.getMonth() + 10); // Massimo 10 mesi avanti
                 
                 dataInput.min = oggi.toISOString().split("T")[0];
                 dataInput.max = massimo.toISOString().split("T")[0];
@@ -542,6 +563,7 @@
             
             idEventoSegreto = `${nomePulito}-${Math.random().toString(36).substring(2, 7)}`;
             
+            // Salviamo la DATA nel database così tu la vedi nell'admin
             if (clientSupabase) {
                 let dataSplittata = dataFesta.split('-');
                 let dataItaliana = `${dataSplittata[2]}/${dataSplittata[1]}/${dataSplittata[0]}`;
@@ -606,7 +628,7 @@
             let ref2 = document.getElementById('ref-2');
             let istruzioni = document.getElementById('premium-istruzioni').value.trim();
             
-            if(!istruzioni) return alert("⚠️ Scrivi le istruzioni per l'artista!");
+            if(!istruzioni) return alert("⚠️ Scrivi le istruzioni per l'artista prima di procedere!");
             if(ref1.style.display !== 'inline-block' || ref2.style.display !== 'inline-block') {
                 return alert("⚠️ Carica entrambe le foto del viso per procedere!");
             }
